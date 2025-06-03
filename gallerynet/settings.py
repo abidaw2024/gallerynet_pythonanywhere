@@ -95,9 +95,9 @@ USE_TZ = True
 
 # Configuración de Cloudinary
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', ''),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', ''),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', '')
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'dzttcsvrv'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '797526582212983'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', 'eZmv63QeIIetPP2B2tfUUQw7v5s')
 }
 
 # Configuración de archivos estáticos y medios
