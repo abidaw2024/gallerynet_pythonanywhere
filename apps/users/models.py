@@ -6,6 +6,7 @@ Incluye autenticación de usuario, y campos adicionales para el vendedor/comprad
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from apps.categories.models import Categoria
+from django.conf import settings
 
 """
 Perfiles de usuario diferenciados
@@ -90,5 +91,12 @@ class Usuario(AbstractUser):
     #Cuenta el número total de usuarios que el usuario sigue
     def get_siguiendo_count(self):
         return self.siguiendo.count()
+
+    def get_profile_picture_url(self):
+        if self.profile_picture:
+            if not settings.DEBUG:
+                return f"https://res.cloudinary.com/dzttcsvrv/image/upload/{self.profile_picture}"
+            return self.profile_picture.url
+        return None
 
 
