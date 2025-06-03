@@ -47,7 +47,7 @@
                         <a href="{% url 'users:perfil' usuario.username %}" class="text-decoration-none text-dark">
                             <div class="card h-100 bg-dark text-white p-3 d-flex flex-column flex-md-row align-items-center align-items-md-start">
                                 {% if usuario.profile_picture %}
-                                <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil"
+                                <img src="{{ usuario.get_profile_picture_url }}" alt="Foto de perfil"
                                      class="rounded-circle mb-3 mb-md-0 me-md-3 mx-auto mx-md-0 d-block"
                                      style="width: 70px; height: 70px; object-fit: cover;">
                                 {% else %}
