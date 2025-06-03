@@ -34,7 +34,7 @@
                         <!-- Campo para la foto de perfil -->
                         <div class="mb-4 text-center">
                             {% if form.instance.profile_picture %}
-                            <img src="{{ form.instance.get_profile_picture_url }}" alt="Foto de perfil"
+                            <img src="{{ form.instance.profile_picture.url }}" alt="Foto de perfil"
                                 class="img-fluid rounded-circle mb-3 shadow"
                                 style="width: 150px; height: 150px; object-fit: cover;">
                             {% else %}

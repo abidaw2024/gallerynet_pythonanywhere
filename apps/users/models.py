@@ -6,7 +6,6 @@ Incluye autenticación de usuario, y campos adicionales para el vendedor/comprad
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from apps.categories.models import Categoria
-from django.conf import settings
 
 """
 Perfiles de usuario diferenciados
@@ -50,7 +49,7 @@ class Usuario(AbstractUser):
     rol = models.CharField(max_length=10, choices=ROLES, default='normal')
     estado = models.CharField(max_length=10, choices=ESTADOS, default='activo')
     ultima_conexion = models.DateTimeField(null=True, blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/%Y/%m/%d/', null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     biografia = models.TextField(blank=True, null=True)
     categorias = models.ManyToManyField(Categoria, related_name='usuarios', blank=True)
     seguidores = models.ManyToManyField('self', symmetrical=False, related_name='siguiendo', blank=True)
@@ -91,15 +90,5 @@ class Usuario(AbstractUser):
     #Cuenta el número total de usuarios que el usuario sigue
     def get_siguiendo_count(self):
         return self.siguiendo.count()
-
-    def get_profile_picture_url(self):
-        if self.profile_picture:
-            if not settings.DEBUG:
-                # Extraer el nombre del archivo de la ruta
-                file_name = str(self.profile_picture).split('/')[-1]
-                # Construir la URL de Cloudinary
-                return f"https://res.cloudinary.com/dzttcsvrv/image/upload/v1/media/profile_pictures/{file_name}"
-            return self.profile_picture.url
-        return None
 
 

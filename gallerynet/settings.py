@@ -1,6 +1,8 @@
 from pathlib import Path
 import os
-
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-00*dhdo9(og(6cjjzy2g!x*$w5z@0ggx6p7^6tk@qhtk9c$o6y')
@@ -97,18 +99,7 @@ USE_TZ = True
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'dzttcsvrv'),
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '797526582212983'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', 'eZmv63QeIIetPP2B2tfUUQw7v5s'),
-    'STATIC_TAG': 'static',
-    'MEDIA_TAG': 'media',
-    'INVALID_VIDEO_ERROR_MESSAGE': 'Please upload a valid video file.',
-    'STATIC_IMAGES_EXTENSIONS': ['jpg', 'jpe', 'jpeg', 'jpc', 'jp2', 'j2k', 'wdp', 'jxr', 'hdp', 'png', 'gif', 'webp', 'bmp', 'tif', 'tiff', 'ico'],
-    'MAGIC_FILE_PATH': 'magic',
-    'STATIC_TRANSFORMATIONS': {
-        'default': {
-            'quality': 'auto',
-            'fetch_format': 'auto',
-        }
-    }
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', '5tF2m41ZoTdexSRKzAVEOsfnOjg')
 }
 
 # Configuración de archivos estáticos y medios
@@ -119,10 +110,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    MEDIA_URL = 'https://res.cloudinary.com/dzttcsvrv/image/upload/v1/'
-else:
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = BASE_DIR / 'media'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.Usuario'
