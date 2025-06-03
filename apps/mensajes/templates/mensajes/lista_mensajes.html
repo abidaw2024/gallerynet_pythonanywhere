@@ -103,7 +103,7 @@
                                         {% if user == conv.encargo.cliente %}
                                             {% with usuario=conv.encargo.artista %}
                                                 {% if usuario.profile_picture %}
-                                                    <img src="{{ usuario.get_profile_picture_url }}" class="mensaje-foto" alt="Foto perfil">
+                                                    <img src="{{ usuario.profile_picture.url }}" class="mensaje-foto" alt="Foto perfil">
                                                 {% else %}
                                                     <div class="mensaje-foto">foto<br>perfil</div>
                                                 {% endif %}
@@ -122,7 +122,7 @@
                                         {% else %}
                                             {% with usuario=conv.encargo.cliente %}
                                                 {% if usuario.profile_picture %}
-                                                    <img src="{{ usuario.get_profile_picture_url }}" class="mensaje-foto" alt="Foto perfil">
+                                                    <img src="{{ usuario.profile_picture.url }}" class="mensaje-foto" alt="Foto perfil">
                                                 {% else %}
                                                     <div class="mensaje-foto">foto<br>perfil</div>
                                                 {% endif %}
@@ -142,7 +142,7 @@
                                     {% else %}
                                         {% with usuario=conv.ultimo_mensaje.remitente %}
                                             {% if usuario.profile_picture %}
-                                                <img src="{{ usuario.get_profile_picture_url }}" class="mensaje-foto" alt="Foto perfil">
+                                                <img src="{{ usuario.profile_picture.url }}" class="mensaje-foto" alt="Foto perfil">
                                             {% else %}
                                                 <div class="mensaje-foto">foto<br>perfil</div>
                                             {% endif %}
