@@ -95,7 +95,10 @@ class Usuario(AbstractUser):
     def get_profile_picture_url(self):
         if self.profile_picture:
             if not settings.DEBUG:
-                return f"https://res.cloudinary.com/dzttcsvrv/image/upload/{self.profile_picture}"
+                # Extraer el nombre del archivo de la ruta
+                file_name = str(self.profile_picture).split('/')[-1]
+                # Construir la URL de Cloudinary
+                return f"https://res.cloudinary.com/dzttcsvrv/image/upload/v1/media/profile_pictures/{file_name}"
             return self.profile_picture.url
         return None
 
