@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mi Tienda de Arte</title>
+        <!-- Bootstrap CSS (CDN) -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <!-- Bootstrap Icons -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+        <!-- Tu archivo CSS personalizado -->
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="icon" type="image/x-icon" href="{% static 'images/favicon_w3cub/favicon.ico' %}">
+        <link rel="icon" type="image/png" href="{% static 'images/favicon_w3cub/favicon.png' %}">
+        <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon_w3cub/favicon.svg' %}">
+
+        <style>
+            body {
+                font-family: 'Libre Baskerville', serif !important;
+            }
+        </style>
+        {% block extra_head %}{% endblock %}
+        
+    </head>
+<body>
+    {% include 'header.html' %}
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% include 'footer.html' %}
+    
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCy0Y8iZmDYK7KTly22-ty5LjzQEFjFXpk",
+        authDomain: "gallerynet-238c2.firebaseapp.com",
+        projectId: "gallerynet-238c2",
+        storageBucket: "gallerynet-238c2.firebasestorage.app",
+        messagingSenderId: "797523087095",
+        appId: "1:797523087095:web:cefe0268432b46d3d58df2"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+    </script>
+</body>
+</html>

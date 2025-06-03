@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<style>
+    .mensajes-card {
+        background: transparent;
+        border: none;
+    }
+    .mensajes-lista {
+        background: #6D2C2C;
+        border-radius: 12px;
+        padding: 0;
+        overflow: hidden;
+    }
+    .mensaje-item {
+        display: flex;
+        align-items: center;
+        background: #4c1c26;
+        color: #fff;
+        border-bottom: 1px solid #d6bcbc44;
+        width: 100%;
+        padding: 18px 20px 18px 20px;
+        transition: background 0.2s;
+        text-decoration: none;
+    }
+    .mensaje-item:last-child {
+        border-bottom: none;
+    }
+    .mensaje-item:hover {
+        background: #40161f;
+        color: #fff;
+        text-decoration: none;
+    }
+    .mensaje-foto {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #fff;
+        color: #4c1c26;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.95rem;
+        font-weight: 500;
+        margin-right: 22px;
+        flex-shrink: 0;
+    }
+    .mensaje-info {
+        flex: 1 1 0%;
+        min-width: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .mensaje-nombre, .mensaje-ultimo {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .mensaje-nombre {
+        font-size: 1.18rem;
+        font-weight: 500;
+        margin-bottom: 2px;
+        color: #fff;
+    }
+    .mensaje-ultimo {
+        font-size: 0.98rem;
+        color: #e5e5e5;
+        opacity: 0.85;
+    }
+    .mensaje-hora {
+        margin-left: 18px;
+        color: #fff;
+        font-size: 1rem;
+        opacity: 0.85;
+        border-left: 1px solid #fff;
+        padding-left: 18px;
+        min-width: 60px;
+        max-width: 80px;
+        text-align: right;
+        flex-shrink: 0;
+    }
+</style>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mensajes-card shadow-lg">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h2 class="card-title mb-0">Mensajes</h2>
+                </div>
+                <div class="card-body w-100">
+                    {% if conversaciones %}
+                        <div class="mensajes-lista">
+                            {% for conv in conversaciones %}
+                                <a href="{% if conv.encargo %}{% url 'mensajes:detalle_conversacion' conv.encargo.id %}{% else %}{% url 'mensajes:conversacion_general' %}{% endif %}" class="mensaje-item">
+                                    {% if conv.encargo %}
+                                        {% if user == conv.encargo.cliente %}
+                                            {% with usuario=conv.encargo.artista %}
+                                                {% if usuario.profile_picture %}
+                                                    <img src="{{ usuario.profile_picture.url }}" class="mensaje-foto" alt="Foto perfil">
+                                                {% else %}
+                                                    <div class="mensaje-foto">foto<br>perfil</div>
+                                                {% endif %}
+                                                <div class="mensaje-info">
+                                                    <div class="mensaje-nombre">
+                                                        {{ usuario.get_full_name|default:usuario.username }}
+                                                    </div>
+                                                    <div class="mensaje-ultimo">
+                                                        {{ conv.ultimo_mensaje.contenido|truncatechars:120 }}
+                                                    </div>
+                                                </div>
+                                                <div class="mensaje-hora">
+                                                    {{ conv.ultimo_mensaje.fecha_envio|date:"H:i" }}
+                                                </div>
+                                            {% endwith %}
+                                        {% else %}
+                                            {% with usuario=conv.encargo.cliente %}
+                                                {% if usuario.profile_picture %}
+                                                    <img src="{{ usuario.profile_picture.url }}" class="mensaje-foto" alt="Foto perfil">
+                                                {% else %}
+                                                    <div class="mensaje-foto">foto<br>perfil</div>
+                                                {% endif %}
+                                                <div class="mensaje-info">
+                                                    <div class="mensaje-nombre">
+                                                        {{ usuario.get_full_name|default:usuario.username }}
+                                                    </div>
+                                                    <div class="mensaje-ultimo">
+                                                        {{ conv.ultimo_mensaje.contenido|truncatechars:120 }}
+                                                    </div>
+                                                </div>
+                                                <div class="mensaje-hora">
+                                                    {{ conv.ultimo_mensaje.fecha_envio|date:"H:i" }}
+                                                </div>
+                                            {% endwith %}
+                                        {% endif %}
+                                    {% else %}
+                                        {% with usuario=conv.ultimo_mensaje.remitente %}
+                                            {% if usuario.profile_picture %}
+                                                <img src="{{ usuario.profile_picture.url }}" class="mensaje-foto" alt="Foto perfil">
+                                            {% else %}
+                                                <div class="mensaje-foto">foto<br>perfil</div>
+                                            {% endif %}
+                                        {% endwith %}
+                                        <div class="mensaje-info">
+                                            <div class="mensaje-nombre">Mensaje General</div>
+                                            <div class="mensaje-ultimo">
+                                                {{ conv.ultimo_mensaje.contenido|truncatechars:120 }}
+                                            </div>
+                                        </div>
+                                        <div class="mensaje-hora">
+                                            {{ conv.ultimo_mensaje.fecha_envio|date:"H:i" }}
+                                        </div>
+                                    {% endif %}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <p class="lead">No tienes mensajes</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Ventas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static '../static/css/styles.css' %}"> 
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Mis Ventas</h1>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Obra de Arte</th>
+                        <th scope="col">Comprador</th>
+                        <th scope="col">Fecha de Venta</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for venta in ventas %}
+                    <tr>
+                        <td>{{ venta.obra }}</td>
+                        <td>{{ venta.comprador }}</td>
+                        <td>{{ venta.fecha }}</td>
+                        <td>{{ venta.precio }}</td>
+                        <td>
+                            {% if venta.estado == 'Entregado' %}
+                                <span class="badge bg-success">{{ venta.estado }}</span>
+                            {% elif venta.estado == 'En Proceso' %}
+                                <span class="badge bg-warning">{{ venta.estado }}</span>
+                            {% else %}
+                                <span class="badge bg-danger">{{ venta.estado }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+{% endblock %}
+
+{% block title %}GalleryNet - Gestión de Obras{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Gestión de Obras de Arte</h1>
+        <a href="{% url 'obra_create' %}" class="btn btn-primary">Nueva Obra</a>
+    </div>
+
+    <!-- Filtros y búsqueda -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Buscar obra..." aria-label="Buscar">
+                <button class="btn btn-outline-light" type="submit">Buscar</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-end">
+                <select class="form-select me-2" style="max-width: 200px;">
+                    <option selected>Filtrar por estado</option>
+                    <option value="disponible">Disponible</option>
+                    <option value="vendido">Vendido</option>
+                </select>
+                <select class="form-select" style="max-width: 200px;">
+                    <option selected>Ordenar por</option>
+                    <option value="precio_asc">Precio (menor a mayor)</option>
+                    <option value="precio_desc">Precio (mayor a menor)</option>
+                    <option value="fecha_desc">Más recientes</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de obras -->
+    <div class="table-responsive">
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Título</th>
+                    <th>Artista</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obra in obras %}
+                <tr>
+                    <td>
+                        <img src="{{ obra.imagen.url }}" alt="{{ obra.titulo }}" style="width: 50px; height: 50px; object-fit: cover;">
+                    </td>
+                    <td>{{ obra.titulo }}</td>
+                    <td>{{ obra.vendedor.get_full_name }}</td>
+                    <td>{{ obra.precio }}€</td>
+                    <td>
+                        <span class="badge {% if obra.disponible %}bg-success{% else %}bg-danger{% endif %}">
+                            {% if obra.disponible %}Disponible{% else %}Vendido{% endif %}
+                        </span>
+                    </td>
+                    <td>{{ obra.fecha_creacion|date:"d/m/Y" }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'obra_detail' obra.id %}" class="btn btn-sm btn-info">Ver</a>
+                            <a href="{% url 'obra_edit' obra.id %}" class="btn btn-sm btn-warning">Editar</a>
+                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ obra.id }}">
+                                Eliminar
+                            </button>
+                        </div>
+
+                        <!-- Modal de confirmación de eliminación -->
+                        <div class="modal fade" id="deleteModal{{ obra.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ obra.id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content bg-dark text-white">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel{{ obra.id }}">Confirmar eliminación</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ¿Estás seguro de que deseas eliminar la obra "{{ obra.titulo }}"?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <form action="{% url 'obra_delete' obra.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">No hay obras registradas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginación -->
+    {% if obras.has_other_pages %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if obras.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ obras.previous_page_number }}">Anterior</a>
+            </li>
+            {% endif %}
+
+            {% for num in obras.paginator.page_range %}
+            <li class="page-item {% if obras.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endfor %}
+
+            {% if obras.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ obras.next_page_number }}">Siguiente</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %} 

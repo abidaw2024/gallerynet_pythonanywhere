@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-dark text-white">
+                    <h2 class="card-title mb-0">Nuevo encargo - {{ obra.titulo }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5>Detalles de la obra</h5>
+                        <p class="text-muted">{{ obra.descripcion }}</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Artista:</strong> {{ obra.vendedor.username }}</p>
+                                {% if plan == 'basico' %}
+                                    <p><strong>Plan:</strong> Básico</p>
+                                    <p><strong>Precio:</strong> €{{ obra.precio_basico }}</p>
+                                    <p><strong>Descripción:</strong> {{ obra.descripcion_basico }}</p>
+                                {% elif plan == 'estandar' %}
+                                    <p><strong>Plan:</strong> Estándar</p>
+                                    <p><strong>Precio:</strong> €{{ obra.precio_estandar }}</p>
+                                    <p><strong>Descripción:</strong> {{ obra.descripcion_estandar }}</p>
+                                {% elif plan == 'premium' %}
+                                    <p><strong>Plan:</strong> Premium</p>
+                                    <p><strong>Precio:</strong> €{{ obra.precio_premium }}</p>
+                                    <p><strong>Descripción:</strong> {{ obra.descripcion_premium }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Estado:</strong> {{ obra.estado|title }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="contenido" class="form-label">Mensaje para el artista</label>
+                            <textarea class="form-control" id="contenido" name="contenido" rows="5" required 
+                                    placeholder="Describe lo que te gustaría encargar..."></textarea>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'gallery:detalle_obra' obra.id %}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Enviar mensaje
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

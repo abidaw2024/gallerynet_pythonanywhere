@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center text-purple">Detalles de la Comisión</h2>
+    <div class="card pt-3 rounded-pill mb-5">
+        <p><strong>Obra:</strong> {{ obra.titulo }}</p>
+        <p><strong>Plan seleccionado:</strong> {{ plan|title }}</p>
+        <p><strong>Precio total:</strong> {{ precio }}€</p>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Describe tu encargo:</label>
+            <textarea name="descripcion" id="descripcion" class="form-control" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-custom-secondary">Ir al pago</button>
+    </form>
+</div>
+{% endblock %}

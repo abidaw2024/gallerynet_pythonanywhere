@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<style>
+/* Scrollbar personalizado para el área de mensajes */
+.card-body::-webkit-scrollbar {
+    width: 8px;
+    background: transparent;
+}
+.card-body::-webkit-scrollbar-thumb {
+    background: #bdbdbd;
+    border-radius: 6px;
+}
+.card-body::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+.card-body {
+    scrollbar-width: thin;
+    scrollbar-color: #bdbdbd transparent;
+}
+</style>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8 p-0 border-0">
+            <div class=" shadow-lg border-0">
+                <!-- Header -->
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <a href="{% url 'mensajes:lista_mensajes' %}" class="btn btn-outline-secondary btn-sm me-4 m">
+                            <i class="bi bi-arrow-left fs-5"></i>
+                        </a>
+                        <h4 class="mb-0 ms-4">
+                            {% if encargo %}
+                                Encargo #{{ encargo.id }} -
+                                {% if user == encargo.cliente %}
+                                    {{ encargo.artista.get_full_name|default:encargo.artista.username }}
+                                {% else %}
+                                    {{ encargo.cliente.get_full_name|default:encargo.cliente.username }}
+                                {% endif %}
+                            {% else %}
+                                Mensajes Generales
+                            {% endif %}
+                        </h4>
+                    </div>
+                </div>
+                <!-- Mensajes -->
+                <div class="card-body px-4 py-4 w-100" style="height: 60vh; overflow-y: auto;">
+                    <div class="d-flex flex-column gap-3">
+                        {% for mensaje in mensajes %}
+                            <div class="d-flex {% if mensaje.remitente == user %}justify-content-end{% else %}justify-content-start{% endif %}">
+                                <div class="p-3 rounded-4 {% if mensaje.remitente == user %}bg-purple text-white{% else %} bg-white border text-dark{% endif %} shadow-sm" style="max-width: 65%;">
+                                    <div>{{ mensaje.contenido|linebreaks }}</div>
+                                    <div class="small text-end mt-2 opacity-75">
+                                        {% if mensaje.remitente == user %}Tú{% else %}{{ mensaje.remitente.get_full_name|default:mensaje.remitente.username }}{% endif %} | {{ mensaje.fecha_envio|date:"d/m/Y H:i" }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="text-center text-muted py-5">
+                                <i class="fas fa-comments fa-3x mb-3"></i>
+                                <p class="lead">No hay mensajes en esta conversación</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- Formulario de envío -->
+                <form method="post" class="card-footer d-flex align-items-center gap-2 border-0 bg-transparent mt-4 pe-4 ps-4" autocomplete="off">
+                    {% csrf_token %}
+                    <input name="contenido" type="text" class="form-control bg-white text-dark rounded-pill border-0 flex-grow-1 px-4 py-2 mb-0" placeholder="Enviar nuevo correo..." style="font-size:1.1rem;" autocomplete="off">
+                    <button type="submit" class="btn btn-dark d-flex align-items-center justify-content-center rounded-3 ms-2" style="width:44px; height:44px;">
+                        <i class="bi bi-envelope fs-4 text-white"></i>
+                    </button>
+                </form>
+                {% if encargo and encargo.estado != 'completado' %}
+                <div class="text-end p-4">
+                    <a href="{% url 'sales:checkout' %}?obra_id={{ encargo.obra.id }}&plan={{ encargo.plan }}" class="btn btn-success btn-lg">
+                        Realizar pago
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

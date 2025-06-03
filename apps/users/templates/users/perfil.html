@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+  body {
+    background-color: #111;
+    color: #fff;
+  }
+  .profile-header {
+    background: none;
+    border-radius: 18px;
+    padding: 40px 0 20px 0;
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+  }
+  .profile-avatar {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 2px 12px #0008;
+    background: #222;
+  }
+  .profile-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .profile-username {
+    color: #bdbdbd;
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+  .profile-rating {
+    font-size: 1.1rem;
+    color: #ffd700;
+    font-weight: 500;
+  }
+  .profile-meta {
+    color: #bdbdbd;
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  .profile-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+  }
+  .profile-card {
+    background: #181818;
+    border-radius: 18px;
+    box-shadow: 0 2px 12px #0004;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .profile-section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .chip {
+    display: inline-block;
+    background: #222;
+    color: #fff;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 0.98em;
+    margin: 0 8px 8px 0;
+    border: 1px solid #333;
+  }
+  .service-card {
+    background: #181818;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px #0004;
+    overflow: hidden;
+    margin-bottom: 24px;
+    transition: box-shadow 0.2s;
+  }
+  .service-card:hover {
+    box-shadow: 0 4px 24px #0008;
+  }
+  .service-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background: #222;
+  }
+  .service-body {
+    padding: 18px 18px 10px 18px;
+  }
+  .service-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .service-meta {
+    color: #bdbdbd;
+    font-size: 0.98em;
+    margin-bottom: 6px;
+  }
+  .service-price {
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.1rem;
+  }
+  .service-rating {
+    color: #ffd700;
+    font-size: 1em;
+    margin-right: 8px;
+  }
+</style>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+      <!-- Header de perfil -->
+      <div class="profile-header">
+        <div>
+          {% if usuario.profile_picture %}
+            <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil" class="profile-avatar">
+          {% else %}
+            <div class="profile-avatar d-flex align-items-center justify-content-center text-muted" style="background:#222;">
+              <span>Sin foto</span>
+            </div>
+          {% endif %}
+        </div>
+        <div class="profile-info">
+          <h2 class="mb-1">{{ usuario.first_name }} {{ usuario.last_name }}</h2>
+          <div class="profile-username mb-2">@{{ usuario.username }}</div>
+          <div class="d-flex align-items-center gap-3 mb-2">
+            <span class="text-yellow">Estados Unidos</span>
+            <span class="text-yellow">Inglés</span>
+          </div>
+          <div class="profile-actions">
+            {% if request.user == usuario %}
+              <a href="{% url 'users:editar_perfil' %}" class="btn btn-outline-light btn-sm">Editar perfil</a>
+              <a href="{% url 'gallery:crear_comision' %}" class="btn btn-outline-purple btn-sm">Crear servicio</a>
+            {% else %}
+              <button id="seguir-btn" class="btn {% if siguiendo %}btn-secondary{% else %}btn-primary{% endif %} btn-sm px-3" 
+                      data-username="{{ usuario.username }}"
+                      data-csrf-token="{{ csrf_token }}">
+                {% if siguiendo %}Dejar de seguir{% else %}Seguir{% endif %}
+              </button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Sobre mí y habilidades -->
+      <div class="row g-4 mb-4">
+        <div class="col-lg-8">
+          <div class="profile-card">
+            <div class="profile-section-title">Sobre mí</div>
+            <div class="mb-2">{{ usuario.biografia|default:"Ninguna descripción." }}</div>
+            <div class="mt-3">
+              {% for categoria in usuario.categorias.all %}
+                <span class="chip">{{ categoria.nombre }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="profile-card text-center">
+            {% if usuario.profile_picture %}
+              <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil" class="rounded-circle mb-2" style="width:60px;height:60px;object-fit:cover;background:#222;">
+            {% else %}
+              <div class="rounded-circle mb-2 d-flex align-items-center justify-content-center text-muted" style="width:60px;height:60px;object-fit:cover;background:#222;">Sin foto</div>
+            {% endif %}
+            <div class="fw-bold">{{ usuario.first_name }} {{ usuario.last_name }}</div>
+            <div class="text-secondary mb-2">
+              <span class="text-grey fs-6">¿Interesado en realizar un pedido?</span>
+            </div>
+            {% if request.user.is_authenticated and request.user != usuario %}
+            <a class="btn btn-purple w-100 py-2 disabled" tabindex="-1" aria-disabled="true">
+                <i class="bi bi-send me-2"></i>Contáctame
+            </a>
+          {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Galería de servicios/publicaciones -->
+      <div class="mb-4">
+        <div class="profile-section-title">Mis Servicios</div>
+        <div class="row g-4">
+          {% for obra in obras %}
+          <div class="col-md-6 col-lg-4">
+            <div class="service-card">
+              <a href="{% url 'gallery:detalle_obra' obra.id %}" class="d-block">
+                {% if obra.imagen_principal %}
+                  <img src="{{ obra.imagen_principal.url }}" alt="{{ obra.titulo }}" class="service-img">
+                {% else %}
+                  <div class="d-flex align-items-center justify-content-center service-img text-muted">Sin imagen</div>
+                {% endif %}
+              </a>
+              <div class="service-body">
+                <div class="service-title">{{ obra.titulo }}</div>
+                <div class="service-meta mb-1">I will draw and sell art commissions</div>
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <span class="service-rating"><i class="bi bi-star-fill"></i> 5,0 <span class="text-secondary" style="font-size:0.95em;">(91)</span></span>
+                  </div>
+                  <div class="service-price">A partir de {{ obra.precio }} €</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="col-12">
+            <p class="text-muted text-center">No hay servicios publicados aún.</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const seguirBtn = document.getElementById('seguir-btn');
+    if (seguirBtn) {
+        seguirBtn.addEventListener('click', function() {
+            const username = this.dataset.username;
+            const csrfToken = this.dataset.csrfToken;
+            
+            fetch(`/users/seguir/${username}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                
+                // Actualizar el botón
+                this.textContent = data.siguiendo ? 'Dejar de seguir' : 'Seguir';
+                this.classList.toggle('btn-primary', !data.siguiendo);
+                this.classList.toggle('btn-secondary', data.siguiendo);
+                
+                // Actualizar el contador de seguidores
+                const seguidoresCount = document.querySelector('span:nth-child(2) strong');
+                if (seguidoresCount) {
+                    seguidoresCount.textContent = data.seguidores_count;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Hubo un error al procesar la solicitud');
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

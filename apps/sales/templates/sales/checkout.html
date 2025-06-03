@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="payment-container">
+                <div class="payment-header text-center ">
+                    <h4 class="payment-title text-white">Información de Pago</h4>
+                </div>
+                <div class="payment-body">
+                    <div class="order-summary">
+                        <h5 class="text-yellow">Resumen del Pedido</h5>
+                        <p><strong>Precio de la obra:</strong> ${{ precio }}</p>
+                        <p><strong>Comisión de la plataforma:</strong> ${{ fee }}</p>
+                        <p class="text-yellow"><strong>Total a pagar:</strong> ${{ total }}</p>
+                        <p><strong>Plan:</strong> {{ plan|title }}</p>
+                        <p><strong>Descripción del encargo:</strong> {{ descripcion }}</p>
+                    </div>
+                    <form method="POST" action="{% url 'sales:checkout' %}" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="obra_id" value="{{ obra.id }}">
+                        <input type="hidden" name="plan" value="{{ plan }}">
+                        <input type="hidden" name="descripcion" value="{{ descripcion }}">
+                        <h5 class=" text-yellow">Detalles de Pago</h5>
+                        <label for="cardNumber" class="form-label">Número de Tarjeta</label>
+                        <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required pattern="[\d\s]{13,19}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="expiryDate" class="form-label">Fecha de Expiración (MM/AA)</label>
+                                <input type="text" class="form-control" id="expiryDate" name="expiryDate" placeholder="MM/AA" required pattern="\d{2}/\d{2}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cvv" class="form-label">CVV</label>
+                                <input type="text" class="form-control" id="cvv" name="cvv" placeholder="123" required pattern="\d{3,4}">
+                            </div>
+                        </div>
+                        <label for="cardName" class="form-label">Nombre en la Tarjeta</label>
+                        <input type="text" class="form-control" id="cardName" name="cardName" placeholder="Juan Pérez" required>
+                        <label for="email" class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="juan@ejemplo.com" required>
+                        <label for="address" class="form-label">Dirección de Facturación</label>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Calle Principal 123" required>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="city" class="form-label">Ciudad</label>
+                                <input type="text" class="form-control" id="city" name="city" placeholder="Ciudad" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="postalCode" class="form-label">Código Postal</label>
+                                <input type="text" class="form-control" id="postalCode" name="postalCode" placeholder="12345" required>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" name="payment_success" value="true" class="btn btn-success btn-lg rounded-pill">
+                                Pagar Ahora
+                            </button>
+                            <button type="submit" name="payment_success" value="false" class="btn btn-danger btn-lg rounded-pill">
+                                Simular Error de Pago
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

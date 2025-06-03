@@ -1,0 +1,1 @@
+# Este archivo permite que Python reconozca la carpeta apps como un paquete 

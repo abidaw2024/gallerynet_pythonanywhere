@@ -1,0 +1,18 @@
+@"
+# Entorno virtual
+gallerynet_env/
+../gallerynet_env/
+
+# Archivos multimedia
+media/
+artworks/
+
+
+# Archivos Python
+__pycache__/
+*.pyc
+
+# Base de datos
+*.sqlite3
+db.sqlite3
+"@ > .gitignore

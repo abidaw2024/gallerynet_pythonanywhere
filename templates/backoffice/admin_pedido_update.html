@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Editar Pedido</h2>
+    <div class="card bg-dark text-white">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="mb-3">
+                    <label for="id_status" class="form-label">Estado</label>
+                    {{ form.status }}
+                </div>
+                <!-- Puedes agregar aquí más campos si tu modelo lo permite -->
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="{% url 'sales:admin_pedidos_list' %}" class="btn btn-secondary ms-2">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block title %}Mis Encargos Enviados{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Mis Encargos Enviados</h1>
+            
+            {% if encargos %}
+                {% for encargo in encargos %}
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="card-title mb-0">{{ encargo.obra.titulo }}</h5>
+                                <span class="badge {% if encargo.estado == 'pendiente' %}bg-warning{% elif encargo.estado == 'confirmado' %}bg-success{% else %}bg-secondary{% endif %}">
+                                    {{ encargo.estado|title }}
+                                </span>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <p class="mb-1"><strong>Artista:</strong> {{ encargo.artista.get_full_name }}</p>
+                                    <p class="mb-1"><strong>Plan:</strong> {{ encargo.plan|title }}</p>
+                                    <p class="mb-1"><strong>Fecha:</strong> {{ encargo.fecha|date:"d/m/Y" }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-1"><strong>Precio:</strong> ${{ encargo.obra.precio }}</p>
+                                    <p class="mb-1"><strong>Estado:</strong> {{ encargo.estado|title }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6>Descripción:</h6>
+                                <p class="card-text">{{ encargo.descripcion }}</p>
+                            </div>
+                            
+                            {% if encargo.estado == 'pendiente' %}
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle"></i> Tu encargo está pendiente de confirmación por parte del artista.
+                                </div>
+                            {% elif encargo.estado == 'confirmado' %}
+                                <div class="alert alert-success">
+                                    <i class="fas fa-check-circle"></i> Tu encargo ha sido confirmado. Por favor, realiza el pago para continuar.
+                                </div>
+                            {% endif %}
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{% url 'gallery:detalle_obra' encargo.obra.id %}" class="btn btn-outline-primary">
+                                    Ver obra
+                                </a>
+                                {% if encargo.estado == 'confirmado' %}
+                                    <a href="{% url 'sales:checkout' %}?obra_id={{ encargo.obra.id }}" class="btn btn-success">
+                                        Realizar pago
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> No has realizado ningún encargo aún.
+                </div>
+                <a href="{% url 'gallery:lista_obras' %}" class="btn btn-primary">
+                    Explorar obras
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

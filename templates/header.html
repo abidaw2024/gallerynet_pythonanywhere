@@ -1,0 +1,108 @@
+{% load static %}
+
+
+<!-- templates/header.html -->
+<nav class="navbar navbar-expand-lg pe-2 ps-2">
+  <div class="container-fluid">
+    <!-- Botón para el menú móvil -->
+    <button class="navbar-toggle d-lg-none border-0 bg-transparent me-3" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#bdbdbd" class="bi bi-list"
+        viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+          d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+      </svg>
+    </button>
+
+    <!-- Logo -->
+    <a class="navbar-brand d-none d-lg-block" href="{% url 'gallery:lista_obras' %}">
+      <img src="{% static 'images/logo.png' %}" alt="GalleryNet Logo" height="40">
+    </a>
+
+    <!-- Buscador -->
+    <form class="d-flex mx-auto ps-4 pe-4" role="search" style="max-width: 500px; flex: 1;" action="{% url 'users:buscar' %}"
+      method="get">
+      <div class="input-group ">
+        <input class="form-control mb-0" type="search" placeholder="¿Qué servicio estás buscando hoy?" aria-label="Buscar"
+          name="q" value="{{ request.GET.q|default:'' }}">
+        <button class="btn btn-dark" type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
+            <path
+              d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+          </svg>
+        </button>
+      </div>
+    </form>
+
+    <!-- Enlaces de navegación -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated and user.is_staff %}
+        <li class="nav-item">
+          <a class="nav-link text-warning fw-bold" href="{% url 'backoffice:admin_dashboard' %}">
+            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+          </a>
+        </li>
+        {% endif %}
+        {% if user.is_authenticated  %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'gallery:lista_obras' %}">
+            <i class="bi bi-compass me-1"></i>Explorar
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'sales:encargos_recibidos' %}">
+            <i class="bi bi-briefcase me-1"></i>Encargos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link position-relative" href="{% url 'mensajes:lista_mensajes' %}">
+            <i class="bi bi-chat-dots me-1"></i>Mensajes
+          </a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contacto' %}">
+            <i class="bi bi-envelope me-1"></i>Contacto
+          </a>
+        </li>
+        {% if user.is_authenticated %}
+        <!-- Foto de perfil del usuario -->
+        <div class="dropdown ms-3 pe-4">
+          <a href="#" class="d-flex align-items-center text-decoration-none pt-2" id="dropdownUser" data-bs-toggle="dropdown" style="outline: none;">
+            {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Foto de perfil"
+              class="rounded-circle shadow-sm"
+              style="width: 40px; height: 40px; object-fit: cover;">
+            {% else %}
+            <div
+              class="bg-light rounded-circle d-flex align-items-center justify-content-center border border-2 border-white shadow-sm"
+              style="width: 40px; height: 40px;">
+              <span class="text-muted" style="font-size: 0.8rem;">Sin foto</span>
+            </div>
+            {% endif %}
+          </a>
+          
+          <ul class="dropdown-menu dropdown-menu-end shadow-lg p-2 mt-2" aria-labelledby="dropdownUser"
+            style="min-width: 220px;">
+            <li><a class="dropdown-item py-2" href="{% url 'users:perfil' user.username %}"><i
+                  class="bi bi-person me-2"></i>Perfil</a></li>
+            <li><a class="dropdown-item py-2" href="#"><i class="bi bi-gear me-2"></i>Ajustes</a></li>
+            <li><a class="dropdown-item py-2" href="#"><i class="bi bi-credit-card me-2"></i>Facturación y pagos</a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item py-2 text-danger" href="{% url 'users:logout' %}"><i
+                  class="bi bi-box-arrow-right me-2"></i>Cerrar sesión</a></li>
+          </ul>
+        </div>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link " href="{% url 'users:login' %}">Iniciar sesión</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

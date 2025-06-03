@@ -1,0 +1,355 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detalle de Obra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<style>
+    .carousel-container {
+        width: 100%;
+        height: 500px;
+        overflow: hidden;
+        background-color: black;
+        border-radius: 10px;
+    }
+    .carousel-item {
+        height: 500px;
+        background-color: black;
+    }
+    .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background-color: black;
+    }
+    .card { border: none; background-color: transparent; }
+    .card-body { padding: 1.5rem; }
+    .card-header { border: none; background-color: transparent; }
+    .commission-card {
+        background-color: transparent;
+        border: 2px solid #ffc107;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        color: #fff;
+    }
+    .commission-card .text-muted { color: #bdbdbd !important; }
+    .commission-card .text-yellow { color: #ffc107 !important; }
+    .nav-tabs .nav-link {
+        min-width: 120px;
+        font-weight: 500;
+        color: #fff;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        transition: background 0.2s, color 0.2s, border-bottom 0.2s;
+    }
+    .nav-tabs .nav-link.active {
+        color: #ffc107;
+        border-bottom: 2px solid #ffc107;
+        background: rgba(255, 193, 7, 0.08);
+    }
+    .tab-content {
+        min-height: 340px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row">
+        <!-- Columna izquierda - Imagen y comentarios -->
+        <div class="col-lg-8">
+            <!-- Carrusel de imágenes -->
+            <div class="card mb-4">
+                <div class="carousel-container">
+                    <div id="obraCarousel" class="carousel slide" data-bs-ride="false">
+                        <!-- Indicadores (puntos) -->
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#obraCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+                            {% if obra.imagen_adicional_1 %}
+                                <button type="button" data-bs-target="#obraCarousel" data-bs-slide-to="1"></button>
+                            {% endif %}
+                            {% if obra.imagen_adicional_2 %}
+                                <button type="button" data-bs-target="#obraCarousel" data-bs-slide-to="2"></button>
+                            {% endif %}
+                            {% if obra.imagen_adicional_3 %}
+                                <button type="button" data-bs-target="#obraCarousel" data-bs-slide-to="3"></button>
+                            {% endif %}
+                        </div>
+                        <!-- Imágenes -->
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="{{ obra.imagen_principal.url }}" class="d-block w-100" alt="{{ obra.titulo }}">
+                            </div>
+                            {% if obra.imagen_adicional_1 %}
+                                <div class="carousel-item">
+                                    <img src="{{ obra.imagen_adicional_1.url }}" class="d-block w-100" alt="Imagen adicional 1">
+                                </div>
+                            {% endif %}
+                            {% if obra.imagen_adicional_2 %}
+                                <div class="carousel-item">
+                                    <img src="{{ obra.imagen_adicional_2.url }}" class="d-block w-100" alt="Imagen adicional 2">
+                                </div>
+                            {% endif %}
+                            {% if obra.imagen_adicional_3 %}
+                                <div class="carousel-item">
+                                    <img src="{{ obra.imagen_adicional_3.url }}" class="d-block w-100" alt="Imagen adicional 3">
+                                </div>
+                            {% endif %}
+                        </div>
+                        <!-- Controles del carrusel -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#obraCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#obraCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Siguiente</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Sobre el artista -->
+            <div class="card mb-4">
+                <div class="card-body w-100">
+                    <h3 class="card-title">Sobre el artista</h3>
+                    <div class="d-flex align-items-center mb-3">
+                        {% if obra.vendedor.profile_picture %}
+                            <img src="{{ obra.vendedor.profile_picture.url }}" alt="Foto de perfil"
+                                 class="rounded-circle me-3 shadow" style="width: 60px; height: 60px; object-fit: cover;">
+                        {% else %}
+                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3 shadow"
+                                 style="width: 60px; height: 60px;">
+                                <span class="text-white small">Sin foto</span>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <h5 class="mb-0">{{ obra.vendedor.get_full_name }}</h5>
+                            <small class="text-white texto-secundario">@{{ obra.vendedor.username }}</small>
+                            <p>{{ usuario.descripcion|default:"Ninguna descripción" }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h5 class="pt-2">SOBRE EL SERVICIO</h5>
+                    <p class="card-text">
+                        {{ obra.descripcion }}
+                    </p>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <hr>
+                            <h6>Estilo</h6>
+                            <p class="texto-secundario">{{ obra.estilo }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <hr>
+                            <h6>Técnica</h6>
+                            <p class="texto-secundario">{{ obra.tecnica }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <hr>
+                            <h6>Tema</h6>
+                            <p class="texto-secundario">{{ obra.tema }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Comentarios -->
+            <div class="card">
+                <div class="card-body w-100">
+                    <hr>
+                    <h3 class="card-title mb-4">Comentarios</h3>
+                    <!-- Ejemplo de comentarios -->
+                    <div class="card card-list bg-purple mb-3">
+                        <div class="card-body w-100">
+                            <div class="d-flex justify-content-between mb-2">
+                                <div>
+                                    <strong>Usuario_ejemplo1</strong>
+                
+                                </div>
+                                <div class="text-yellow">5 ★</div>
+                            </div>
+                       
+                            <p>Seller was really patient and I got exactly what I wanted, 5 stars</p>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-success">€50-€100</span>
+                                <span class="texto-secundario">1 day</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-list bg-purple mb-3">
+                        <div class="card-body w-100">
+                            <div class="d-flex justify-content-between mb-2">
+                                <div>
+                                    <strong>appcultvityforh</strong>
+                
+                                </div>
+                                <div class="text-yellow">5 ★</div>
+                            </div>
+                  
+                            <p>Seller was really patient and I got exactly what I wanted, 5 stars</p>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-success">€50-€100</span>
+                                <span class="texto-secundario">1 day</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Comentarios reales de tu sistema -->
+                    {% if comentarios %}
+                        {% for comentario in comentarios %}
+                            <div class="card card-list mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <div>
+                                            <strong>{{ comentario.usuario.get_full_name }}</strong>
+                                            <span class="text-muted texto-secundario">@{{ comentario.usuario.username }}</span>
+                                        </div>
+                                        <div class="text-yellow">5 ★</div>
+                                    </div>
+                                    <div class="mb-2 texto-secundario">{{ comentario.fecha_creacion|date:"d/m/Y H:i" }}</div>
+                                    <p>{{ comentario.contenido }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted texto-secundario">No hay comentarios aún.</p>
+                    {% endif %}
+                    <!-- Formulario para nuevos comentarios -->
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'gallery:agregar_comentario' obra.id %}" class="mt-4">
+                            {% csrf_token %}
+                            <div class="mb-2">
+                                <textarea name="contenido" class="form-control form-control-sm rounded-3 border-0 shadow-sm" rows="2" style="resize: none; min-height: 38px; max-height: 80px; font-size: 0.95rem; background-color: #ffffff; color: #000000;" placeholder="Escribe un comentario..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-custom-secondary btn-sm px-3 py-1">Comentar</button>
+                        </form>
+                    {% else %}
+                        <p class="text-muted texto-secundario mt-3">Inicia sesión para dejar un comentario.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- Columna derecha - Opciones de comisión -->
+        <div class="col-lg-4">
+            <div class="sticky-top" style="top: 20px;">
+                <!-- Botones de editar y eliminar -->
+                <div class="d-flex justify-content-end mb-3 gap-2">
+                    <a href="{% url 'gallery:editar_comision' obra.pk %}" class="btn btn-outline-warning btn-sm">Editar</a>
+                    <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar</button>
+                </div>
+                <!-- Tarjeta de opciones de comisión -->
+                <div class="card commission-card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title text-center mb-4">OPCIONES DE COMISIÓN</h5>
+                        <ul class="nav nav-tabs nav-fill mb-4" id="commissionTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active btn-list" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">Básico</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link btn-list" id="standard-tab" data-bs-toggle="tab" data-bs-target="#standard" type="button" role="tab">Estándar</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link btn-list" id="premium-tab" data-bs-toggle="tab" data-bs-target="#premium" type="button" role="tab">Premium</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="commissionTabsContent">
+                            <div class="tab-pane fade show active" id="basic" role="tabpanel">
+                                <h4 class="text-center mb-3 text-yellow">{{ obra.get_precio_basico }}€</h4>
+                                <p class="text-center mb-4">{{ obra.descripcion_basico }}</p>
+                                <ul class="list-unstyled mb-4">
+                                    {% for caracteristica in obra.caracteristicas_basico.all %}
+                                        <li class="py-2 border-bottom">{{ caracteristica }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% if user.is_authenticated and obra.estado == 'disponible' %}
+                                <div class="text-center">
+                                    <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=basico" class="btn btn-custom-secondary">
+                                        <i class="fas fa-paper-plane"></i> Encargar
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Estándar -->
+                            <div class="tab-pane fade" id="standard" role="tabpanel">
+                                <h4 class="text-center mb-3 text-yellow">{{ obra.get_precio_estandar }}€</h4>
+                                <p class="text-center mb-4">{{ obra.descripcion_estandar }}</p>
+                                <ul class="list-unstyled mb-4">
+                                    {% for caracteristica in obra.caracteristicas_estandar.all %}
+                                        <li class="py-2 border-bottom">{{ caracteristica }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% if user.is_authenticated and obra.estado == 'disponible' %}
+                                <div class="text-center">
+                                    <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=basico" class="btn btn-custom-secondary">
+                                        <i class="fas fa-paper-plane"></i> Encargar
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Premium -->
+                            <div class="tab-pane fade" id="premium" role="tabpanel">
+                                <h4 class="text-center mb-3 text-yellow">{{ obra.get_precio_premium }}€</h4>
+                                <p class="text-center mb-4">{{ obra.descripcion_premium }}</p>
+                                <ul class="list-unstyled mb-4">
+                                    {% for caracteristica in obra.caracteristicas_premium.all %}
+                                        <li class="py-2 border-bottom">{{ caracteristica }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% if user.is_authenticated and obra.estado == 'disponible' %}
+                                <div class="text-center">
+                                    <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=basico" class="btn btn-custom-secondary">
+                                        <i class="fas fa-paper-plane"></i> Encargar
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Botón de contacto -->
+                <div class="text-center">
+                    <button class="btn btn-custom-secondary btn-lg w-100">Contactar al artista</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Eliminar -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="card-purple  modal-content bg-purple border-0 shadow-lg">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-white" id="deleteModalLabel">Confirmar eliminación</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-white">
+                <div class="text-center mb-4">
+                    <i class="fas fa-exclamation-triangle text-warning mb-3" style="font-size: 3rem;"></i>
+                    <p class="mb-0">¿Estás seguro de que deseas eliminar la obra "<strong>{{ obra.titulo }}</strong>"?</p>
+                    <small class="text-white-50">Esta acción no se puede deshacer.</small>
+                </div>
+            </div>
+            <div class="modal-footer border-0 p-0">
+                <button type="button" class="btn btn-custom-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form method="post" action="{% url 'gallery:eliminar_obra' obra.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

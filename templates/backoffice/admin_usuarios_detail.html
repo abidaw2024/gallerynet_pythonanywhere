@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card text-white border border-white">
+                <div class="card-header">
+                    <h2 class="mb-0">Detalles del Usuario</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h4>Información Personal</h4>
+                        <p><strong>Nombre de Usuario:</strong> {{ object.username }}</p>
+                        <p><strong>Nombre:</strong> {{ object.first_name }}</p>
+                        <p><strong>Apellidos:</strong> {{ object.last_name }}</p>
+                        <p><strong>Email:</strong> {{ object.email }}</p>
+                        <p><strong>Fecha de Registro:</strong> {{ object.date_joined|date:"d/m/Y H:i" }}</p>
+                        <p><strong>Último Acceso:</strong> {{ object.last_login|date:"d/m/Y H:i" }}</p>
+                        <p><strong>Estado:</strong> 
+                            {% if object.is_active %}
+                                <span class="badge bg-success">Activo</span>
+                            {% else %}
+                                <span class="badge bg-danger">Inactivo</span>
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4>Permisos</h4>
+                        <p><strong>Es Staff:</strong> 
+                            {% if object.is_staff %}
+                                <span class="badge bg-primary">Sí</span>
+                            {% else %}
+                                <span class="badge bg-secondary">No</span>
+                            {% endif %}
+                        </p>
+                        <p><strong>Es Superusuario:</strong> 
+                            {% if object.is_superuser %}
+                                <span class="badge bg-warning">Sí</span>
+                            {% else %}
+                                <span class="badge bg-secondary">No</span>
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'users:admin_usuarios_list' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                        <a href="{% url 'users:admin_usuarios_update' object.id %}" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

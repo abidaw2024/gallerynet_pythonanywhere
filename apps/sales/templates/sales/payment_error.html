@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-danger text-white">
+                <div class="card-header bg-danger text-white">
+                    <h2 class="card-title mb-0">Error en el Proceso de Pago</h2>
+                </div>
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <img src="https://cdn-icons-png.flaticon.com/512/179/179386.png" alt="Error" class="img-fluid" style="max-height: 100px;">
+                    </div>
+                    <p class="lead text-center mb-4">
+                        Lo sentimos, ha ocurrido un error al procesar tu pago. Por favor, intenta nuevamente o contacta con nuestro servicio de atención al cliente.
+                    </p>
+                    
+                    <div class="alert bg-white text-black  border-danger mb-4">
+                        <h5 class="alert-heading">Posibles Causas</h5>
+                        <hr class="bg-danger">
+                        <ul class="mb-0">
+                            <li class="mb-2">Datos de la tarjeta incorrectos</li>
+                            <li class="mb-2">Fondos insuficientes</li>
+                            <li>Problemas de conexión</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="d-grid gap-3 col-md-8 mx-auto mt-4">
+                        <a href="{% url 'gallery:lista_obras' %}" class="btn btn-outline-light btn-lg rounded-pill">
+                            Volver al Inicio
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer text-white-50 border-top border-danger">
+                    <small>Si el problema persiste, contacta a soporte@tudominio.com</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

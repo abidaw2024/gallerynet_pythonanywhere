@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+{% endblock %}
+
+{% block title %}GalleryNet - Gestión de Mensajes{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex gap-2 align-items-center">
+            <a href="{% url 'backoffice:admin_dashboard' %}" class="btn btn-custom-secondary">
+                <i class="fas fa-arrow-left"></i> Atrás
+            </a>
+            <h1 class="mb-0">Gestión de Mensajes</h1>
+        </div>
+    </div>
+
+    <!-- Tabla de mensajes -->
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Remitente</th>
+                    <th>Destinatario</th>
+                    <th>Asunto</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mensaje in mensajes %}
+                <tr>
+                    <td>{{ mensaje.remitente.username }}</td>
+                    <td>{{ mensaje.destinatario.username }}</td>
+                    <td>{{ mensaje.asunto }}</td>
+                    <td>{{ mensaje.fecha_envio|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'mensajes:admin_mensaje_detail' mensaje.id %}" class="btn btn-list ">Ver</a>
+                            <a href="{% url 'mensajes:admin_mensaje_delete' mensaje.id %}" class="btn btn-list border-start border-black">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No hay mensajes</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %} 

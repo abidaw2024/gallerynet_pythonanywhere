@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Detalle del Pedido</h2>
+    <div class="card bg-dark text-white mb-4">
+        <div class="card-body">
+            <p><strong>ID:</strong> {{ object.id }}</p>
+            <p><strong>Cliente:</strong> {{ object.user.get_full_name }}</p>
+            <p><strong>Fecha:</strong> {{ object.created_at|date:"d/m/Y H:i" }}</p>
+            <p><strong>Total:</strong> {{ object.total }}€</p>
+            <p><strong>Estado:</strong> <span class="badge {% if object.status == 'completed' %}bg-success{% elif object.status == 'pending' %}bg-warning{% elif object.status == 'cancelled' %}bg-danger{% else %}bg-info{% endif %}">{{ object.status }}</span></p>
+        </div>
+    </div>
+    <a href="{% url 'sales:admin_pedidos_list' %}" class="btn btn-secondary">Volver a la lista</a>
+</div>
+{% endblock %}

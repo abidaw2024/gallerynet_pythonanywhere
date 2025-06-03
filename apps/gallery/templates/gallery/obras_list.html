@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}  <!-- ¡Aquí cargas la etiqueta static! -->
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Iniciar Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static '../static/css/styles.css' %}">  <!-- Usa la etiqueta static correctamente -->
+</head>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Obras disponibles</h2>
+        <a href="{% url 'users:buscar' %}" class="btn btn-primary">Buscar</a>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for obra in obras %}
+        <div class="col">
+            <div class="card h-100 bg-dark text-white">
+                <!-- Info del usuario -->
+                <div class="d-flex align-items-center p-3">
+                    {% if obra.vendedor.profile_picture %}
+                        <img src="{{ obra.vendedor.profile_picture.url }}" alt="Foto de perfil" class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                    {% else %}
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <span class="text-white" style="font-size:0.8em;">Sin foto</span>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <span class="fw-bold">{{ obra.vendedor.get_full_name }}</span><br>
+                        <small class="text-muted">@{{ obra.vendedor.username }}</small>
+                    </div>
+
+                </div>
+                <a href="{% url 'gallery:detalle_obra' obra.id %}">
+                    <img src="{{ obra.imagen.url }}" class="card-img-top" alt="{{ obra.titulo }}">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ obra.titulo }}</h5>
+                    <p class="card-text">{{ obra.descripcion|truncatechars:80 }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <span class="fw-bold text-success">${{ obra.precio }}</span>
+                    {% if obra.disponible %}
+                        <span class="badge bg-success">Disponible</span>
+                    {% else %}
+                        <span class="badge bg-danger">No disponible</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-muted text-center">No hay obras disponibles.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% endblock %}
