@@ -119,7 +119,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    MEDIA_URL = '/media/'
+    MEDIA_URL = 'https://res.cloudinary.com/dzttcsvrv/image/upload/'
 else:
     MEDIA_URL = '/media/'
     MEDIA_ROOT = BASE_DIR / 'media'
