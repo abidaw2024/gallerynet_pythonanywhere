@@ -15,4 +15,4 @@ __pycache__/
 # Base de datos
 *.sqlite3
 db.sqlite3
-"@ > .gitignore
+"@ > .gitignorehandy-math-*.json
