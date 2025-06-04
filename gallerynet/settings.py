@@ -1,11 +1,14 @@
 from pathlib import Path
 import os
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-00*dhdo9(og(6cjjzy2g!x*$w5z@0ggx6p7^6tk@qhtk9c$o6y')
 DEBUG = 'RENDER' not in os.environ
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [] 
+""" DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(' ') """
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -68,13 +71,14 @@ WSGI_APPLICATION = 'gallerynet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'gallerynet',
-        'USER': 'postgres',
-        'PASSWORD': 'superidol110105',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': os.environ.get('gallerynet'),
+        'USER': os.environ.get('postgres'),
+        'PASSWORD': os.environ.get('superidol110105'),
+        'HOST': os.environ.get('localhost'),
+        'PORT': os.environ.get('DB_PORT', ''),
     }
 }
+DATABASES['default'] = dj_database_url.parse("postgresql://gallerynet_user:nh58KDAagJiRjGtRDC2QTpoTehzPkN5u@dpg-d107p50gjchc73aes2k0-a.frankfurt-postgres.render.com/gallerynet")
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -102,13 +106,15 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.Usuario'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
 
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'gallerynet_bucket'
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
 
 LOGIN_URL = '/users/login/'
 
