@@ -9,7 +9,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY',
 
 
 DEBUG = False
-ALLOWED_HOSTS = ['abi.pythonanywhere.com.']  # Reemplaza 'yourusername' con tu nombre de usuario de PythonAnywhere
+ALLOWED_HOSTS = ['abi.pythonanywhere.com']  # Reemplaza 'yourusername' con tu nombre de usuario de PythonAnywhere
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
