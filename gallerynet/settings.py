@@ -134,9 +134,9 @@ if GCS_KEY_CONTENT:
     except json.JSONDecodeError:
         print("Error: GCS_SERVICE_ACCOUNT_KEY_JSON is not valid JSON.", file=sys.stderr),
     except Exception as e:
-       print(f"Error processing GCS service account key: {e}", file=sys.stderr)
+        print(f"Error processing GCS service account key: {e}", file=sys.stderr)
     else:
-       print("Warning: GCS_SERVICE_ACCOUNT_KEY_JSON environment variable notfound.", file=sys.stderr)
+        print("Warning: GCS_SERVICE_ACCOUNT_KEY_JSON environment variable notfound.", file=sys.stderr)
 
 LOGIN_URL = '/users/login/'
 
