@@ -75,11 +75,11 @@ WSGI_APPLICATION = 'gallerynet.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'abi$default', # Nombre de la DB de PythonAnywhere.
-        'USER': 'abi', # Tu nombre de usuario de PythonAnywhere.
-        'PASSWORD': 'superidol110105', # Contraseña de la DB de PythonAnywhere.
-        'HOST': 'abi.mysql.pythonanywhere-services.com', # Host de la DB de PythonAnywhere.
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'abi$default',
+        'USER': 'abi',
+        'PASSWORD': 'superidol110105',
+        'HOST': 'abi.mysql.pythonanywhere-services.com',
         'PORT': '3306',
     }
 }
