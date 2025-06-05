@@ -10,9 +10,10 @@ from apps.sales.views import OrderViewSet
 from apps.users.views import UsuarioViewSet
 
 # Función para la vista de inicio
+from django.http import HttpResponse
+
 def home(request):
-    return render(request, 'home.html')
-print("URLs cargadas correctamente")
+    return HttpResponse("Página de inicio funcionando")
 
 #API
 router = DefaultRouter()
