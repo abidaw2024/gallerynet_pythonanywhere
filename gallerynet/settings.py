@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'gallerynet.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'abi$default',
         'USER': 'abi',
         'PASSWORD': 'superidol110105',
