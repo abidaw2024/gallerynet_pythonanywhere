@@ -110,34 +110,37 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.Usuario'
 
 
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR, 'handy-math-461909-u8-8ec4ca4ffc16.json')
-)
-
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-GS_BUCKET_NAME = 'gallerynet_bucket'
-GS_CREDENTIALS = GS_CREDENTIALS
-MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
-STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-
+# Configuración de Google Cloud Storage
 GCS_KEY_CONTENT = os.environ.get('GCS_SERVICE_ACCOUNT_KEY_JSON')
-GS_DEFAULT_ACL = 'publicRead' # Asegúrate de que esta línea esté presente
+GS_BUCKET_NAME = 'gallerynet_bucket'
+GS_DEFAULT_ACL = 'publicRead'
 
 if GCS_KEY_CONTENT:
     try:
         credentials_data = json.loads(GCS_KEY_CONTENT)
         temp_key_path = BASE_DIR / 'gcs_temp_key.json'
         with open(temp_key_path, 'w') as f:
-           json.dump(credentials_data, f)
-            # Establece la variable de entorno que google-cloud-storage buscará
+            json.dump(credentials_data, f)
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = str(temp_key_path)
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(str(temp_key_path))
         print("GCS credentials loaded from environment variable.", file=sys.stderr)
     except json.JSONDecodeError:
-        print("Error: GCS_SERVICE_ACCOUNT_KEY_JSON is not valid JSON.", file=sys.stderr),
+        print("Error: GCS_SERVICE_ACCOUNT_KEY_JSON is not valid JSON.", file=sys.stderr)
     except Exception as e:
         print(f"Error processing GCS service account key: {e}", file=sys.stderr)
-    else:
-        print("Warning: GCS_SERVICE_ACCOUNT_KEY_JSON environment variable notfound.", file=sys.stderr)
+else:
+    print("Warning: GCS_SERVICE_ACCOUNT_KEY_JSON environment variable not found.", file=sys.stderr)
+    # Intenta cargar desde el archivo local solo en desarrollo
+    if DEBUG:
+        try:
+            local_key_path = os.path.join(BASE_DIR, 'handy-math-461909-u8-8ec4ca4ffc16.json')
+            GS_CREDENTIALS = service_account.Credentials.from_service_account_file(local_key_path)
+        except FileNotFoundError:
+            print("Warning: Local GCS credentials file not found.", file=sys.stderr)
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
 LOGIN_URL = '/users/login/'
 
