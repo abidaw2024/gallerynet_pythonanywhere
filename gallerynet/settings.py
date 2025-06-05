@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'gallerynet.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'abi$default', # Nombre de la DB de PythonAnywhere.
         'USER': 'abi', # Tu nombre de usuario de PythonAnywhere.
         'PASSWORD': 'superidol110105', # Contraseña de la DB de PythonAnywhere.
