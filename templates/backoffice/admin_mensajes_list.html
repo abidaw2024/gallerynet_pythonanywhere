@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'backoffice/base.html' %}
 
 {% block extra_head %}
     <!-- Bootstrap 5 CDN -->
@@ -45,6 +45,30 @@
                         </div>
                     </td>
                 </tr>
+                <div class="modal fade" id="deleteModal{{ mensaje.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ mensaje.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="card-purple  modal-content bg-purple border-0 shadow-lg">
+                            <div class="modal-header border-0">
+                                <h5 class="modal-title text-white" id="deleteModalLabel{{ mensaje.id }}">Confirmar eliminación</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-white">
+                                <div class="text-center mb-4">
+                                    <i class="fas fa-exclamation-triangle text-warning mb-3" style="font-size: 3rem;"></i>
+                                    <p class="mb-0">¿Estás seguro de que deseas eliminar el mensaje con asunto "<strong>{{ mensaje.asunto }}</strong>"?</p>
+                                    <small class="text-white-50">Esta acción no se puede deshacer.</small>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-0 p-0">
+                                <button type="button" class="btn btn-custom-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <form action="{% url 'mensajes:admin_mensaje_delete' mensaje.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% empty %}
                 <tr>
                     <td colspan="5" class="text-center">No hay mensajes</td>

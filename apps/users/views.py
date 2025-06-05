@@ -139,7 +139,7 @@ class UsuarioDetailView(LoginRequiredMixin, DetailView):
 class UsuarioUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Usuario
     template_name = 'backoffice/admin_usuarios_update.html'
-    fields = ['first_name', 'last_name', 'email', 'is_active', 'is_staff']
+    fields = ['username', 'first_name', 'last_name', 'email', 'is_active', 'is_staff']
     success_message = "Usuario actualizado exitosamente"
     success_url = reverse_lazy('users:admin_usuarios_list')
     

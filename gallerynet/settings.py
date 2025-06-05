@@ -2,6 +2,8 @@ from pathlib import Path
 import os
 import dj_database_url
 from google.oauth2 import service_account
+import json
+import sys
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -117,7 +119,24 @@ GS_BUCKET_NAME = 'gallerynet_bucket'
 MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
+GCS_KEY_CONTENT = os.environ.get('GCS_SERVICE_ACCOUNT_KEY_JSON')
+GS_DEFAULT_ACL = 'publicRead' # Asegúrate de que esta línea esté presente
 
+if GCS_KEY_CONTENT:
+    try:
+        credentials_data = json.loads(GCS_KEY_CONTENT)
+        temp_key_path = BASE_DIR / 'gcs_temp_key.json'
+        with open(temp_key_path, 'w') as f:
+           json.dump(credentials_data, f)
+            # Establece la variable de entorno que google-cloud-storage buscará
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = str(temp_key_path)
+        print("GCS credentials loaded from environment variable.", file=sys.stderr)
+    except json.JSONDecodeError:
+        print("Error: GCS_SERVICE_ACCOUNT_KEY_JSON is not valid JSON.", file=sys.stderr),
+    except Exception as e:
+       print(f"Error processing GCS service account key: {e}", file=sys.stderr)
+    else:
+       print("Warning: GCS_SERVICE_ACCOUNT_KEY_JSON environment variable notfound.", file=sys.stderr)
 
 LOGIN_URL = '/users/login/'
 

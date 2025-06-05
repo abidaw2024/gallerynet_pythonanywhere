@@ -35,7 +35,7 @@ def lista_obras_view(request):
     Requiere que el usuario esté autenticado.
     """
     obras = Comision.objects.all()
-    return render(request, 'obras_list.html', {'obras': obras})
+    return render(request, 'gallery/obras_list.html', {'obras': obras})
 
 @login_required
 def detalle_obra_view(request, obra_id):
@@ -122,7 +122,7 @@ class ObraCreateView(AdminRequiredMixin, LoginRequiredMixin, SuccessMessageMixin
     success_message = "Obra creada exitosamente"
     
     def get_success_url(self):
-        return reverse_lazy('gallery:obra_update', kwargs={'pk': self.object.pk})
+        return reverse_lazy('gallery:admin_obras_list')
     
     def form_valid(self, form):
         form.instance.vendedor = self.request.user

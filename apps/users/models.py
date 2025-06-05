@@ -3,7 +3,7 @@ MODELO DE USUARIO PERSONALIZADO DE ABSTRACTUSER.
 Incluye autenticación de usuario, y campos adicionales para el vendedor/comprador.
 """
 
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from apps.categories.models import Categoria
 
@@ -21,6 +21,15 @@ Los roles permiten:
 """
 
 """==============================  USUARIO =============================="""
+class UsuarioManager(UserManager):
+    def create_superuser(self, email, username, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('rol', 'admin')
+        if extra_fields.get('rol') != 'admin':
+            raise ValueError('El superusuario debe tener rol=admin')
+        return super().create_superuser(email=email, username=username, password=password, **extra_fields)
+
 class Usuario(AbstractUser):
     """
     Configuración de credenciales:
@@ -73,6 +82,8 @@ class Usuario(AbstractUser):
     #campos de credenciales configuración
     USERNAME_FIELD = 'email' 
     REQUIRED_FIELDS = ['username']  #campo adicional requerido
+
+    objects = UsuarioManager()
 
     """ ===============  MÉTODOS =============== """
     #retorna el nombre de usuario para en admin y shell

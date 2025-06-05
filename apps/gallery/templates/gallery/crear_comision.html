@@ -10,129 +10,177 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 {% endblock %}
 
+{% block title %}GalleryNet - {% if form.instance.pk %}Editar{% else %}Crear{% endif %} Comisión{% endblock %}
+
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-9 col-xl-8">
-            <h4 class="mb-3 text-white">Publicar comisión</h4>
-            <div class="card-comision shadow-lg border-0 bg-purple">
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card text-white">
+                <div class="card-header">
+                    <h2 class="mb-0">{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Comisión</h2>
+                </div>
                 <div class="card-body">
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
                         {% csrf_token %}
-                        {% if form.errors %}
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
-                                {% for field, errors in form.errors.items %}
-                                    {% for error in errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                {% endfor %}
-                            </ul>
+                        
+                        <!-- Información básica -->
+                        <div class="mb-4">
+                            <h4 class="text-center bg-purple rounded-pill p-2 mb-3">Información General</h4>
+                            <div class="mb-3">
+                                <label for="{{ form.titulo.id_for_label }}" class="form-label">Título</label>
+                                {{ form.titulo|add_class:'form-control bg-white text-dark' }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción</label>
+                                {{ form.descripcion|add_class:'form-control bg-white text-dark' }}
+                            </div>
                         </div>
-                        {% endif %}
 
-                        <div class="mb-3">
-                            <label for="id_titulo" class="form-label">Título</label>
-                            {{ form.titulo|add_class:'form-control' }}
-                        </div>
-                        <div class="mb-3">
-                            <label for="id_descripcion" class="form-label">Descripción general</label>
-                            {{ form.descripcion|add_class:'form-control' }}
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <label for="id_estilo" class="form-label">Estilo</label>
-                                {{ form.estilo|add_class:'form-control' }}
-                            </div>
-                            <div class="col-md-4">
-                                <label for="id_tecnica" class="form-label">Técnica</label>
-                                {{ form.tecnica|add_class:'form-control' }}
-                            </div>
-                            <div class="col-md-4">
-                                <label for="id_tema" class="form-label">Tema</label>
-                                {{ form.tema|add_class:'form-control' }}
+                        <!-- Detalles artísticos -->
+                        <div class="mb-4">
+                            <h4 class="text-center bg-purple rounded-pill p-2 mb-3">Detalles Artísticos</h4>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="{{ form.estilo.id_for_label }}" class="form-label">Estilo</label>
+                                    {{ form.estilo|add_class:'form-control bg-white text-dark' }}
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="{{ form.tecnica.id_for_label }}" class="form-label">Técnica</label>
+                                    {{ form.tecnica|add_class:'form-control bg-white text-dark' }}
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="{{ form.tema.id_for_label }}" class="form-label">Tema</label>
+                                    {{ form.tema|add_class:'form-control bg-white text-dark' }}
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Imágenes -->
+                        <div class="mb-4">
+                            <h4 class="text-center bg-purple rounded-pill p-2 mb-3">Galería de Imágenes</h4>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.imagen_principal.id_for_label }}" class="form-label">Imagen Principal</label>
+                                    {{ form.imagen_principal|add_class:'form-control bg-white text-dark' }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.imagen_adicional_1.id_for_label }}" class="form-label">Imagen Adicional 1</label>
+                                    {{ form.imagen_adicional_1|add_class:'form-control bg-white text-dark' }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.imagen_adicional_2.id_for_label }}" class="form-label">Imagen Adicional 2</label>
+                                    {{ form.imagen_adicional_2|add_class:'form-control bg-white text-dark' }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.imagen_adicional_3.id_for_label }}" class="form-label">Imagen Adicional 3</label>
+                                    {{ form.imagen_adicional_3|add_class:'form-control bg-white text-dark' }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Opciones de comisión -->
+                        <div class="mb-4">
+                            <h4 class="text-center bg-purple rounded-pill p-2 mb-3">Opciones de Comisión</h4>
+                            <div class="row">
+                                <!-- Plan Básico -->
+                                <div class="col-md-4 mb-3">
+                                    <div class="card bg-dark">
+                                        <div class="card-header text-center">
+                                            <h5 class="mb-0">Plan Básico</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label for="{{ form.precio_basico.id_for_label }}" class="form-label">Precio (€)</label>
+                                                {{ form.precio_basico|add_class:'form-control bg-white text-dark' }}
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="{{ form.descripcion_basico.id_for_label }}" class="form-label">Descripción</label>
+                                                {{ form.descripcion_basico|add_class:'form-control bg-white text-dark' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Plan Estándar -->
+                                <div class="col-md-4 mb-3">
+                                    <div class="card bg-dark">
+                                        <div class="card-header text-center">
+                                            <h5 class="mb-0">Plan Estándar</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label for="{{ form.precio_estandar.id_for_label }}" class="form-label">Precio (€)</label>
+                                                {{ form.precio_estandar|add_class:'form-control bg-white text-dark' }}
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="{{ form.descripcion_estandar.id_for_label }}" class="form-label">Descripción</label>
+                                                {{ form.descripcion_estandar|add_class:'form-control bg-white text-dark' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Plan Premium -->
+                                <div class="col-md-4 mb-3">
+                                    <div class="card bg-dark">
+                                        <div class="card-header text-center">
+                                            <h5 class="mb-0">Plan Premium</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label for="{{ form.precio_premium.id_for_label }}" class="form-label">Precio (€)</label>
+                                                {{ form.precio_premium|add_class:'form-control bg-white text-dark' }}
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="{{ form.descripcion_premium.id_for_label }}" class="form-label">Descripción</label>
+                                                {{ form.descripcion_premium|add_class:'form-control bg-white text-dark' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'gallery:lista_obras' %}" class="btn btn-list">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-purple">
+                                <i class="fas fa-save"></i> {% if form.instance.pk %}Guardar Cambios{% else %}Crear Comisión{% endif %}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            <h4 class="mb-3 text-white">Imágenes</h4>
-            <div class="card-comision shadow-lg border-0 bg-purple p-3">
-                <div class="row g-3">
-                    <!-- Imagen Principal -->
-                    <div class="col-md-6 col-lg-3">
-                        <label for="{{ form.imagen_principal.id_for_label }}" class="form-label small text-white">Portada</label>
-                        <input type="file" name="{{ form.imagen_principal.name }}" id="{{ form.imagen_principal.id_for_label }}"
-                               class="custom-file-input" accept="image/*">
-                    </div>
-
-                    <!-- Imagen Adicional 1 -->
-                    <div class="col-md-6 col-lg-3">
-                        <label for="{{ form.imagen_adicional_1.id_for_label }}" class="form-label small text-white">Imagen 1</label>
-                        <input type="file" name="{{ form.imagen_adicional_1.name }}" id="{{ form.imagen_adicional_1.id_for_label }}"
-                               class="custom-file-input" accept="image/*">
-                    </div>
-
-                    <!-- Imagen Adicional 2 -->
-                    <div class="col-md-6 col-lg-3">
-                        <label for="{{ form.imagen_adicional_2.id_for_label }}" class="form-label small text-white">Imagen 2</label>
-                        <input type="file" name="{{ form.imagen_adicional_2.name }}" id="{{ form.imagen_adicional_2.id_for_label }}"
-                               class="custom-file-input" accept="image/*">
-                    </div>
-
-                    <!-- Imagen Adicional 3 -->
-                    <div class="col-md-6 col-lg-3">
-                        <label for="{{ form.imagen_adicional_3.id_for_label }}" class="form-label small text-white">Imagen 3</label>
-                        <input type="file" name="{{ form.imagen_adicional_3.name }}" id="{{ form.imagen_adicional_3.id_for_label }}"
-                               class="custom-file-input" accept="image/*">
-                    </div>
-                </div>
-            </div>
-
-            <h4 class="mb-3 text-white">Opciones de comisión</h4>
-            <div class="shadow-lg border-0">
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <div class="card-purple border-0 shadow-sm mb-3 bg-purple">
-                            <div class="card-header text-white text-center border-0">Básico</div>
-                            <div class="card-body">
-                                <label class="form-label">Precio (€)</label>
-                                {{ form.precio_basico|add_class:'form-control' }}
-                                <label class="form-label mt-2">Descripción</label>
-                                {{ form.descripcion_basico|add_class:'form-control' }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card-purple border-0 shadow-sm mb-3">
-                            <div class="card-header text-white text-center border-0">Estándar</div>
-                            <div class="card-body">
-                                <label class="form-label">Precio (€)</label>
-                                {{ form.precio_estandar|add_class:'form-control' }}
-                                <label class="form-label mt-2">Descripción</label>
-                                {{ form.descripcion_estandar|add_class:'form-control' }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card-purple border-0 shadow-sm mb-3">
-                            <div class="card-header text-white text-center border-0">Premium</div>
-                            <div class="card-body">
-                                <label class="form-label">Precio (€)</label>
-                                {{ form.precio_premium|add_class:'form-control' }}
-                                <label class="form-label mt-2">Descripción</label>
-                                {{ form.descripcion_premium|add_class:'form-control' }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-grid mt-4">
-                <button type="submit" class="btn btn-yellow">Publicar comisión</button>
-            </div>
-            </form>
         </div>
     </div>
 </div>
+
+{% block extra_js %}
+<script>
+    // Validación del formulario
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+{% endblock %}
+
+<style>
+    textarea.form-control {
+        min-height: 80px;
+        max-height: 200px;
+        resize: vertical;
+    }
+</style>
 
 {% endblock %} 

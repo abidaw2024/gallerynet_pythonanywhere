@@ -3,6 +3,7 @@ cachetools==5.5.2
 certifi==2025.4.26
 charset-normalizer==3.4.2
 cloudinary==1.44.0
+dj-database-url==3.0.0
 Django==5.1.7
 django-cloudinary-storage==0.3.0
 django-storages==1.14.6
