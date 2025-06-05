@@ -43,5 +43,5 @@ urlpatterns = [
     path('politicas-privacidad/', politicas_privacidad, name='politicas-privacidad'),
     path('terminos-condiciones/', terminos_condiciones, name='terminos-condiciones'),
 
-    path('', include('apps.core.urls')),
+    path('core/', include('apps.core.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) if settings.DEBUG else []
