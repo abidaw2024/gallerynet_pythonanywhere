@@ -103,8 +103,9 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
+
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.Usuario'
@@ -115,6 +116,8 @@ GCS_KEY_CONTENT = os.environ.get('GCS_SERVICE_ACCOUNT_KEY_JSON')
 GS_BUCKET_NAME = 'gallerynet_bucket'
 GS_DEFAULT_ACL = 'publicRead'
 
+
+STATIC_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/static/'
 if GCS_KEY_CONTENT:
     try:
         credentials_data = json.loads(GCS_KEY_CONTENT)
