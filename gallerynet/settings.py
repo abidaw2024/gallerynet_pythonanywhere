@@ -80,7 +80,7 @@ DATABASES = {
         'USER': 'abi', # Tu nombre de usuario de PythonAnywhere.
         'PASSWORD': 'superidol110105', # Contraseña de la DB de PythonAnywhere.
         'HOST': 'abi.mysql.pythonanywhere-services.com', # Host de la DB de PythonAnywhere.
-        'PORT': '',
+        'PORT': '3306',
     }
 }
 # Si usas MySQL, el ENGINE sería 'mysql.connector.django' o 'django.db.backends.mysql'.
