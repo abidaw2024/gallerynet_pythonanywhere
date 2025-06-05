@@ -1,8 +1,6 @@
 from pathlib import Path
 import os
 import dj_database_url
-from google.oauth2 import service_account
-import json
 import sys
 from pathlib import Path
 
@@ -76,14 +74,15 @@ WSGI_APPLICATION = 'gallerynet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('gallerynet'),
-        'USER': os.environ.get('postgres'),
-        'PASSWORD': os.environ.get('superidol110105'),
-        'HOST': os.environ.get('localhost'),
-        'PORT': os.environ.get('DB_PORT', ''),
+        'NAME': 'abi$default', # Nombre de la DB de PythonAnywhere.
+        'USER': 'abi', # Tu nombre de usuario de PythonAnywhere.
+        'PASSWORD': 'superidol110105', # Contraseña de la DB de PythonAnywhere.
+        'HOST': 'abi.mysql.pythonanywhere-services.com', # Host de la DB de PythonAnywhere.
+        'PORT': '',
     }
 }
-DATABASES['default'] = dj_database_url.parse("postgresql://gallerynet_user:nh58KDAagJiRjGtRDC2QTpoTehzPkN5u@dpg-d107p50gjchc73aes2k0-a.frankfurt-postgres.render.com/gallerynet")
+# Si usas MySQL, el ENGINE sería 'mysql.connector.django' o 'django.db.backends.mysql'.
+# Y el HOST terminaría en .mysql.pythonanywhere-services.com
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -114,51 +113,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directorio donde se guardarán los archivos subidos.
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.Usuario'
-
-
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR, 'handy-math-461909-u8-8ec4ca4ffc16.json')
-)
-
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-GS_BUCKET_NAME = 'gallerynet_bucket'
-GS_CREDENTIALS = GS_CREDENTIALS
-STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-
-
-# Configuración de Google Cloud Storage
-GCS_KEY_CONTENT = os.environ.get('GCS_SERVICE_ACCOUNT_KEY_JSON')
-GS_BUCKET_NAME = 'gallerynet_bucket'
-GS_DEFAULT_ACL = 'publicRead'
-
-
-
-if GCS_KEY_CONTENT:
-    try:
-        credentials_data = json.loads(GCS_KEY_CONTENT)
-        temp_key_path = BASE_DIR / 'gcs_temp_key.json'
-        with open(temp_key_path, 'w') as f:
-            json.dump(credentials_data, f)
-
-
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = str(temp_key_path)
-        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(str(temp_key_path))
-        
-        print("GCS credentials loaded from environment variable.", file=sys.stderr)
-    except json.JSONDecodeError:
-        print("Error: GCS_SERVICE_ACCOUNT_KEY_JSON is not valid JSON.", file=sys.stderr)
-    except Exception as e:
-        print(f"Error processing GCS service account key: {e}", file=sys.stderr)
-else:
-
-        print("Warning: GCS_SERVICE_ACCOUNT_KEY_JSON environment variable notfound.", file=sys.stderr)
-
-
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
 LOGIN_URL = '/users/login/'
 
