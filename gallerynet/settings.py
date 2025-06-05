@@ -51,6 +51,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+
+
+
 ROOT_URLCONF = 'gallerynet.urls'
 
 TEMPLATES = [
