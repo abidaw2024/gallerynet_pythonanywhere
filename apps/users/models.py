@@ -58,7 +58,7 @@ class Usuario(AbstractUser):
     rol = models.CharField(max_length=10, choices=ROLES, default='normal')
     estado = models.CharField(max_length=10, choices=ESTADOS, default='activo')
     ultima_conexion = models.DateTimeField(null=True, blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     biografia = models.TextField(blank=True, null=True)
     categorias = models.ManyToManyField(Categoria, related_name='usuarios', blank=True)
     seguidores = models.ManyToManyField('self', symmetrical=False, related_name='siguiendo', blank=True)

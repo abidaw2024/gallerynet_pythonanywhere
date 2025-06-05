@@ -116,6 +116,7 @@ GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
 
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'gallerynet_bucket'
+GS_CREDENTIALS = GS_CREDENTIALS
 MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
