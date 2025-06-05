@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import dj_database_url
+from google.oauth2 import service_account
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -107,12 +108,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.Usuario'
 
 
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, 'handy-math-461909-u8-8ec4ca4ffc16.json')
+)
+
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'gallerynet_bucket'
-STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-
 MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
-MEDIA_ROOT = BASE_DIR / 'media'
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
 
 
