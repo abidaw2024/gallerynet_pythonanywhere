@@ -16,3 +16,6 @@ __pycache__/
 *.sqlite3
 db.sqlite3
 "@ > .gitignorehandy-math-*.json
+
+handy-math-461909-u8-8ec4ca4ffc16.json
+handy-math-461909-u8-69ba968c600e.json
