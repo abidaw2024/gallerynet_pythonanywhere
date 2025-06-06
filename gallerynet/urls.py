@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import politicas_privacidad, terminos_condiciones, contacto, home
@@ -20,6 +20,9 @@ router.register(r'sales', OrderViewSet)
 router.register(r'users', UsuarioViewSet)
 
 urlpatterns = [
+    # Redirección de index.html a la raíz
+    path('index.html', lambda request: redirect('/')),
+    
     # Página de inicio
     path('', home, name='home'),
     
