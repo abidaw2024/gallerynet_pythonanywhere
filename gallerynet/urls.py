@@ -3,20 +3,12 @@ from django.urls import path, include
 from django.shortcuts import render
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import politicas_privacidad, terminos_condiciones, contacto
+from .views import politicas_privacidad, terminos_condiciones, contacto, home
 from rest_framework.routers import DefaultRouter
 from apps.gallery.views import ComisionViewSet
 from apps.sales.views import OrderViewSet
 from apps.users.views import UsuarioViewSet
 
-# Función para la vista de inicio
-from django.urls import path
-from django.http import HttpResponse
-
-
-
-def home(request):
-    return HttpResponse("Página de inicio funcionando")
 print("Cargando urls.py de gallerynet...")
 
 #API
