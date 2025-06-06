@@ -9,7 +9,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY',
 'tu_clave_secreta_por_defecto_para_desarrollo')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['abi.pythonanywhere.com']  # Reemplaza 'yourusername' con tu nombre de usuario de PythonAnywhere
 
