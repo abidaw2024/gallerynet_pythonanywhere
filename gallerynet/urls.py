@@ -21,7 +21,7 @@ router.register(r'users', UsuarioViewSet)
 
 urlpatterns = [
     # Página de inicio
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('', home, name='home'),
     
     # Admin
     path('admin/', admin.site.urls),
