@@ -9,6 +9,8 @@ from apps.gallery.views import ComisionViewSet
 from apps.sales.views import OrderViewSet
 from apps.users.views import UsuarioViewSet
 
+from django.views.generic import TemplateView # Importa TemplateView
+
 print("ABI PRUEBA: Cargando urls.py de gallerynet...")
 
 #API
@@ -19,7 +21,7 @@ router.register(r'users', UsuarioViewSet)
 
 urlpatterns = [
     # Página de inicio
-    path('', home, name='home'),
+    path('', TemplateView.as_view(template_name='home.html'), name='home'),
     
     # Admin
     path('admin/', admin.site.urls),
