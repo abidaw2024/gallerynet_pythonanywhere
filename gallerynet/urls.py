@@ -9,7 +9,7 @@ from apps.gallery.views import ComisionViewSet
 from apps.sales.views import OrderViewSet
 from apps.users.views import UsuarioViewSet
 
-print("Cargando urls.py de gallerynet...")
+print("ABI PRUEBA: Cargando urls.py de gallerynet...")
 
 #API
 router = DefaultRouter()

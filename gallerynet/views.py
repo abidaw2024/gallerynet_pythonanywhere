@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 
 def home(request):
-    if request.user.is_authenticated:
-        return redirect('gallery:lista_obras')
     return render(request, 'home.html')  # Renderiza la plantilla 'home.html'
 
 def politicas_privacidad(request):
