@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 def home(request):
     if request.user.is_authenticated:
         return redirect('gallery:lista_obras')
-    return render(request, 'index.html')  # Cambiado de home.html a index.html
+    return render(request, 'home.html')  # Cambiado de home.html a index.html
 
 def politicas_privacidad(request):
     return render(request, 'politicas_privacidad.html')  # O 'users/politicas_privacidad.html' si está en la app users
