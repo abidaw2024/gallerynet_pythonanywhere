@@ -1,21 +1,23 @@
 from pathlib import Path
 import os
-from pathlib import Path
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY',
 'tu_clave_secreta_por_defecto_para_desarrollo')
 
-
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-ALLOWED_HOSTS = ['abi.pythonanywhere.com']  # Reemplaza 'yourusername' con tu nombre de usuario de PythonAnywhere
+
+ALLOWED_HOSTS = ['*']  # Reemplaza 'yourusername' con tu nombre de usuario de PythonAnywhere
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
-
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,10 +51,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
-
-
-
 ROOT_URLCONF = 'gallerynet.urls'
 
 TEMPLATES = [
@@ -73,6 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'gallerynet.wsgi.application'
 
+# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -83,9 +82,8 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-# Si usas MySQL, el ENGINE sería 'mysql.connector.django' o 'django.db.backends.mysql'.
-# Y el HOST terminaría en .mysql.pythonanywhere-services.com
 
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -101,30 +99,35 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
-
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Configuración de archivos multimedia
+# Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directorio donde se guardarán los archivos subidos.
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom user model
 AUTH_USER_MODEL = 'users.Usuario'
 
+# Login URL
 LOGIN_URL = '/users/login/'
 
-#configuracion de correo
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # motor de envío de correos
+# Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com' 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'gallerynet2025@gmail.com'  # Tu correo genérico
-EMAIL_HOST_PASSWORD = 'qjer jhgi anlx jswn'  # Tu contraseña de aplicación
+EMAIL_HOST_USER = 'gallerynet2025@gmail.com'
+EMAIL_HOST_PASSWORD = 'qjer jhgi anlx jswn'
 DEFAULT_FROM_EMAIL = 'gallerynet2025@gmail.com'
