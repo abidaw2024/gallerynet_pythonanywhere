@@ -10,10 +10,14 @@ from apps.sales.views import OrderViewSet
 from apps.users.views import UsuarioViewSet
 
 # Función para la vista de inicio
+from django.urls import path
 from django.http import HttpResponse
+
+
 
 def home(request):
     return HttpResponse("Página de inicio funcionando")
+print("Cargando urls.py de gallerynet...")
 
 #API
 router = DefaultRouter()
