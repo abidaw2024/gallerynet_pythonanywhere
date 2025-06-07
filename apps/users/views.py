@@ -7,7 +7,7 @@ Este archivo contiene las vistas relacionadas con el manejo de credenciales de u
 - Cambio de contraseña
 """
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from .forms import RegistroUsuarioForm
 from django.contrib import messages
@@ -224,3 +224,21 @@ def lista_mensajes(request):
 @login_required
 def conver_mensajes(request):
     return render(request, 'users/conver_mensajes.html')
+
+@login_required
+def seguidos(request, username):
+    usuario = get_object_or_404(Usuario, username=username)
+    usuarios_seguidos = usuario.siguiendo.all()
+    return render(request, 'users/seguidos.html', {
+        'usuarios_seguidos': usuarios_seguidos,
+        'usuario_perfil': usuario
+    })
+
+@login_required
+def seguidores(request, username):
+    usuario = get_object_or_404(Usuario, username=username)
+    usuarios_seguidores = usuario.seguidores.all()
+    return render(request, 'users/seguidores.html', {
+        'usuarios_seguidores': usuarios_seguidores,
+        'usuario_perfil': usuario
+    })

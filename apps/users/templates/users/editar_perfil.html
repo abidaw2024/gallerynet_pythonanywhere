@@ -55,8 +55,8 @@
                             {{ form.first_name|add_class:'form-control' }}
                         </div>
                         <div class="mb-3">
-                            <label for="id_last_name" class="form-label">Apellido</label>
-                            {{ form.last_name|add_class:'form-control' }}
+                            <label for="id_username" class="form-label">Nombre de usuario</label>
+                            {{ form.username|add_class:'form-control' }}
                         </div>
                         <div class="mb-3">
                             <label for="id_email" class="form-label">Correo Electrónico</label>
@@ -75,9 +75,9 @@
 
                         <!-- Botones -->
                         <div class="d-grid gap-2 mt-4">
-                            <button type="submit" class="btn btn-yellow">Guardar Cambios</button>
+                            <button type="submit" class="btn btn-light">Guardar Cambios</button>
                             <a href="{% url 'users:perfil' request.user.username %}"
-                                class="btn btn-outline-light">Cancelar</a>
+                                class="btn btn-custom-secondary">Cancelar</a>
                         </div>
                     </form>
                 </div>

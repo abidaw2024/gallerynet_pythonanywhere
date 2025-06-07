@@ -4,7 +4,7 @@ from .views import (
     user_home, registro, iniciar_sesion, cerrar_sesion, perfil, editar_perfil,
     UsuarioListView, UsuarioDetailView, UsuarioUpdateView, UsuarioCreateView,
     UsuarioViewSet, cambiar_password, buscar_usuarios, seguir_usuario, lista_mensajes,
-    conver_mensajes, UsuarioDeleteView
+    conver_mensajes, UsuarioDeleteView, seguidos, seguidores
 )
 
 app_name = 'users'  # Definir el nombre de la aplicación
@@ -39,4 +39,6 @@ urlpatterns = [
     path('buscar/', buscar_usuarios, name='buscar'),
     path('mensajes/', lista_mensajes, name='lista_mensajes'),
     path('conver_mensajes/', conver_mensajes, name='conver_mensajes'),
+    path('seguidos/<str:username>/', seguidos, name='seguidos'),
+    path('seguidores/<str:username>/', seguidores, name='seguidores'),
 ]

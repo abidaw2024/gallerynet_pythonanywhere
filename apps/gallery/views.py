@@ -13,6 +13,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from .forms import ComisionForm
 from django.db.models import Q
+from apps.users.models import Categoria
+from django.core.paginator import Paginator
 
 def is_admin(user):
     """Verifica si un usuario tiene permisos de administrador"""
@@ -34,8 +36,15 @@ def lista_obras_view(request):
     Vista para listar todas las obras disponibles.
     Requiere que el usuario esté autenticado.
     """
-    obras = Comision.objects.all()
-    return render(request, 'gallery/obras_list.html', {'obras': obras})
+    obras_list = Comision.objects.all()
+    categorias = Categoria.objects.all()
+    paginator = Paginator(obras_list, 12)  # 12 obras por página
+    page_number = request.GET.get('page')
+    obras = paginator.get_page(page_number)
+    return render(request, 'gallery/obras_list.html', {
+        'obras': obras,
+        'categorias': categorias
+    })
 
 @login_required
 def detalle_obra_view(request, obra_id):
@@ -202,27 +211,6 @@ class EliminarObraView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, f"La obra '{self.get_object().titulo}' ha sido eliminada correctamente.")
         return super().delete(request, *args, **kwargs)
-
-class EditarComisionView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    """
-    Vista para que los vendedores editen sus propias comisiones.
-    Solo permite editar comisiones propias.
-    """
-    model = Comision
-    form_class = ComisionForm
-    template_name = 'gallery/editar_comision.html'
-    success_message = "Comisión actualizada exitosamente"
-
-    def get_success_url(self):
-        return reverse_lazy('users:perfil', kwargs={'username': self.request.user.username})
-
-    def get_queryset(self):
-        return self.model.objects.filter(vendedor=self.request.user)
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        messages.success(self.request, f"La comisión '{self.object.titulo}' ha sido actualizada correctamente.")
-        return response
 
 # ====================== FUNCIONALIDAD DE COMENTARIOS ======================
 @login_required

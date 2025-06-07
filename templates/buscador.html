@@ -1,0 +1,32 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+
+
+<form method="GET" action="{% url 'users:buscar' %}" class="mb-4 buscador-form">
+    <div class="input-group rounded-pill">
+        <span class="input-group-text bg-light text-dark border-0">
+            <i class="bi bi-search"></i>
+        </span>
+        <input type="text" name="q" class="form-control bg-light text-dark border-0 mb-0" 
+               placeholder="Buscar por nombre, email..." value="{{ query }}">
+        <!-- 
+            onchange="this.form.submit()" - Envía automáticamente el formulario cuando se selecciona una categoría:
+            - this: se refiere al elemento select actual
+            - .form: accede al formulario padre
+            - .submit(): envía el formulario automáticamente
+            Esto evita que el usuario tenga que hacer clic en un botón de búsqueda después de seleccionar una categoría
+        -->
+        <select name="categoria" class="form-select bg-purple text-white border-0" 
+                style="max-width: 200px; border-radius: 0 50px 50px 0; color: white !important;"
+                onchange="this.form.submit()">
+            <option value="">Todas las categorías</option>
+            {% for categoria in categorias %}
+                <option value="{{ categoria.id }}" 
+                        {% if categoria.id|stringformat:"s" == categoria_seleccionada %}selected{% endif %}>
+                    {{ categoria.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</form>

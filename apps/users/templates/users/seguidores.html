@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .seguido-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: #444;
+        margin-right: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.2rem;
+        color: #bbb;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h2 class="mb-4">Seguidores de {{ usuario_perfil.get_full_name }}</h2>
+            {% if usuarios_seguidores %}
+                {% for usuario in usuarios_seguidores %}
+                    <div class="card bg-dark text-white mb-4 rounded-4 shadow-sm d-flex flex-row align-items-center p-3">
+                        {% if usuario.profile_picture %}
+                            <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil" class="seguido-avatar">
+                        {% else %}
+                            <img src="{% static 'images/default_pfp.png' %}" alt="Foto de perfil" class="seguido-avatar">
+                        {% endif %}
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold fs-5 mb-1">{{ usuario.get_full_name }}</div>
+                            <div class="text-lsecondary">@{{ usuario.username }}</div>
+                        </div>
+                        <a href="{% url 'users:perfil' usuario.username %}" class="btn btn-custom-secondary ms-3 rounded-pill px-4 fw-semibold">Ver perfil</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-center py-5">
+                    <p class="text-white-50">Aún no tienes seguidores.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

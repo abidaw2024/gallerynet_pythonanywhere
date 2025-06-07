@@ -137,25 +137,25 @@
                         </div>
                     </div>
                     <hr>
-                    <h5 class="pt-2">SOBRE EL SERVICIO</h5>
+                    <h4 class="pt-2">SOBRE EL SERVICIO</h4>
                     <p class="card-text">
                         {{ obra.descripcion }}
                     </p>
                     <div class="row mt-3">
                         <div class="col-md-4">
                             <hr>
-                            <h6>Estilo</h6>
-                            <p class="texto-secundario">{{ obra.estilo }}</p>
+                            <h5 class="text-white">Estilo</h5>
+                            <span class="badge rounded-pill bg-purple px-3 py-2">{{ obra.get_estilo_display }}</span>
                         </div>
                         <div class="col-md-4">
                             <hr>
-                            <h6>Técnica</h6>
-                            <p class="texto-secundario">{{ obra.tecnica }}</p>
+                            <h5 class="text-white">Técnica</h5>
+                            <span class="badge rounded-pill bg-purple px-3 py-2">{{ obra.get_tecnica_display }}</span>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 text-align-center">
                             <hr>
-                            <h6>Tema</h6>
-                            <p class="texto-secundario">{{ obra.tema }}</p>
+                            <h5 class="text-white">Tema</h5>
+                            <span class="badge rounded-pill bg-purple px-3 py-2">{{ obra.get_tema_display }}</span>
                         </div>
                     </div>
                 </div>
@@ -218,7 +218,7 @@
                             </div>
                         {% endfor %}
                     {% else %}
-                        <p class="text-muted texto-secundario">No hay comentarios aún.</p>
+                        <p class="text-white-50 texto-secundario">No hay comentarios aún.</p>
                     {% endif %}
                     <!-- Formulario para nuevos comentarios -->
                     {% if user.is_authenticated %}
@@ -240,7 +240,6 @@
             <div class="sticky-top" style="top: 20px;">
                 <!-- Botones de editar y eliminar -->
                 <div class="d-flex justify-content-end mb-3 gap-2">
-                    <a href="{% url 'gallery:editar_comision' obra.pk %}" class="btn btn-outline-warning btn-sm">Editar</a>
                     <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar</button>
                 </div>
                 <!-- Tarjeta de opciones de comisión -->
@@ -314,10 +313,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Botón de contacto -->
-                <div class="text-center">
-                    <button class="btn btn-custom-secondary btn-lg w-100">Contactar al artista</button>
-                </div>
+
             </div>
         </div>
     </div>

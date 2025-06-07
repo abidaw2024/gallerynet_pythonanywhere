@@ -14,9 +14,9 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="d-flex gap-2 align-items-center">
             <a href="{% url 'backoffice:admin_dashboard' %}" class="btn btn-custom-secondary">
-                <i class="bi bi-arrow-left"></i> Atrás
+                <i class="fas fa-arrow-left"></i> Atrás
             </a>
-            <h1>Gestión de Obras de Arte</h1>
+            <h1>Gestión de Servicios</h1>
         </div>
         
         <a href="{% url 'gallery:obra_create' %}" class="btn btn-custom-secondary mt-3">+ Crear Obra</a>
@@ -40,11 +40,11 @@
                 {% for obra in obras %}
                 <tr>
                     <td>
-                        <img src="{{ obra.imagen.url }}" alt="{{ obra.titulo }}" style="width: 50px; height: 50px; object-fit: cover;">
+                        <img src="{{ obra.imagen_principal.url }}" alt="{{ obra.titulo }}" style="width: 50px; height: 50px; object-fit: cover;">
                     </td>
                     <td>{{ obra.titulo }}</td>
                     <td>{{ obra.vendedor.get_full_name }}</td>
-                    <td>{{ obra.precio }}€</td>
+                    <td>{{ obra.precio_basico }}€ <br> {{ obra.precio_estandar }}€ <br> {{ obra.precio_premium }}€</td>
                     <td>
                         <span class="badge {% if obra.disponible %}bg-success{% else %}bg-danger{% endif %}">
                             {% if obra.disponible %}Disponible{% else %}Vendido{% endif %}

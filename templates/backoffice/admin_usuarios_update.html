@@ -9,7 +9,7 @@
                     <h2 class="mb-0">Editar Usuario</h2>
                 </div>
                 <div class="card-body">
-                    <form method="post" class="needs-validation" novalidate>
+                    <form method="post" class="needs-validation" novalidate enctype="multipart/form-data">
                         {% csrf_token %}
                         
                         <div class="mb-3">
@@ -23,13 +23,18 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="id_last_name" class="form-label">Apellidos</label>
-                            <input type="text" name="last_name" id="id_last_name" class="form-control bg-black" value="{{ object.last_name }}">
+                            <label for="id_email" class="form-label">Email</label>
+                            <input type="email" name="email" id="id_email" class="form-control bg-black" value="{{ object.email }}" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="id_email" class="form-label">Email</label>
-                            <input type="email" name="email" id="id_email" class="form-control bg-black" value="{{ object.email }}" required>
+                            <label for="id_profile_picture" class="form-label">Foto de perfil</label>
+                            <input type="file" name="profile_picture" id="id_profile_picture" class="form-control bg-black">
+                            {% if object.profile_picture %}
+                                <div class="mt-2">
+                                    <img src="{{ object.profile_picture.url }}" alt="Foto de perfil actual" style="width:60px;height:60px;object-fit:cover;" class="rounded-circle border">
+                                </div>
+                            {% endif %}
                         </div>
 
                         <div class="mb-3">

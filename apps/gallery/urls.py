@@ -15,7 +15,6 @@ from .views import (
     ComisionViewSet,
     CrearComisionView,
     EliminarObraView,
-    EditarComisionView,
     agregar_comentario
 )
 
@@ -39,7 +38,6 @@ urlpatterns = [
     #Gestión de comisiones
     path('crear-comision/', CrearComisionView.as_view(), name='crear_comision'),
     path('obras/<int:pk>/eliminar/', EliminarObraView.as_view(), name='eliminar_obra'),
-    path('obras/<int:pk>/editar/', EditarComisionView.as_view(), name='editar_comision'),
     
     # =============== URLs PARA EL PANEL DE ADMINISTRACIÓN ===============
     #Lista de obras en el panel admin

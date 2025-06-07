@@ -17,20 +17,17 @@ class ComisionForm(forms.ModelForm):
         ]
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
-            'estilo': forms.TextInput(attrs={'class': 'form-control'}),
-            'tecnica': forms.TextInput(attrs={'class': 'form-control'}),
-            'tema': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'maxlength': 300}),
             'imagen_principal': forms.FileInput(attrs={'class': 'form-control', 'required': True}),
             'imagen_adicional_1': forms.FileInput(attrs={'class': 'form-control'}),
             'imagen_adicional_2': forms.FileInput(attrs={'class': 'form-control'}),
             'imagen_adicional_3': forms.FileInput(attrs={'class': 'form-control'}),
             'precio_basico': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
-            'descripcion_basico': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'required': True}),
+            'descripcion_basico': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'required': True, 'maxlength': 500}),
             'precio_estandar': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
-            'descripcion_estandar': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'required': True}),
+            'descripcion_estandar': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'required': True, 'maxlength': 500}),
             'precio_premium': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
-            'descripcion_premium': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'required': True}),
+            'descripcion_premium': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'required': True, 'maxlength': 500}),
         }
 
     def clean(self):
@@ -41,3 +38,22 @@ class ComisionForm(forms.ModelForm):
             raise forms.ValidationError('La imagen principal es obligatoria.')
         
         return cleaned_data
+
+    def clean_precio_basico(self):
+        precio = self.cleaned_data.get('precio_basico')
+        if precio is not None and (precio < 1 or precio > 1000):
+            raise forms.ValidationError('El precio básico debe estar entre 1 € y 10 00 €.')
+        return precio
+
+    def clean_precio_estandar(self):
+        precio = self.cleaned_data.get('precio_estandar')
+        if precio is not None and (precio < 1 or precio > 1000):
+            raise forms.ValidationError('El precio estándar debe estar entre 1 € y 10 00 €.')
+        return precio
+
+    def clean_precio_premium(self):
+        precio = self.cleaned_data.get('precio_premium')
+        if precio is not None and (precio < 1 or precio > 1000):
+            raise forms.ValidationError('El precio premium debe estar entre 1 € y 10 00 €.')
+        return precio
+

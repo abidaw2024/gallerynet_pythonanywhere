@@ -22,15 +22,69 @@ class Comision(models.Model):
         ('completada', 'Completada'),
     ]
 
+    ESTILOS = [
+        ('realista', 'Realista'),
+        ('impresionista', 'Impresionista'),
+        ('abstracto', 'Abstracto'),
+        ('surrealista', 'Surrealista'),
+        ('pop_art', 'Pop Art'),
+        ('arte_digital', 'Arte Digital'),
+        ('pixel_art', 'Pixel Art'),
+        ('anime', 'Anime'),
+        ('cartoon', 'Cartoon'),
+        ('semi_realista', 'Semi Realista'),
+        ('caricatura', 'Caricatura'),
+        ('fantasia', 'Fantasía'),
+        ('conceptual', 'Conceptual'),
+        ('minimalista', 'Minimalista'),
+        ('otro', 'Otro'),
+    ]
+
+    TECNICAS = [
+        ('digital', 'Digital'),
+        ('acrilico', 'Acrílico'),
+        ('oleo', 'Óleo'),
+        ('acuarela', 'Acuarela'),
+        ('tinta', 'Tinta'),
+        ('lapiz', 'Lápiz'),
+        ('carboncillo', 'Carboncillo'),
+        ('pastel', 'Pastel'),
+        ('gouache', 'Gouache'),
+        ('aerografo', 'Aerógrafo'),
+        ('mixta', 'Mixta'),
+        ('vectorial', 'Vectorial'),
+        ('3d', '3D'),
+        ('otra', 'Otra'),
+    ]
+
+    TEMAS = [
+        ('retrato', 'Retrato'),
+        ('paisaje', 'Paisaje'),
+        ('naturaleza', 'Naturaleza'),
+        ('fantasia', 'Fantasía'),
+        ('ciencia_ficcion', 'Ciencia Ficción'),
+        ('horror', 'Horror'),
+        ('comedia', 'Comedia'),
+        ('romantico', 'Romántico'),
+        ('accion', 'Acción'),
+        ('deportes', 'Deportes'),
+        ('animales', 'Animales'),
+        ('mitologia', 'Mitología'),
+        ('religion', 'Religión'),
+        ('abstracto', 'Abstracto'),
+        ('conceptual', 'Conceptual'),
+        ('otro', 'Otro'),
+    ]
+
     # Relación con el vendedor
     vendedor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='comisiones')
     
     # Información básica de la comisión
     titulo = models.CharField(max_length=200)
     descripcion = models.TextField()
-    estilo = models.CharField(max_length=100)
-    tecnica = models.CharField(max_length=100)
-    tema = models.CharField(max_length=100)
+    estilo = models.CharField(max_length=30, choices=ESTILOS, default='otro')
+    tecnica = models.CharField(max_length=30, choices=TECNICAS, default='otra')
+    tema = models.CharField(max_length=30, choices=TEMAS, default='otro')
     
     # Imágenes de la comisión
     imagen_principal = models.ImageField(upload_to='comisiones/')

@@ -1,0 +1,74 @@
+{% extends 'backoffice/base.html' %}
+{% block content %}
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex gap-2 align-items-center">
+            <a href="{% url 'backoffice:admin_dashboard' %}" class="btn btn-custom-secondary">
+                <i class="fas fa-arrow-left"></i> Atrás
+            </a>
+            <h1 class="mb-0">Gestión de Categorías</h1>
+        </div>
+        <a href="{% url 'categories:admin_categoria_create' %}" class="btn btn-custom-secondary">
+            + Crear Categoría
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categoria in categorias %}
+                <tr>
+                    <td>{{ categoria.id }}</td>
+                    <td>{{ categoria.nombre }}</td>
+                    <td>{{ categoria.descripcion|truncatechars:50|default:"Sin descripción" }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'categories:admin_categoria_detail' categoria.id %}" class="btn btn-list">Ver</a>
+                            <a href="{% url 'categories:admin_categoria_update' categoria.id %}" class="btn btn-list border-start border-black">Editar</a>
+                            <button type="button" class="btn btn-danger border-start border-black" data-bs-toggle="modal" data-bs-target="#deleteModal{{ categoria.id }}"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+                <div class="modal fade" id="deleteModal{{ categoria.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ categoria.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="card-purple modal-content bg-purple border-0 shadow-lg">
+                            <div class="modal-header border-0">
+                                <h5 class="modal-title text-white" id="deleteModalLabel{{ categoria.id }}">Confirmar eliminación</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-white">
+                                <div class="text-center mb-4">
+                                    <i class="fas fa-exclamation-triangle text-warning mb-3" style="font-size: 3rem;"></i>
+                                    <p class="mb-0">¿Estás seguro de que deseas eliminar la categoría "<strong>{{ categoria.nombre }}</strong>"?</p>
+                                    <small class="text-white-50">Esta acción no se puede deshacer.</small>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-0 p-0">
+                                <button type="button" class="btn btn-custom-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <form action="{% url 'categories:admin_categoria_delete' categoria.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No hay categorías registradas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %} 

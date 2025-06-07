@@ -11,13 +11,12 @@ from apps.users.views import UsuarioViewSet
 
 from django.views.generic import TemplateView # Importa TemplateView
 
-print("ABI PRUEBA: Cargando urls.py de gallerynet...")
 
 #API
 router = DefaultRouter()
-router.register(r'obras', ComisionViewSet)  # Crea todas las rutas CRUD automáticamente
-router.register(r'sales', OrderViewSet)
-router.register(r'users', UsuarioViewSet)
+router.register(r'obras', ComisionViewSet)
+router.register(r'orders', OrderViewSet)
+router.register(r'usuarios', UsuarioViewSet)
 
 urlpatterns = [
     # Redirección de index.html a la raíz

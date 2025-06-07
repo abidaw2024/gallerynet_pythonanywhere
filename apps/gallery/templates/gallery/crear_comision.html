@@ -93,6 +93,11 @@
                                             <div class="mb-3">
                                                 <label for="{{ form.precio_basico.id_for_label }}" class="form-label">Precio (€)</label>
                                                 {{ form.precio_basico|add_class:'form-control bg-white text-dark' }}
+                                                {% if form.precio_basico.errors %}
+                                                    <div class="text-danger small">
+                                                        {{ form.precio_basico.errors.0 }}
+                                                    </div>
+                                                {% endif %}
                                             </div>
                                             <div class="mb-3">
                                                 <label for="{{ form.descripcion_basico.id_for_label }}" class="form-label">Descripción</label>
@@ -111,6 +116,11 @@
                                             <div class="mb-3">
                                                 <label for="{{ form.precio_estandar.id_for_label }}" class="form-label">Precio (€)</label>
                                                 {{ form.precio_estandar|add_class:'form-control bg-white text-dark' }}
+                                                {% if form.precio_estandar.errors %}
+                                                    <div class="text-danger small">
+                                                        {{ form.precio_estandar.errors.0 }}
+                                                    </div>
+                                                {% endif %}
                                             </div>
                                             <div class="mb-3">
                                                 <label for="{{ form.descripcion_estandar.id_for_label }}" class="form-label">Descripción</label>
@@ -129,6 +139,11 @@
                                             <div class="mb-3">
                                                 <label for="{{ form.precio_premium.id_for_label }}" class="form-label">Precio (€)</label>
                                                 {{ form.precio_premium|add_class:'form-control bg-white text-dark' }}
+                                                {% if form.precio_premium.errors %}
+                                                    <div class="text-danger small">
+                                                        {{ form.precio_premium.errors.0 }}
+                                                    </div>
+                                                {% endif %}
                                             </div>
                                             <div class="mb-3">
                                                 <label for="{{ form.descripcion_premium.id_for_label }}" class="form-label">Descripción</label>

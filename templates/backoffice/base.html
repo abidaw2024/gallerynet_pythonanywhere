@@ -59,7 +59,7 @@
                         <li class="nav-item">
                             <a class="nav-link {% if 'gallery' in request.resolver_match.url_name %}active{% endif %}" 
                                href="{% url 'gallery:admin_obras_list' %}">
-                                <i class="fas fa-palette me-2"></i>Obras de Arte
+                                <i class="fas fa-palette me-2"></i>Publicaciones
                             </a>
                         </li>
                         <li class="nav-item">
@@ -78,6 +78,12 @@
                             <a class="nav-link {% if 'orders' in request.resolver_match.url_name %}active{% endif %}" 
                                href="{% url 'sales:admin_orders_list' %}">
                                 <i class="fas fa-shopping-cart me-2"></i>Pedidos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'backoffice:admin_categoria_list' in request.resolver_match.url_name %}active{% endif %}" 
+                               href="{% url 'categories:admin_categoria_list' %}">
+                                <i class="fas fa-tags me-2"></i>Categorías
                             </a>
                         </li>
                         <li class="nav-item mt-4">

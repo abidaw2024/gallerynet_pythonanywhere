@@ -3,37 +3,94 @@
 
 {% block content %}
 <div class="container py-4">
-    <h5 class="mb-4">¿Qué servicio estás buscando000?</h5>
+    {% include 'buscador.html' %}
+    <h5 class="mb-4">¿Qué servicio estás buscando?</h5>
     
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 justify-content-center">
+    <div class="row g-4">
         {% for obra in obras %}
-        <div class="col">
-            <div class="card h-100 border-0">
-                <a href="{% url 'gallery:detalle_obra' obra.id %}" class="text-decoration-none text-dark">
-                    <img src="{{ obra.imagen_principal.url }}" class="card-img-top object-fit-cover" alt="{{ obra.titulo }}" style="height: 180px;">
-                    <div class="p-3 bg-white rounded-bottom-3">
-                        <div class="d-flex align-items-center mb-1">
-                            {% if obra.vendedor.profile_picture %}
-                                <img src="{{ obra.vendedor.profile_picture.url }}" alt="Foto de perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
-                            {% else %}
-                                <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-2" style="width:32px;height:32px;font-size:0.8em;">Sin foto</div>
-                            {% endif %}
-                            <span class="fw-bold small text-purple">{{ obra.vendedor.get_full_name }}</span>
-                        </div>
-                        <h6 class="card-title mb-1 text-dark">{{ obra.titulo|truncatechars:25 }}</h6>
-                        <div class="d-flex align-items-center small">
-                            <span class="text-yellow me-2">★ {{ obra.puntuacion|default:"5.0" }} <span class="text-muted">({{ obra.num_valoraciones|default:"100" }})</span></span>
-                            <span class="text-dark fw-bold ms-auto">Desde {{ obra.precio_basico|default:"00" }} €</span>
-                        </div>
-                    </div>
-                </a>
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card">
+            <a href="{% url 'gallery:detalle_obra' obra.id %}" class="d-block">
+              {% if obra.imagen_principal %}
+                <img src="{{ obra.imagen_principal.url }}" alt="{{ obra.titulo }}" class="service-img">
+              {% else %}
+                <div class="d-flex align-items-center justify-content-center service-img text-muted">Sin imagen</div>
+              {% endif %}
+            </a>
+            <div class="service-body">
+                <div class="d-flex align-items-center mb-1">
+                    {% if obra.vendedor.profile_picture %}
+                        <img src="{{ obra.vendedor.profile_picture.url }}" alt="Foto de perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
+                    {% else %}
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-2" style="width:32px;height:32px;font-size:0.8em;">Sin foto</div>
+                    {% endif %}
+                    <span class="fw-bold small text-purple">{{ obra.vendedor.get_full_name }}</span>
+                </div>
+                <h5 class="card-title mb-1 text-white pt-1">{{ obra.titulo|truncatechars:45 }}</h5>
+              <div class="text-white-50 mb-1">{{ obra.descripcion_basico|truncatechars:55 }}</div>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <span class="service-rating"><i class="bi bi-star-fill"></i> 5,0 <span class="text-secondary" style="font-size:0.95em;"></span></span>
+                </div>
+                <div class="service-price">A partir de {{ obra.precio_basico }} €</div>
+              </div>
             </div>
+          </div>
         </div>
         {% empty %}
-        <div class="col-12 text-center py-5 text-muted">
-            No hay obras disponibleeees.
+        <div class="col-12">
+          <p class="text-white-50 text-center">No hay servicios publicados aún.</p>
         </div>
         {% endfor %}
-    </div>
+      </div>
+      
+      {% if obras.has_other_pages %}
+      <!-- Paginación: muestra los controles solo si hay más de una página de obras -->
+      <div class="d-flex justify-content-center mt-4">
+        <nav>
+          <ul class="pagination">
+            <!-- Botón para ir a la página anterior -->
+            {% if obras.has_previous %}
+              <li class="page-item">
+                <a class="page-link bg-dark text-white" href="?page={{ obras.previous_page_number }}">&laquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link bg-dark text-white">&laquo;</span>
+              </li>
+            {% endif %}
+            <!--  Números de página  -->
+            {% for num in obras.paginator.page_range %}
+              {% if obras.number == num %}
+                <li class="page-item active"><span class="page-link bg-dark text-white">{{ num }}</span></li>
+              {% else %}
+                <li class="page-item"><a class="page-link bg-dark text-white" href="?page={{ num }}">{{ num }}</a></li>
+              {% endif %}
+            {% endfor %}
+            <!--  Botón para ir a la página siguiente -->
+            {% if obras.has_next %}
+              <li class="page-item">
+                <a class="page-link bg-dark text-white" href="?page={{ obras.next_page_number }}">&raquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link bg-dark text-white">&raquo;</span>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+      <!-- Fin paginación -->
+      {% endif %}
 </div>
+
+<style>
+/* colo del border de la paginacion */
+.pagination .page-item.active .page-link,
+.pagination .page-link:focus {
+    box-shadow: 0 0 0 0.2rem #4c1c26;
+    outline: none;
+    border-color: #4c1c26;
+}
+</style>
 {% endblock %}

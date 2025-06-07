@@ -68,7 +68,7 @@ body {
 /* 2: Botón secundario */
 .btn-custom-secondary {
     background-color: none;
-    color: #b6b6b6;
+    color: #9d9d9d;
     border: none;
     font-weight: bold;
 }
@@ -456,3 +456,82 @@ body {
     margin-left: 0 !important; /* Override default ms-auto */
   }
 }
+
+
+/* BUSCADOR */
+.buscador-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.buscador-form .input-group {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.buscador-form .form-control,
+.buscador-form .form-select,
+.buscador-form .input-group-text {
+    border: none;
+}
+.input-group.rounded-pill .input-group-text {
+    border-radius: 50px 0 0 50px;
+}
+.buscador-form .form-control:focus,
+.buscador-form .form-select:focus {
+    box-shadow: none;
+}
+select.form-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+
+/* PUBLICACIONES */
+.service-card {
+    background: #181818;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px #0004;
+    overflow: hidden;
+    margin-bottom: 24px;
+    transition: box-shadow 0.2s;
+  }
+  .service-card:hover {
+    box-shadow: 0 4px 24px #0008;
+  }
+  .service-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background: #222;
+  }
+  .service-body {
+    padding: 18px 18px 10px 18px;
+  }
+  .service-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .service-meta {
+    color: #bdbdbd;
+    font-size: 0.98em;
+    margin-bottom: 6px;
+  }
+  .service-price {
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.1rem;
+  }
+  .service-rating {
+    color: #ffd700;
+    font-size: 1em;
+    margin-right: 8px;
+  }

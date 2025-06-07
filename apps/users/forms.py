@@ -13,6 +13,7 @@ class RegistroUsuarioForm(UserCreationForm):
     """
     Formulario para el registro de nuevos usuarios.
     Maneja las credenciales iniciales:
+    - first_name: nombre
     - username: nombre de usuario único
     - email: correo electrónico único
     - password1: contraseña
@@ -20,8 +21,9 @@ class RegistroUsuarioForm(UserCreationForm):
     """
     class Meta:
         model = Usuario
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['first_name', 'username', 'email', 'password1', 'password2']
         widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
@@ -35,8 +37,8 @@ class EditarPerfilForm(forms.ModelForm):
     """
     class Meta:
         model = Usuario
-        fields = ['first_name', 'last_name', 'email', 'profile_picture', 'biografia', 'categorias']
+        fields = ['username', 'first_name', 'email', 'profile_picture', 'biografia', 'categorias']
         widgets = {
-            'biografia': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'biografia': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'maxlength': 300}),
             'categorias': forms.SelectMultiple(attrs={'class': 'form-control'}),
         }
