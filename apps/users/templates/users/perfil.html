@@ -131,7 +131,7 @@
             {% if usuario.profile_picture %}
               <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil" class="rounded-circle mb-2 mx-auto d-block" style="width:60px;height:60px;object-fit:cover;background:#222;">
             {% else %}
-              <img src="{% static 'images/default_pfp.jng' %}" alt="Foto de perfil" class="rounded-circle mb-2 mx-auto d-block" style="width:60px;height:60px;object-fit:cover;background:#222;">
+              <img src="{% static 'images/default_pfp.jpg' %}" alt="Foto de perfil" class="rounded-circle mb-2 mx-auto d-block" style="width:60px;height:60px;object-fit:cover;background:#222;">
             {% endif %}
             <div class="fw-bold">{{ usuario.first_name }} {{ usuario.last_name }}</div>
             <div class="text-secondary mb-2">
