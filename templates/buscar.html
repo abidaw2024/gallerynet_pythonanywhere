@@ -5,9 +5,11 @@
     .input-group.rounded-pill input {
         border-radius: 0 50px 50px 0;
     }
+
     .input-group.rounded-pill .input-group-text {
         border-radius: 50px 0 0 50px;
     }
+
     .categoria-badge {
         font-size: 0.8rem;
         margin-right: 0.3rem;
@@ -21,60 +23,60 @@
         {% include 'buscador.html' %}
 
         {% if usuarios is not None %}
-            {% if usuarios %}
-                <div class="row g-3">
-                    {% for usuario in usuarios %}
-                    <div class="col-12 col-md-6 col-lg-4 mb-3">
-                        <a href="{% url 'users:perfil' usuario.username %}" class="text-decoration-none text-dark">
-                            <div class="card h-100 bg-dark text-white p-3 d-flex flex-column flex-md-row align-items-center align-items-md-start">
-                                {% if usuario.profile_picture %}
-                                <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil"
-                                     class="rounded-circle mb-3 mb-md-0 me-md-3 mx-auto mx-md-0 d-block"
-                                     style="width: 70px; height: 70px; object-fit: cover;">
-                                {% else %}
-                                <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-3 mx-auto mx-md-0"
-                                     style="width: 70px; height: 70px;">
-                                    <span class="text-white">Sin foto</span>
-                                </div>
-                                {% endif %}
-                                <div class="flex-grow-1 text-center text-md-start">
-                                    <h5 class="mb-1">{{ usuario.get_full_name }}</h5>
-                                    <p class="mb-0 text-white">@{{ usuario.username }}</p>
-                                    {% if usuario.categorias.all %}
-                                        <div class="mt-2">
-                                            {% for categoria in usuario.categorias.all|slice:':2' %}
-                                                <span class="badge bg-secondary categoria-badge">{{ categoria.nombre }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
-                                </div>
+        {% if usuarios %}
+        <div class="row g-3">
+            {% for usuario in usuarios %}
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <a href="{% url 'users:perfil' usuario.username %}" class="text-decoration-none text-dark">
+                    <div
+                        class="card h-100 bg-dark text-white p-3 d-flex flex-column flex-md-row align-items-center align-items-md-start">
+                        {% if usuario.profile_picture %}
+                        <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil"
+                            class="rounded-circle mb-3 mb-md-0 me-md-3 mx-auto mx-md-0 d-block"
+                            style="width: 70px; height: 70px; object-fit: cover;">
+                        {% else %}
+                        <img src="{% static 'images/default_pfp.jpg' %}" alt="Foto de perfil"
+                            class="rounded-circle mb-3 mb-md-0 me-md-3"
+                            style="width: 70px; height: 70px; object-fit: cover;">
+                        {% endif %}
+                        <div class="flex-grow-1 text-center text-md-start">
+                            <h5 class="mb-1">{{ usuario.get_full_name }}</h5>
+                            <p class="mb-0 text-white">@{{ usuario.username }}</p>
+                            {% if usuario.categorias.all %}
+                            <div class="mt-2">
+                                {% for categoria in usuario.categorias.all|slice:':2' %}
+                                <span class="badge bg-secondary categoria-badge">{{ categoria.nombre }}</span>
+                                {% endfor %}
                             </div>
-                        </a>
+                            {% endif %}
+                        </div>
                     </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="col-12 text-center py-5">
-                    <h4 class="text-white mb-3">No hay resultados para esta búsqueda</h4>
-                    <p class="text-white-50">Intenta con otros términos o palabras clave</p>
-                </div>
-            {% endif %}
-        {% else %}
-            <div class="col-12">
-                <p class="text-light text-center">No se ha hecho ninguna búsqueda.</p>
+                </a>
             </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="col-12 text-center py-5">
+            <h4 class="text-white mb-3">No hay resultados para esta búsqueda</h4>
+            <p class="text-white-50">Intenta con otros términos o palabras clave</p>
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="col-12">
+            <p class="text-light text-center">No se ha hecho ninguna búsqueda.</p>
+        </div>
         {% endif %}
     </div>
 </div>
 
 {% block extra_js %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Manejar el cambio de categoría
-    document.querySelector('select[name="categoria"]').addEventListener('change', function() {
-        this.form.submit();
+    document.addEventListener('DOMContentLoaded', function () {
+        // Manejar el cambio de categoría
+        document.querySelector('select[name="categoria"]').addEventListener('change', function () {
+            this.form.submit();
+        });
     });
-});
 </script>
 {% endblock %}
 {% endblock %}
