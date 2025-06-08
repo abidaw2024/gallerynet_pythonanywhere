@@ -1,0 +1,48 @@
+{% extends 'backoffice/base.html' %}
+
+{% block title %}Detalle del Pedido #{{ encargo.id }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'sales:admin_pedidos_list' %}" class="btn btn-custom-secondary">
+            <i class="fas fa-arrow-left"></i> Volver a pedidos
+        </a>
+        <h1 class="mb-0">Pedido #{{ encargo.id }}</h1>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Información del Pedido</h5>
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item bg-transparent"><strong>Cliente:</strong> {{ encargo.cliente.get_full_name|default:encargo.cliente.username }}</li>
+                <li class="list-group-item bg-transparent"><strong>Artista:</strong> {{ encargo.artista.get_full_name|default:encargo.artista.username }}</li>
+                <li class="list-group-item bg-transparent"><strong>Obra:</strong> {{ encargo.obra.titulo }}</li>
+                <li class="list-group-item bg-transparent"><strong>Plan:</strong> {{ encargo.plan|title }}</li>
+                <li class="list-group-item bg-transparent"><strong>Estado:</strong> 
+                    <span class="badge 
+                        {% if encargo.estado == 'Pendiente' %}bg-warning
+                        {% elif encargo.estado == 'Aceptado' or encargo.estado == 'Confirmado' %}bg-success
+                        {% elif encargo.estado == 'Rechazado' or encargo.estado == 'Cancelado' %}bg-danger
+                        {% else %}bg-info{% endif %}">
+                        {{ encargo.estado }}
+                    </span>
+                </li>
+                <li class="list-group-item bg-transparent"><strong>Fecha:</strong> {{ encargo.fecha|date:"d/m/Y H:i" }}</li>
+            </ul>
+            {% if encargo.orders.exists %}
+            <h5 class="card-title mt-4">Órdenes asociadas</h5>
+            <ul class="list-group list-group-flush mb-3">
+                {% for order in encargo.orders.all %}
+                <li class="list-group-item bg-transparent">
+                    <strong>Orden #{{ order.id }}</strong> -
+                    <span class="badge {% if order.status == 'completed' %}bg-success{% elif order.status == 'pending' %}bg-warning{% else %}bg-danger{% endif %}">{{ order.get_status_display }}</span>
+                    <span class="ms-2">{{ order.total }}€</span>
+                    <a href="{% url 'sales:admin_order_detail' order.id %}" class="btn btn-list btn-sm ms-2">Ver orden</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

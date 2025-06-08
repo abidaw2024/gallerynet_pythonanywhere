@@ -53,39 +53,41 @@
                         </span>
                     </td>
                     <td>
-                        {% if encargo.estado != 'Cancelado' %}
-                        <!-- Botón que abre el modal -->
-                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelarModal{{ encargo.id }}">
-                            Cancelar
-                        </button>
-                        <!-- Modal de confirmación adaptado -->
-                        <div class="modal fade" id="cancelarModal{{ encargo.id }}" tabindex="-1" aria-labelledby="cancelarModalLabel{{ encargo.id }}" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="card-purple modal-content bg-purple border-0 shadow-lg">
-                                    <div class="modal-header border-0">
-                                        <h5 class="modal-title text-white" id="cancelarModalLabel{{ encargo.id }}">Confirmar cancelación</h5>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body text-white">
-                                        <div class="text-center mb-4">
-                                            <i class="fas fa-exclamation-triangle text-warning mb-3" style="font-size: 3rem;"></i>
-                                            <p class="mb-0">¿Estás seguro de que deseas cancelar el pedido <strong>#{{ encargo.id }}</strong> de <strong>{{ encargo.cliente.get_full_name|default:encargo.cliente.username }}</strong> para la obra <strong>{{ encargo.obra.titulo }}</strong>?</p>
-                                            <small class="text-white-50">Esta acción no se puede deshacer.</small>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'sales:admin_pedidos_detail' encargo.id %}" class="btn btn-list btn-sm">Detalles</a>
+                            {% if encargo.estado != 'Cancelado' %}
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelarModal{{ encargo.id }}">
+                                Cancelar
+                            </button>
+                            <!-- Modal de confirmación adaptado -->
+                            <div class="modal fade" id="cancelarModal{{ encargo.id }}" tabindex="-1" aria-labelledby="cancelarModalLabel{{ encargo.id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="card-purple modal-content bg-purple border-0 shadow-lg">
+                                        <div class="modal-header border-0">
+                                            <h5 class="modal-title text-white" id="cancelarModalLabel{{ encargo.id }}">Confirmar cancelación</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer border-0 p-0">
-                                        <button type="button" class="btn btn-custom-secondary" data-bs-dismiss="modal">Volver</button>
-                                        <form action="{% url 'sales:admin_cancelar_encargo' encargo.id %}" method="post" class="d-inline">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-danger">Cancelar pedido</button>
-                                        </form>
+                                        <div class="modal-body text-white">
+                                            <div class="text-center mb-4">
+                                                <i class="fas fa-exclamation-triangle text-warning mb-3" style="font-size: 3rem;"></i>
+                                                <p class="mb-0">¿Estás seguro de que deseas cancelar el pedido <strong>#{{ encargo.id }}</strong> de <strong>{{ encargo.cliente.get_full_name|default:encargo.cliente.username }}</strong> para la obra <strong>{{ encargo.obra.titulo }}</strong>?</p>
+                                                <small class="text-white-50">Esta acción no se puede deshacer.</small>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer border-0 p-0">
+                                            <button type="button" class="btn btn-custom-secondary" data-bs-dismiss="modal">Volver</button>
+                                            <form action="{% url 'sales:admin_cancelar_encargo' encargo.id %}" method="post" class="d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">Cancelar pedido</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            {% else %}
+                            <span class="text-white-50">No disponible</span>
+                            {% endif %}
                         </div>
-                        {% else %}
-                        <span class="text-white-50">No disponible</span>
-                        {% endif %}
                     </td>
                 </tr>
                 {% empty %}
