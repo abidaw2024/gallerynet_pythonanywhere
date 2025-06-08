@@ -361,18 +361,6 @@ def rechazar_encargo(request, encargo_id):
         messages.warning(request, 'Has rechazado el encargo.')
     return redirect('sales:encargos_recibidos')
 
-@login_required
-def cancelar_encargo(request, encargo_id):
-    """
-    Vista para cancelar un encargo.
-    Solo el cliente que lo creó puede cancelarlo si está pendiente.
-    """
-    encargo = get_object_or_404(Encargo, id=encargo_id, cliente=request.user)
-    if encargo.estado == 'Pendiente':
-        encargo.delete()
-        messages.success(request, 'Has cancelado el encargo exitosamente.')
-    return redirect('sales:encargos_enviados')
-
 @staff_member_required
 def admin_cancelar_encargo(request, encargo_id):
     encargo = get_object_or_404(Encargo, id=encargo_id)

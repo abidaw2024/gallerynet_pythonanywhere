@@ -151,11 +151,6 @@
             <div class="text-secondary mb-2">
               <span class="text-grey fs-6">¿Interesado en realizar un pedido?</span>
             </div>
-            {% if request.user.is_authenticated and request.user != usuario %}
-            <a class="btn btn-purple w-100 py-2 disabled" tabindex="-1" aria-disabled="true">
-              <i class="bi bi-send me-2"></i>Contáctame
-            </a>
-            {% endif %}
           </div>
         </div>
       </div>

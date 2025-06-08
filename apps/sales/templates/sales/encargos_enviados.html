@@ -60,14 +60,7 @@
                                 <a href="{% url 'gallery:detalle_obra' encargo.obra.id %}" class="btn btn-custom-secondary">
                                     Ver obra
                                 </a>
-                                {% if encargo.estado == 'pendiente' %}
-                                    <form method="post" action="{% url 'sales:cancelar_encargo' encargo.id %}" style="display: inline;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger">
-                                            Cancelar encargo
-                                        </button>
-                                    </form>
-                                {% elif encargo.estado == 'confirmado' %}
+                                {% if encargo.estado == 'confirmado' %}
                                     <a href="{% url 'sales:checkout' %}?obra_id={{ encargo.obra.id }}" class="btn btn-success">
                                         Realizar pago
                                     </a>
@@ -80,7 +73,7 @@
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle"></i> No has realizado ningún encargo aún.
                 </div>
-                <a href="{% url 'gallery:lista_obras' %}" class="btn btn-primary">
+                <a href="{% url 'gallery:lista_obras' %}" class="btn btn-custom-secondary">
                     Explorar obras
                 </a>
             {% endif %}
