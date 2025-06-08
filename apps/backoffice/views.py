@@ -26,9 +26,15 @@ def admin_dashboard(request):
     ventas_totales = Order.objects.filter(estado='Aceptado').count()
     
     # Ingresos del mes = suma de precios de encargos aceptados
-    ingresos_mes = Order.objects.filter(estado='Aceptado').aggregate(
-        total=Sum(F('obra__precio_' + F('plan')))
-    )['total'] or 0
+    encargos_aceptados = Order.objects.filter(estado='Aceptado').select_related('obra')
+    ingresos_mes = 0
+    for encargo in encargos_aceptados:
+        if encargo.plan == 'basico':
+            ingresos_mes += encargo.obra.precio_basico
+        elif encargo.plan == 'estandar':
+            ingresos_mes += encargo.obra.precio_estandar
+        elif encargo.plan == 'premium':
+            ingresos_mes += encargo.obra.precio_premium
 
     # Distribución de usuarios
     vendedores = Usuario.objects.filter(es_vendedor=True).count()
