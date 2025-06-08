@@ -5,7 +5,7 @@ from django.utils import timezone
 from datetime import timedelta
 from apps.gallery.models import Comision
 from apps.users.models import Usuario
-from apps.sales.models import Order
+from apps.sales.models import Order, Encargo
 from apps.users.decorators import admin_required
 
 def is_admin(user):
@@ -26,7 +26,7 @@ def admin_dashboard(request):
     ventas_totales = Order.objects.filter(estado='Aceptado').count()
     
     # Ingresos del mes = suma de precios de encargos aceptados
-    encargos_aceptados = Order.objects.filter(estado='Aceptado').select_related('obra')
+    encargos_aceptados = Encargo.objects.filter(estado='Aceptado').select_related('obra')
     ingresos_mes = 0
     for encargo in encargos_aceptados:
         if encargo.plan == 'basico':
