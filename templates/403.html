@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 70vh;">
+    <div class="card bg-purple p-5 text-center" style="max-width: 600px;">
+        <h1 class="h1 mb-4">Error 403</h1>
+        <h2 class="text-yellow mb-4">Acceso Prohibido</h2>
+        <p class="mb-4">Lo sentimos, no tienes permiso para acceder a esta página.</p>
+        <a href="{% url 'home' %}" class="btn btn-purple">Volver al Inicio</a>
+    </div>
+</div>
+{% endblock %}

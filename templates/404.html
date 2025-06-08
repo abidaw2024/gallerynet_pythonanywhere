@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 70vh;">
+    <div class="card bg-purple p-5 text-center" style="max-width: 600px;">
+        <h1 class="h1 mb-4">Error 404</h1>
+        <h2 class="text-yellow mb-4">Página no Encontrada</h2>
+        <p class="mb-4">Lo sentimos, la página que buscas no existe o ha sido movida.</p>
+        <a href="{% url 'home' %}" class="btn btn-purple">Volver al Inicio</a>
+    </div>
+</div>
+{% endblock %}

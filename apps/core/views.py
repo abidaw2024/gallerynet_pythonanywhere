@@ -20,7 +20,7 @@ def contacto(request):
             messages.error(request, 'Por favor, completa todos los campos.')
             return render(request, 'contacto.html')
 
-        # ✅ Validar el formato del email
+        #validar el formato del email
         try:
             validate_email(email)
         except ValidationError:

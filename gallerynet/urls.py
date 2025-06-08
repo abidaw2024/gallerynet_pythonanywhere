@@ -47,3 +47,9 @@ urlpatterns = [
 
     path('core/', include('apps.core.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) if settings.DEBUG else []
+
+# Manejadores de error
+handler400 = 'gallerynet.views.error_400'
+handler403 = 'gallerynet.views.error_403'
+handler404 = 'gallerynet.views.error_404'
+handler500 = 'gallerynet.views.error_500'
