@@ -1,4 +1,4 @@
-{% extends 'backoffice/base.html' %}
+{% extends 'base.html' %}
 
 {% block extra_head %}
     <!-- Bootstrap 5 CDN -->
@@ -26,34 +26,35 @@
                 <tr>
                     <th>ID</th>
                     <th>Cliente</th>
-                    <th>Total</th>
-                    <th>Estado</th>
+                    <th>Artista</th>
+                    <th>Obra</th>
+                    <th>Plan</th>
                     <th>Fecha</th>
-                    <th>Acciones</th>
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody>
-                {% for order in orders %}
+                {% for encargo in encargos %}
                 <tr>
-                    <td>{{ order.id }}</td>
-                    <td>{{ order.user.username }}</td>
-                    <td>${{ order.total }}</td>
+                    <td>#{{ encargo.id }}</td>
+                    <td>{{ encargo.cliente.get_full_name|default:encargo.cliente.username }}</td>
+                    <td>{{ encargo.artista.get_full_name|default:encargo.artista.username }}</td>
+                    <td>{{ encargo.obra.titulo }}</td>
+                    <td>{{ encargo.plan|title }}</td>
+                    <td>{{ encargo.fecha|date:"d/m/Y H:i" }}</td>
                     <td>
-                        <span class="badge {% if order.status == 'completed' %}bg-success{% elif order.status == 'pending' %}bg-warning{% else %}bg-danger{% endif %}">
-                            {{ order.get_status_display }}
+                        <span class="badge 
+                            {% if encargo.estado == 'Pendiente' %}bg-warning
+                            {% elif encargo.estado == 'Aceptado' or encargo.estado == 'Confirmado' %}bg-success
+                            {% elif encargo.estado == 'Rechazado' %}bg-danger
+                            {% else %}bg-info{% endif %}">
+                            {{ encargo.estado }}
                         </span>
-                    </td>
-                    <td>{{ order.created_at|date:"d/m/Y H:i" }}</td>
-                    <td>
-                        <div class="btn-group">
-                            <a href="{% url 'sales:admin_order_detail' order.id %}" class="btn btn-list">Ver</a>
-                            <a href="{% url 'sales:admin_order_update' order.id %}" class="btn btn-list border-start border-black">Editar</a>
-                        </div>
                     </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="6" class="text-center">No hay pedidos</td>
+                    <td colspan="7" class="text-center">No hay encargos registrados</td>
                 </tr>
                 {% endfor %}
             </tbody>
