@@ -390,3 +390,8 @@ def admin_cancelar_encargo(request, encargo_id):
     else:
         messages.info(request, 'El pedido ya estaba cancelado.')
     return redirect('sales:admin_pedidos_list')
+
+@staff_member_required
+def admin_pedidos_detail(request, encargo_id):
+    encargo = get_object_or_404(Encargo, id=encargo_id)
+    return render(request, 'backoffice/admin_pedidos_detail.html', {'encargo': encargo})
