@@ -75,9 +75,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if 'orders' in request.resolver_match.url_name %}active{% endif %}" 
+                            <a class="nav-link {% if 'pedidos_list' in request.resolver_match.url_name %}active{% endif %}" 
+                               href="{% url 'sales:admin_pedidos_list' %}">
+                                <i class="fas fa-clipboard-list me-2"></i>Pedidos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'orders_list' in request.resolver_match.url_name %}active{% endif %}" 
                                href="{% url 'sales:admin_orders_list' %}">
-                                <i class="fas fa-shopping-cart me-2"></i>Pedidos
+                                <i class="fas fa-shopping-cart me-2"></i>Órdenes
                             </a>
                         </li>
                         <li class="nav-item">

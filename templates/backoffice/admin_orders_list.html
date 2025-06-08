@@ -26,6 +26,8 @@
                 <tr>
                     <th>ID</th>
                     <th>Cliente</th>
+                    <th>Artista</th>
+                    <th>Obra</th>
                     <th>Total</th>
                     <th>Estado</th>
                     <th>Fecha</th>
@@ -37,7 +39,9 @@
                 <tr>
                     <td>{{ order.id }}</td>
                     <td>{{ order.user.username }}</td>
-                    <td>${{ order.total }}</td>
+                    <td>{% if order.encargo %}{{ order.encargo.artista.get_full_name|default:order.encargo.artista.username }}{% else %}-{% endif %}</td>
+                    <td>{% if order.encargo %}{{ order.encargo.obra.titulo }}{% else %}-{% endif %}</td>
+                    <td>{{ order.total }}€</td>
                     <td>
                         <span class="badge {% if order.status == 'completed' %}bg-success{% elif order.status == 'pending' %}bg-warning{% else %}bg-danger{% endif %}">
                             {{ order.get_status_display }}
@@ -53,7 +57,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="6" class="text-center">No hay pedidos</td>
+                    <td colspan="8" class="text-center">No hay órdenes</td>
                 </tr>
                 {% endfor %}
             </tbody>
