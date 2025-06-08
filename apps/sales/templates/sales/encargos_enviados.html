@@ -46,11 +46,11 @@
                             </div>
                             
                             
-                            {% if encargo.estado == 'pendiente' %}
+                            {% if encargo.estado == 'Pendiente' %}
                                 <div class="alert alert-info">
                                     <i class="fas fa-info-circle"></i> Tu encargo está pendiente de confirmación por parte del artista.
                                 </div>
-                            {% elif encargo.estado == 'confirmado' %}
+                            {% elif encargo.estado == 'Confirmado' %}
                                 <div class="alert alert-success">
                                     <i class="fas fa-check-circle"></i> Tu encargo ha sido confirmado. Por favor, realiza el pago para continuar.
                                 </div>
@@ -67,7 +67,7 @@
                                             <i class="fas fa-times"></i> Cancelar encargo
                                         </button>
                                     </form>
-                                {% elif encargo.estado == 'confirmado' %}
+                                {% elif encargo.estado == 'Confirmado' %}
                                     <a href="{% url 'sales:checkout' %}?obra_id={{ encargo.obra.id }}" class="btn btn-success">
                                         Realizar pago
                                     </a>
