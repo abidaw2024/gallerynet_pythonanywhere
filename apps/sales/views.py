@@ -342,7 +342,7 @@ def aceptar_encargo(request, encargo_id):
     Solo el artista puede aceptar sus propios encargos.
     """
     encargo = get_object_or_404(Encargo, id=encargo_id, artista=request.user)
-    if encargo.estado == 'Pendiente':
+    if encargo.estado.lower() == 'pendiente':
         encargo.estado = 'Aceptado'
         encargo.save()
         messages.success(request, 'Has aceptado el encargo exitosamente.')
@@ -355,7 +355,7 @@ def rechazar_encargo(request, encargo_id):
     Solo el artista puede rechazar sus propios encargos.
     """
     encargo = get_object_or_404(Encargo, id=encargo_id, artista=request.user)
-    if encargo.estado == 'Pendiente':
+    if encargo.estado.lower() == 'pendiente':
         encargo.estado = 'Rechazado'
         encargo.save()
         messages.warning(request, 'Has rechazado el encargo.')
