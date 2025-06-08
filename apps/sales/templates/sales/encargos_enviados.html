@@ -16,7 +16,7 @@
             
             {% if encargos %}
                 {% for encargo in encargos %}
-                    <div class="card mb-4">
+                    <div class="card mb-4 border border-white">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="card-title mb-0">{{ encargo.obra.titulo }}</h5>
@@ -32,15 +32,19 @@
                                     <p class="mb-1"><strong>Fecha:</strong> {{ encargo.fecha|date:"d/m/Y" }}</p>
                                 </div>
                                 <div class="col-md-6">
-                                    <p class="mb-1"><strong>Precio:</strong> ${{ encargo.obra.precio }}</p>
+                                    <p class="mb-1"><strong>Precio:</strong> 
+                                        {% if encargo.plan == 'basico' %}
+                                            {{ encargo.obra.get_precio_basico }}€
+                                        {% elif encargo.plan == 'estandar' %}
+                                            {{ encargo.obra.get_precio_estandar }}€
+                                        {% elif encargo.plan == 'premium' %}
+                                            {{ encargo.obra.get_precio_premium }}€
+                                        {% endif %}
+                                    </p>
                                     <p class="mb-1"><strong>Estado:</strong> {{ encargo.estado|title }}</p>
                                 </div>
                             </div>
                             
-                            <div class="mb-3">
-                                <h6>Descripción:</h6>
-                                <p class="card-text">{{ encargo.descripcion }}</p>
-                            </div>
                             
                             {% if encargo.estado == 'pendiente' %}
                                 <div class="alert alert-info">
@@ -53,10 +57,17 @@
                             {% endif %}
                             
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="{% url 'gallery:detalle_obra' encargo.obra.id %}" class="btn btn-outline-primary">
+                                <a href="{% url 'gallery:detalle_obra' encargo.obra.id %}" class="btn btn-custom-secondary">
                                     Ver obra
                                 </a>
-                                {% if encargo.estado == 'confirmado' %}
+                                {% if encargo.estado == 'Pendiente' %}
+                                    <form method="post" action="{% url 'sales:cancelar_encargo' encargo.id %}" style="display: inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fas fa-times"></i> Cancelar encargo
+                                        </button>
+                                    </form>
+                                {% elif encargo.estado == 'confirmado' %}
                                     <a href="{% url 'sales:checkout' %}?obra_id={{ encargo.obra.id }}" class="btn btn-success">
                                         Realizar pago
                                     </a>
