@@ -292,7 +292,8 @@ def confirmar_pedido(request, obra_id):
     order = Order.objects.create(
         user=encargo.cliente,
         total=obra.precio,
-        status='pending'
+        status='pending',
+        encargo=encargo
     )
     
     # Actualizar el estado del encargo
