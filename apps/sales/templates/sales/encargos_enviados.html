@@ -60,7 +60,7 @@
                                 <a href="{% url 'gallery:detalle_obra' encargo.obra.id %}" class="btn btn-custom-secondary">
                                     Ver obra
                                 </a>
-                                {% elif encargo.estado|lower == 'aceptado' %}
+                                {% if encargo.estado|lower == 'confirmado' %}
                                     <a href="{% url 'sales:checkout' %}?obra_id={{ encargo.obra.id }}" class="btn btn-success">
                                         Realizar pago
                                     </a>
