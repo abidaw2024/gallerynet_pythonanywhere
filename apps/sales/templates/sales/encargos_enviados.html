@@ -46,11 +46,11 @@
                             </div>
                             
                             
-                            {% if encargo.estado == 'Pendiente' %}
+                            {% if encargo.estado == 'pendiente' %}
                                 <div class="alert alert-info">
                                     <i class="fas fa-info-circle"></i> Tu encargo está pendiente de confirmación por parte del artista.
                                 </div>
-                            {% elif encargo.estado == 'Confirmado' %}
+                            {% elif encargo.estado == 'confirmado' %}
                                 <div class="alert alert-success">
                                     <i class="fas fa-check-circle"></i> Tu encargo ha sido confirmado. Por favor, realiza el pago para continuar.
                                 </div>
@@ -60,14 +60,14 @@
                                 <a href="{% url 'gallery:detalle_obra' encargo.obra.id %}" class="btn btn-custom-secondary">
                                     Ver obra
                                 </a>
-                                {% if encargo.estado == 'Pendiente' %}
+                                {% if encargo.estado == 'pendiente' %}
                                     <form method="post" action="{% url 'sales:cancelar_encargo' encargo.id %}" style="display: inline;">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-danger">
                                             <i class="fas fa-times"></i> Cancelar encargo
                                         </button>
                                     </form>
-                                {% elif encargo.estado == 'Confirmado' %}
+                                {% elif encargo.estado == 'confirmado' %}
                                     <a href="{% url 'sales:checkout' %}?obra_id={{ encargo.obra.id }}" class="btn btn-success">
                                         Realizar pago
                                     </a>
