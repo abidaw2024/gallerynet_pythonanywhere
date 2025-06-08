@@ -151,7 +151,6 @@
                         <div>
                             <h5 class="mb-0"><a href="{% url 'users:perfil' obra.vendedor.username %}" class="text-decoration-none text-white">{{ obra.vendedor.get_full_name }}</a></h5>
                             <small class="text-yellow texto-secundario">@{{ obra.vendedor.username }}</small>
-                            <p>{{ usuario.biografia|default:"Ninguna descripción" }}</p>
                         </div>
                     </div>
                     <hr>

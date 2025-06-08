@@ -9,16 +9,16 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card shadow-lg">
-                <div class="card-header bg-dark text-white">
+            
+                <div class="card-header bg-purple text-white rounded-pill text-center">
                     <h2 class="card-title mb-0">Nuevo encargo - {{ obra.titulo }}</h2>
                 </div>
                 <div class="card-body">
                     <div class="mb-4">
-                        <h5>Detalles de la obra</h5>
-                        <p class="text-muted">{{ obra.descripcion }}</p>
+                        <h5 class="text-center pt-5 text-white">Detalles del servicio</h5>
+                        <p class="text-white-50 text-center">{{ obra.descripcion }}</p>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="card border-white col-md-6 mx-auto p-3">
                                 <p><strong>Artista:</strong> {{ obra.vendedor.username }}</p>
                                 {% if plan == 'basico' %}
                                     <p><strong>Plan:</strong> Básico</p>
@@ -34,31 +34,29 @@
                                     <p><strong>Descripción:</strong> {{ obra.descripcion_premium }}</p>
                                 {% endif %}
                             </div>
-                            <div class="col-md-6">
-                                <p><strong>Estado:</strong> {{ obra.estado|title }}</p>
-                            </div>
+
                         </div>
                     </div>
 
                     <form method="post">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <label for="contenido" class="form-label">Mensaje para el artista</label>
-                            <textarea class="form-control" id="contenido" name="contenido" rows="5" required 
-                                    placeholder="Describe lo que te gustaría encargar..."></textarea>
+                            <label for="contenido" class="form-label">Mensaje para el artista (introducción de lo que quieres encargar): </label>
+                            <textarea class="form-control" id="contenido" name="contenido" rows="3" required 
+                                    placeholder="Describe lo que te gustaría encargar..." style="resize:none;"></textarea>
                         </div>
                         
                         <div class="d-flex justify-content-between">
-                            <a href="{% url 'gallery:detalle_obra' obra.id %}" class="btn btn-secondary">
+                            <a href="{% url 'gallery:detalle_obra' obra.id %}" class="btn btn-custom-secondary">
                                 <i class="fas fa-times"></i> Cancelar
                             </a>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-purple">
                                 <i class="fas fa-paper-plane"></i> Enviar mensaje
                             </button>
                         </div>
                     </form>
                 </div>
-            </div>
+          
         </div>
     </div>
 </div>
