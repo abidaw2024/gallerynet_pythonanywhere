@@ -1,0 +1,55 @@
+{% extends 'backoffice/base.html' %}
+
+{% block title %}Detalle de la Orden #{{ order.id }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'sales:admin_orders_list' %}" class="btn btn-custom-secondary">
+            <i class="fas fa-arrow-left"></i> Volver a órdenes
+        </a>
+        <h1 class="mb-0">Orden #{{ order.id }}</h1>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Información de la Orden</h5>
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item bg-transparent"><strong>Cliente:</strong> {{ order.user.get_full_name|default:order.user.username }}</li>
+                <li class="list-group-item bg-transparent"><strong>Total:</strong> {{ order.total }}€</li>
+                <li class="list-group-item bg-transparent"><strong>Estado de pago:</strong> 
+                    <span class="badge {% if order.status == 'completed' %}bg-success{% elif order.status == 'pending' %}bg-warning{% else %}bg-danger{% endif %}">
+                        {{ order.get_status_display }}
+                    </span>
+                </li>
+                <li class="list-group-item bg-transparent"><strong>Fecha:</strong> {{ order.created_at|date:"d/m/Y H:i" }}</li>
+                {% if order.encargo %}
+                <li class="list-group-item bg-transparent"><strong>Artista:</strong> {{ order.encargo.artista.get_full_name|default:order.encargo.artista.username }}</li>
+                <li class="list-group-item bg-transparent"><strong>Obra:</strong> {{ order.encargo.obra.titulo }}</li>
+                <li class="list-group-item bg-transparent"><strong>Estado del pedido:</strong> 
+                    <span class="badge 
+                        {% if order.encargo.estado == 'Pendiente' %}bg-warning
+                        {% elif order.encargo.estado == 'Aceptado' or order.encargo.estado == 'Confirmado' %}bg-success
+                        {% elif order.encargo.estado == 'Rechazado' or order.encargo.estado == 'Cancelado' %}bg-danger
+                        {% else %}bg-info{% endif %}">
+                        {{ order.encargo.estado }}
+                    </span>
+                    <a href="{% url 'sales:admin_pedidos_list' %}#encargo-{{ order.encargo.id }}" class="small text-white-50 ms-2">Ver pedido</a>
+                </li>
+                {% endif %}
+            </ul>
+            <h5 class="card-title mt-4">Editar estado de la orden</h5>
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_status" class="form-label">Estado de pago</label>
+                    <select name="status" id="id_status" class="form-select">
+                        <option value="pending" {% if order.status == 'pending' %}selected{% endif %}>Pendiente</option>
+                        <option value="completed" {% if order.status == 'completed' %}selected{% endif %}>Completado</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success">Guardar cambios</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

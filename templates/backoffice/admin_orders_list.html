@@ -29,7 +29,8 @@
                     <th>Artista</th>
                     <th>Obra</th>
                     <th>Total</th>
-                    <th>Estado</th>
+                    <th>Estado pago</th>
+                    <th>Estado pedido</th>
                     <th>Fecha</th>
                     <th>Acciones</th>
                 </tr>
@@ -47,6 +48,19 @@
                             {{ order.get_status_display }}
                         </span>
                     </td>
+                    <td>
+                        {% if order.encargo %}
+                            <span class="badge 
+                                {% if order.encargo.estado == 'Pendiente' %}bg-warning
+                                {% elif order.encargo.estado == 'Aceptado' or order.encargo.estado == 'Confirmado' %}bg-success
+                                {% elif order.encargo.estado == 'Rechazado' or order.encargo.estado == 'Cancelado' %}bg-danger
+                                {% else %}bg-info{% endif %}">
+                                {{ order.encargo.estado }}
+                            </span>
+                            <br>
+                            <a href="{% url 'sales:admin_pedidos_list' %}#encargo-{{ order.encargo.id }}" class="small text-white-50">Ver pedido</a>
+                        {% else %}-{% endif %}
+                    </td>
                     <td>{{ order.created_at|date:"d/m/Y H:i" }}</td>
                     <td>
                         <div class="btn-group">
@@ -57,7 +71,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="8" class="text-center">No hay órdenes</td>
+                    <td colspan="9" class="text-center">No hay órdenes</td>
                 </tr>
                 {% endfor %}
             </tbody>
