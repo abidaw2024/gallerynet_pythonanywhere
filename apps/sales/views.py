@@ -261,9 +261,7 @@ def admin_pedidos_list(request):
     Muestra: cliente, artista, estado, obra, plan y fecha.
     """
     encargos = Encargo.objects.select_related('cliente', 'artista', 'obra').order_by('-fecha')
-    return render(request, 'sales/admin_pedidos_list.html', {
-        'encargos': encargos
-    })
+    return render(request, 'backoffice/admin_pedidos_list.html', {'encargos': encargos})
 
 @login_required
 def confirmar_pedido(request, obra_id):
