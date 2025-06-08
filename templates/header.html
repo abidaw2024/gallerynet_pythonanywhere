@@ -15,7 +15,7 @@
     </button>
 
     <!-- Logo -->
-    <a class="navbar-brand d-none d-lg-block" href="{% url 'home' %}">
+    <a class="navbar-brand d-none d-lg-block" href="/">
       <img src="{% static 'images/logo.png' %}" alt="GalleryNet Logo" height="40">
     </a>
 
@@ -31,7 +31,7 @@
         {% endif %}
         {% if user.is_authenticated  %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'home' %}">
+          <a class="nav-link" href="/">
             <i class="bi bi-compass me-1"></i>Explorar
           </a>
         </li>
