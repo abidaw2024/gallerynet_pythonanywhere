@@ -257,12 +257,12 @@ def artist_commissions(request):
 @staff_member_required
 def admin_pedidos_list(request):
     """
-    Vista para que los administradores puedan ver y gestionar todos los pedidos.
-    Solo accesible para personal autorizado.
+    Vista para que los administradores puedan ver y gestionar todos los encargos.
+    Muestra: cliente, artista, estado, obra, plan y fecha.
     """
-    pedidos = Order.objects.all().order_by('-created_at')
+    encargos = Encargo.objects.select_related('cliente', 'artista', 'obra').order_by('-fecha')
     return render(request, 'sales/admin_pedidos_list.html', {
-        'pedidos': pedidos
+        'encargos': encargos
     })
 
 @login_required

@@ -64,7 +64,7 @@
                                     <form method="post" action="{% url 'sales:cancelar_encargo' encargo.id %}" style="display: inline;">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-danger">
-                                            <i class="fas fa-times"></i> Cancelar encargo
+                                            Cancelar encargo
                                         </button>
                                     </form>
                                 {% elif encargo.estado == 'confirmado' %}
