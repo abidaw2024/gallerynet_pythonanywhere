@@ -131,7 +131,7 @@
                             </div>
                         {% endif %}
                         <div>
-                            <h5 class="mb-0">{{ obra.vendedor.get_full_name }}</h5>
+                            <h5 class="mb-0"><a href="{% url 'users:perfil' obra.vendedor.username %}" class="text-decoration-none text-white">{{ obra.vendedor.get_full_name }}</a></h5>
                             <small class="text-white texto-secundario">@{{ obra.vendedor.username }}</small>
                             <p>{{ usuario.descripcion|default:"Ninguna descripción" }}</p>
                         </div>
@@ -154,8 +154,8 @@
                         </div>
                         <div class="col-md-4 text-align-center">
                             <hr>
-                            <h5 class="text-white">Tema</h5>
-                            <span class="badge rounded-pill bg-purple px-3 py-2">{{ obra.get_tema_display }}</span>
+                            <h5 class="text-white">Técnica</h5>
+                            <span class="badge rounded-pill bg-purple px-3 py-2">{{ obra.get_tecnica_display }}</span>
                         </div>
                     </div>
                 </div>

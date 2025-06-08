@@ -163,18 +163,18 @@
                     <div class="row mt-3">
                         <div class="col-md-4">
                             <hr>
-                            <h5 class="text-purple">Estilo</h5>
-                            <p class="texto-secundario">{{ obra.estilo }}</p>
+                            <h5 class="text-white">Estilo</h5>
+                            <span class="badge rounded-pill bg-purple px-3 py-2">{{ obra.get_estilo_display }}</span>
                         </div>
                         <div class="col-md-4">
                             <hr>
-                            <h5>Técnica</h5>
-                            <p class="texto-purple">{{ obra.tecnica }}</p>
+                            <h5 class="text-white">Técnica</h5>
+                            <span class="badge rounded-pill bg-purple px-3 py-2">{{ obra.get_tecnica_display }}</span>
                         </div>
                         <div class="col-md-4">
                             <hr>
-                            <h5>Tema</h5>
-                            <p class="texto-purple">{{ obra.tema }}</p>
+                            <h5 class="texto-purple">Tema</h5>
+                            <p class="texto-secundario">{{ obra.tema }}</p>
                         </div>
                     </div>
                 </div>
