@@ -78,32 +78,48 @@
 
 {% block extra_js %}
 <script>
-// Función para mostrar/ocultar contraseña
+// =============================================
+// FUNCIÓN PARA MOSTRAR/OCULTAR CONTRASEÑA
+// =============================================
 function togglePassword() {
-    const passwordInput = document.getElementById('password');
-    const toggleButton = document.getElementById('togglePassword');
-    const icon = toggleButton.querySelector('i');
+    // Obtener los elementos del DOM que necesitamos
+    const passwordInput = document.getElementById('password');  // Campo de contraseña
+    const toggleButton = document.getElementById('togglePassword');  // Botón de mostrar/ocultar
+    const icon = toggleButton.querySelector('i');  // Icono dentro del botón
 
+    // Verificar si la contraseña está oculta (type="password")
     if (passwordInput.type === 'password') {
+        // Si está oculta, la mostramos cambiando el tipo a "text"
         passwordInput.type = 'text';
+        // Cambiamos el icono de ojo abierto a ojo cerrado
         icon.classList.remove('fa-eye');
         icon.classList.add('fa-eye-slash');
     } else {
+        // Si está visible, la ocultamos cambiando el tipo a "password"
         passwordInput.type = 'password';
+        // Cambiamos el icono de ojo cerrado a ojo abierto
         icon.classList.remove('fa-eye-slash');
         icon.classList.add('fa-eye');
     }
 }
 
-// Agregar el evento click al botón
+// =============================================
+// CONFIGURACIÓN DE EVENTOS
+// =============================================
+
+// Agregar el evento click al botón de mostrar/ocultar contraseña
+// Cuando se hace clic en el botón, se ejecuta la función togglePassword
 document.getElementById('togglePassword').addEventListener('click', togglePassword);
 
-// Validación del formulario
+// Agregar el evento submit al formulario para validación
 document.querySelector('form').addEventListener('submit', function(event) {
+    // Verificar si el formulario es válido
     if (!this.checkValidity()) {
+        // Si no es válido, prevenir el envío del formulario
         event.preventDefault();
         event.stopPropagation();
     }
+    // Agregar la clase was-validated para mostrar los mensajes de error
     this.classList.add('was-validated');
 });
 </script>

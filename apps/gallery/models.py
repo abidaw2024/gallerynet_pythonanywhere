@@ -29,7 +29,6 @@ class Comision(models.Model):
         ('surrealista', 'Surrealista'),
         ('pop_art', 'Pop Art'),
         ('arte_digital', 'Arte Digital'),
-        ('pixel_art', 'Pixel Art'),
         ('anime', 'Anime'),
         ('cartoon', 'Cartoon'),
         ('semi_realista', 'Semi Realista'),
@@ -37,6 +36,9 @@ class Comision(models.Model):
         ('fantasia', 'Fantasía'),
         ('conceptual', 'Conceptual'),
         ('minimalista', 'Minimalista'),
+        ('gótico', 'Gótico'),
+        ('steampunk', 'Steampunk'),
+        ('cyperpunk', 'Ciberpunk'),
         ('otro', 'Otro'),
     ]
 
@@ -47,13 +49,14 @@ class Comision(models.Model):
         ('acuarela', 'Acuarela'),
         ('tinta', 'Tinta'),
         ('lapiz', 'Lápiz'),
-        ('carboncillo', 'Carboncillo'),
-        ('pastel', 'Pastel'),
         ('gouache', 'Gouache'),
         ('aerografo', 'Aerógrafo'),
         ('mixta', 'Mixta'),
         ('vectorial', 'Vectorial'),
-        ('3d', '3D'),
+        ('modelado_3d', 'Modelado 3D'),
+        ('pixel_art', 'Pixel Art'),
+        ('Glitch Art', 'Glitch Art'),
+        ('collage_digital', 'Collage Digital'),
         ('otra', 'Otra'),
     ]
 
@@ -73,6 +76,7 @@ class Comision(models.Model):
         ('religion', 'Religión'),
         ('abstracto', 'Abstracto'),
         ('conceptual', 'Conceptual'),
+        ('urbano', 'Urbano'),
         ('otro', 'Otro'),
     ]
 
