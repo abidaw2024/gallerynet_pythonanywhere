@@ -131,3 +131,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'gallerynet2025@gmail.com'
 EMAIL_HOST_PASSWORD = 'qjer jhgi anlx jswn'
 DEFAULT_FROM_EMAIL = 'gallerynet2025@gmail.com'
+SERVER_EMAIL = 'gallerynet2025@gmail.com'
