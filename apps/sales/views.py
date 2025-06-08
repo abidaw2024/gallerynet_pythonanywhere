@@ -25,6 +25,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from apps.users.decorators import admin_required
 from django.utils.decorators import method_decorator
+from django.views.decorators.http import require_POST
 
 # ====================== API REST ======================
 class OrderViewSet(viewsets.ModelViewSet):
@@ -378,3 +379,14 @@ def cancelar_encargo(request, encargo_id):
         encargo.delete()
         messages.success(request, 'Has cancelado el encargo exitosamente.')
     return redirect('sales:encargos_enviados')
+
+@staff_member_required
+def admin_cancelar_encargo(request, encargo_id):
+    encargo = get_object_or_404(Encargo, id=encargo_id)
+    if encargo.estado != 'Cancelado':
+        encargo.estado = 'Cancelado'
+        encargo.save()
+        messages.success(request, 'El pedido ha sido cancelado correctamente.')
+    else:
+        messages.info(request, 'El pedido ya estaba cancelado.')
+    return redirect('sales:admin_pedidos_list')

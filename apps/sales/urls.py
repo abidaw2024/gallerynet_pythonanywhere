@@ -48,4 +48,5 @@ urlpatterns = [
     path('admin/orders/', views.AdminOrderListView.as_view(), name='admin_orders_list'),
     path('admin/orders/<int:pk>/', views.AdminOrderDetailView.as_view(), name='admin_order_detail'),
     path('admin/orders/<int:pk>/editar/', views.AdminOrderUpdateView.as_view(), name='admin_order_update'),
+    path('admin/pedidos/<int:encargo_id>/cancelar/', views.admin_cancelar_encargo, name='admin_cancelar_encargo'),
 ]
