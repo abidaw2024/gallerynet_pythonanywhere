@@ -110,13 +110,6 @@ def checkout(request):
     if request.method == 'POST':
         payment_success = request.POST.get('payment_success', 'true') == 'true'
         if payment_success:
-            Encargo.objects.create(
-                cliente=request.user,
-                artista=obra.vendedor,
-                obra=obra,
-                plan=plan,
-                estado='Pendiente',
-            )
             return redirect('sales:payment_success')
         else:
             return redirect('sales:payment_error')
