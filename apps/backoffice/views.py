@@ -23,7 +23,7 @@ def admin_dashboard(request):
     total_usuarios = Usuario.objects.count()
     
     # Ventas totales = encargos aceptados
-    ventas_totales = Order.objects.filter(estado='Aceptado').count()
+    ventas_totales = Encargo.objects.filter(estado='Aceptado').count()
     
     # Ingresos del mes = suma de precios de encargos aceptados
     encargos_aceptados = Encargo.objects.filter(estado='Aceptado').select_related('obra')
