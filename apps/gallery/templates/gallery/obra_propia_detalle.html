@@ -260,7 +260,7 @@
                         <div class="tab-content" id="commissionTabsContent">
                             <div class="tab-pane fade show active" id="basic" role="tabpanel">
                                 <h4 class="text-center mb-3 text-yellow">{{ obra.get_precio_basico }}€</h4>
-                                <p class="text-center mb-4">{{ obra.descripcion_basico }}</p>
+                                <p class="text-center mb-4">{{ obra.descripcion }}</p>
                                 <ul class="list-unstyled mb-4">
                                     {% for caracteristica in obra.caracteristicas_basico.all %}
                                         <li class="py-2 border-bottom">{{ caracteristica }}</li>

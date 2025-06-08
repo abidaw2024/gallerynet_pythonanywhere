@@ -9,6 +9,7 @@
     background-color: #111;
     color: #fff;
   }
+
   .profile-header {
     background: none;
     border-radius: 18px;
@@ -18,6 +19,7 @@
     align-items: flex-start;
     gap: 32px;
   }
+
   .profile-avatar {
     width: 160px;
     height: 160px;
@@ -27,30 +29,36 @@
     box-shadow: 0 2px 12px #0008;
     background: #222;
   }
+
   .profile-info {
     flex: 1;
     min-width: 0;
   }
+
   .profile-username {
     color: #bdbdbd;
     font-size: 1.2rem;
     font-weight: 400;
   }
+
   .profile-rating {
     font-size: 1.1rem;
     color: #ffd700;
     font-weight: 500;
   }
+
   .profile-meta {
     color: #bdbdbd;
     font-size: 1rem;
     margin-bottom: 10px;
   }
+
   .profile-actions {
     margin-top: 18px;
     display: flex;
     gap: 10px;
   }
+
   .profile-card {
     background: #181818;
     border-radius: 18px;
@@ -58,11 +66,13 @@
     padding: 24px;
     margin-bottom: 32px;
   }
+
   .profile-section-title {
     font-size: 1.3rem;
     font-weight: 700;
     margin-bottom: 18px;
   }
+
   .chip {
     display: inline-block;
     background: #222;
@@ -73,7 +83,7 @@
     margin: 0 8px 8px 0;
     border: 1px solid #333;
   }
-  
+
   .sobre-mi-bio {
     word-break: break-word;
     white-space: pre-line;
@@ -87,27 +97,29 @@
       <div class="profile-header">
         <div>
           {% if usuario.profile_picture %}
-            <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil" class="profile-avatar">
+          <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil" class="profile-avatar">
           {% else %}
-            <img src="{% static 'images/default_pfp.jpg' %}" alt="Foto de perfil" class="profile-avatar">
+          <img src="{% static 'images/default_pfp.jpg' %}" alt="Foto de perfil" class="profile-avatar">
           {% endif %}
         </div>
         <div class="profile-info">
           <h2 class="mb-1">{{ usuario.first_name }} {{ usuario.last_name }}</h2>
           <div class="profile-username mb-2">@{{ usuario.username }}</div>
-          <a href="{% url 'users:seguidos' usuario.username %}" class="btn btn-custom-secondary btn-sm me-2">{{ usuario.get_siguiendo_count }} Seguidos</a>
-          <a href="{% url 'users:seguidores' usuario.username %}" class="btn btn-custom-secondary btn-sm">{{ usuario.get_seguidores_count }} Seguidores</a>
+          <a href="{% url 'users:seguidos' usuario.username %}" class="btn btn-custom-secondary btn-sm me-2">{{
+            usuario.get_siguiendo_count }} Seguidos</a>
+          <a href="{% url 'users:seguidores' usuario.username %}" class="btn btn-custom-secondary btn-sm">{{
+            usuario.get_seguidores_count }} Seguidores</a>
           <div class="profile-actions">
             {% if request.user == usuario %}
-              <a href="{% url 'users:editar_perfil' %}" class="btn btn-light btn-sm">Editar perfil</a>
-              <a href="{% url 'gallery:crear_comision' %}" class="btn btn-purple btn-sm">Crear servicio</a>
-              
+            <a href="{% url 'users:editar_perfil' %}" class="btn btn-light btn-sm">Editar perfil</a>
+            <a href="{% url 'gallery:crear_comision' %}" class="btn btn-purple btn-sm">Crear servicio</a>
+
             {% else %}
-              <button id="seguir-btn" class="btn {% if siguiendo %}btn-secondary{% else %}btn-primary{% endif %} btn-sm px-3" 
-                      data-username="{{ usuario.username }}"
-                      data-csrf-token="{{ csrf_token }}">
-                {% if siguiendo %}Dejar de seguir{% else %}Seguir{% endif %}
-              </button>
+            <button id="seguir-btn"
+              class="btn {% if siguiendo %}btn-secondary{% else %}btn-primary{% endif %} btn-sm px-3"
+              data-username="{{ usuario.username }}" data-csrf-token="{{ csrf_token }}">
+              {% if siguiendo %}Dejar de seguir{% else %}Seguir{% endif %}
+            </button>
             {% endif %}
           </div>
         </div>
@@ -121,7 +133,7 @@
             <div class="mb-2 sobre-mi-bio">{{ usuario.biografia|default:"Ninguna descripción." }}</div>
             <div class="mt-3">
               {% for categoria in usuario.categorias.all %}
-                <span class="chip">{{ categoria.nombre }}</span>
+              <span class="chip">{{ categoria.nombre }}</span>
               {% endfor %}
             </div>
           </div>
@@ -129,9 +141,13 @@
         <div class="col-lg-4">
           <div class="profile-card text-center">
             {% if usuario.profile_picture %}
-              <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil" class="rounded-circle mb-2 mx-auto d-block" style="width:60px;height:60px;object-fit:cover;background:#222;">
+            <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil"
+              class="rounded-circle mb-2 mx-auto d-block"
+              style="width:60px;height:60px;object-fit:cover;background:#222;">
             {% else %}
-              <img src="{% static 'images/default_pfp.jpg' %}" alt="Foto de perfil" class="rounded-circle mb-2 mx-auto d-block" style="width:60px;height:60px;object-fit:cover;background:#222;">
+            <img src="{% static 'images/default_pfp.jpg' %}" alt="Foto de perfil"
+              class="rounded-circle mb-2 mx-auto d-block"
+              style="width:60px;height:60px;object-fit:cover;background:#222;">
             {% endif %}
             <div class="fw-bold">{{ usuario.first_name }} {{ usuario.last_name }}</div>
             <div class="text-secondary mb-2">
@@ -139,9 +155,9 @@
             </div>
             {% if request.user.is_authenticated and request.user != usuario %}
             <a class="btn btn-purple w-100 py-2 disabled" tabindex="-1" aria-disabled="true">
-                <i class="bi bi-send me-2"></i>Contáctame
+              <i class="bi bi-send me-2"></i>Contáctame
             </a>
-          {% endif %}
+            {% endif %}
           </div>
         </div>
       </div>
@@ -155,17 +171,18 @@
             <div class="service-card">
               <a href="{% url 'gallery:detalle_obra' obra.id %}" class="d-block">
                 {% if obra.imagen_principal %}
-                  <img src="{{ obra.imagen_principal.url }}" alt="{{ obra.titulo }}" class="service-img">
+                <img src="{{ obra.imagen_principal.url }}" alt="{{ obra.titulo }}" class="service-img">
                 {% else %}
-                  <div class="d-flex align-items-center justify-content-center service-img text-muted">Sin imagen</div>
+                <div class="d-flex align-items-center justify-content-center service-img text-muted">Sin imagen</div>
                 {% endif %}
               </a>
               <div class="service-body">
-                <div class="service-title">{{ obra.titulo }}</div>
-                <div class="service-meta mb-1">I will draw and sell art commissions</div>
+                <h5 class="card-title mb-1 text-white pt-1">{{ obra.titulo|truncatechars:45 }}</h5>
+                <div class="text-white-50 mb-1">{{ obra.descripcion|truncatechars:55 }}</div>
                 <div class="d-flex align-items-center justify-content-between">
                   <div>
-                    <span class="service-rating"><i class="bi bi-star-fill"></i> 5,0 <span class="text-secondary" style="font-size:0.95em;"></span></span>
+                    <span class="service-rating"><i class="bi bi-star-fill"></i> 5,0 <span class="text-secondary"
+                        style="font-size:0.95em;"></span></span>
                   </div>
                   <div class="service-price">A partir de {{ obra.precio_basico }} €</div>
                 </div>
@@ -187,44 +204,44 @@
 
 {% block extra_js %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const seguirBtn = document.getElementById('seguir-btn');
     if (seguirBtn) {
-        seguirBtn.addEventListener('click', function() {
-            const username = this.dataset.username;
-            const csrfToken = this.dataset.csrfToken;
-            
-            fetch(`/users/seguir/${username}/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': csrfToken,
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.error);
-                    return;
-                }
-                
-                // Actualizar el botón
-                this.textContent = data.siguiendo ? 'Dejar de seguir' : 'Seguir';
-                this.classList.toggle('btn-primary', !data.siguiendo);
-                this.classList.toggle('btn-secondary', data.siguiendo);
-                
-                // Actualizar el contador de seguidores
-                const seguidoresCount = document.querySelector('span:nth-child(2) strong');
-                if (seguidoresCount) {
-                    seguidoresCount.textContent = data.seguidores_count;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Hubo un error al procesar la solicitud');
-            });
-        });
+      seguirBtn.addEventListener('click', function () {
+        const username = this.dataset.username;
+        const csrfToken = this.dataset.csrfToken;
+
+        fetch(`/users/seguir/${username}/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.error) {
+              alert(data.error);
+              return;
+            }
+
+            // Actualizar el botón
+            this.textContent = data.siguiendo ? 'Dejar de seguir' : 'Seguir';
+            this.classList.toggle('btn-primary', !data.siguiendo);
+            this.classList.toggle('btn-secondary', data.siguiendo);
+
+            // Actualizar el contador de seguidores
+            const seguidoresCount = document.querySelector('span:nth-child(2) strong');
+            if (seguidoresCount) {
+              seguidoresCount.textContent = data.seguidores_count;
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Hubo un error al procesar la solicitud');
+          });
+      });
     }
-});
+  });
 </script>
 {% endblock %}
