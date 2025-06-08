@@ -8,7 +8,6 @@
                 <th>Cliente</th>
                 <th>Obra</th>
                 <th>Plan</th>
-                <th>Descripción</th>
                 <th>Estado</th>
                 <th>Acción</th>
             </tr>
@@ -19,10 +18,9 @@
                 <td>{{ encargo.cliente }}</td>
                 <td>{{ encargo.obra }}</td>
                 <td>{{ encargo.plan }}</td>
-                <td>{{ encargo.descripcion }}</td>
                 <td>{{ encargo.estado }}</td>
                 <td>
-                    {% if encargo.estado == 'Pendiente' %}
+                    {% if encargo.estado|lower == 'pendiente' %}
                         <form method="post" action="{% url 'sales:aceptar_encargo' encargo.id %}" style="display: inline;">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-success btn-sm">Aceptar</button>
@@ -31,9 +29,9 @@
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger btn-sm">Rechazar</button>
                         </form>
-                    {% elif encargo.estado == 'Aceptado' %}
+                    {% elif encargo.estado|lower == 'aceptado' %}
                         <span class="badge bg-success">¡Aceptado!</span>
-                    {% elif encargo.estado == 'Rechazado' %}
+                    {% elif encargo.estado|lower == 'rechazado' %}
                         <span class="badge bg-danger">¡Rechazado!</span>
                     {% endif %}
                 </td>
