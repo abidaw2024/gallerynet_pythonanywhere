@@ -6,10 +6,10 @@ def home(request):
     return render(request, 'home.html')  # Cambiado de home.html a index.html
 
 def politicas_privacidad(request):
-    return render(request, 'politicas-privacidad.html')
+    return render(request, 'politicas_privacidad.html')  # O 'users/politicas_privacidad.html' si está en la app users
 
 def terminos_condiciones(request):
-    return render(request, 'terminos-condiciones.html')
+    return render(request, 'terminos_condiciones.html')  # O 'users/terminos_condiciones.html' si está en la app users
 
 def contacto(request):
     return render(request, 'contacto.html')
