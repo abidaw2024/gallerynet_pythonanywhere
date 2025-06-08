@@ -9,9 +9,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY',
 'tu_clave_secreta_por_defecto_para_desarrollo')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
+DEBUG = True
 
-ALLOWED_HOSTS = ['abi.pythonanywhere.com', 'localhost', '127.0.0.1']  # Agregamos hosts locales para desarrollo
+ALLOWED_HOSTS = ['abi.pythonanywhere.com']  # Agregamos hosts locales para desarrollo
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
