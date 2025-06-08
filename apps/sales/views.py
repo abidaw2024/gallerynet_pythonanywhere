@@ -319,13 +319,6 @@ def confirmar_pedido(request, obra_id):
 
 # ====================== VISTAS ADMINISTRATIVAS ======================
 @method_decorator(admin_required, name='dispatch')
-class AdminOrderListView(LoginRequiredMixin, ListView):
-    model = Order
-    template_name = 'backoffice/admin_orders_list.html'
-    context_object_name = 'orders'
-    ordering = ['-created_at']
-
-@method_decorator(admin_required, name='dispatch')
 class AdminOrderDetailView(LoginRequiredMixin, DetailView):
     model = Order
     template_name = 'backoffice/admin_order_detail.html'
@@ -336,7 +329,7 @@ class AdminOrderUpdateView(LoginRequiredMixin, UpdateView):
     model = Order
     template_name = 'backoffice/admin_order_update.html'
     fields = ['status', 'total', 'notes']
-    success_url = reverse_lazy('sales:admin_orders_list')
+    success_url = reverse_lazy('sales:admin_pedidos_list')
     
     def form_valid(self, form):
         messages.success(self.request, "Pedido actualizado correctamente.")
