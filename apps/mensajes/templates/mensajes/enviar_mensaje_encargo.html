@@ -22,15 +22,15 @@
                                 <p><strong>Artista:</strong> {{ obra.vendedor.username }}</p>
                                 {% if plan == 'basico' %}
                                     <p><strong>Plan:</strong> Básico</p>
-                                    <p><strong>Precio:</strong> €{{ obra.precio_basico }}</p>
+                                    <p><strong>Precio:</strong> €{{ obra.get_precio_basico }}</p>
                                     <p><strong>Descripción:</strong> {{ obra.descripcion_basico }}</p>
                                 {% elif plan == 'estandar' %}
                                     <p><strong>Plan:</strong> Estándar</p>
-                                    <p><strong>Precio:</strong> €{{ obra.precio_estandar }}</p>
+                                    <p><strong>Precio:</strong> €{{ obra.get_precio_estandar }}</p>
                                     <p><strong>Descripción:</strong> {{ obra.descripcion_estandar }}</p>
                                 {% elif plan == 'premium' %}
                                     <p><strong>Plan:</strong> Premium</p>
-                                    <p><strong>Precio:</strong> €{{ obra.precio_premium }}</p>
+                                    <p><strong>Precio:</strong> €{{ obra.get_precio_premium }}</p>
                                     <p><strong>Descripción:</strong> {{ obra.descripcion_premium }}</p>
                                 {% endif %}
                             </div>

@@ -22,8 +22,20 @@
                 <td>{{ encargo.descripcion }}</td>
                 <td>{{ encargo.estado }}</td>
                 <td>
-                    <button class="btn btn-success btn-sm">Aceptar</button>
-                    <button class="btn btn-danger btn-sm">Rechazar</button>
+                    {% if encargo.estado == 'Pendiente' %}
+                        <form method="post" action="{% url 'sales:aceptar_encargo' encargo.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">Aceptar</button>
+                        </form>
+                        <form method="post" action="{% url 'sales:rechazar_encargo' encargo.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Rechazar</button>
+                        </form>
+                    {% elif encargo.estado == 'Aceptado' %}
+                        <span class="badge bg-success">¡Aceptado!</span>
+                    {% elif encargo.estado == 'Rechazado' %}
+                        <span class="badge bg-danger">¡Rechazado!</span>
+                    {% endif %}
                 </td>
             </tr>
             {% empty %}

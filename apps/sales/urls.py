@@ -28,6 +28,8 @@ urlpatterns = [
     path('artist/commissions/', views.artist_commissions, name='artist_commissions'),
     path('encargos/recibidos/', views.encargos_recibidos, name='encargos_recibidos'),
     path('encargos/enviados/', views.encargos_enviados, name='encargos_enviados'),
+    path('encargos/<int:encargo_id>/aceptar/', views.aceptar_encargo, name='aceptar_encargo'),
+    path('encargos/<int:encargo_id>/rechazar/', views.rechazar_encargo, name='rechazar_encargo'),
     path('confirmar-pedido/<int:obra_id>/', views.confirmar_pedido, name='confirmar_pedido'),
     
     # Proceso de checkout y pagos

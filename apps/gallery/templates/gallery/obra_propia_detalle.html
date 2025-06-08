@@ -265,10 +265,10 @@
                                         <li class="py-2 border-bottom">{{ caracteristica }}</li>
                                     {% endfor %}
                                 </ul>
-                                {% if user.is_authenticated and obra.estado == 'disponible' %}
-                                <div class="text-center">
+                                {% if user.is_authenticated and user != obra.vendedor and obra.estado == 'disponible' %}
+                                <div class="d-flex justify-content-center">
                                     <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=basico" class="btn btn-custom-secondary">
-                                        <i class="fas fa-paper-plane"></i> Encargar
+                                        <i class="fas fa-paper-plane"></i> Esta es tu obra
                                     </a>
                                 </div>
                                 {% endif %}
@@ -283,10 +283,10 @@
                                         <li class="py-2 border-bottom">{{ caracteristica }}</li>
                                     {% endfor %}
                                 </ul>
-                                {% if user.is_authenticated and obra.estado == 'disponible' %}
-                                <div class="text-center">
-                                    <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=basico" class="btn btn-custom-secondary">
-                                        <i class="fas fa-paper-plane"></i> Encargar
+                                {% if user.is_authenticated and user != obra.vendedor and obra.estado == 'disponible' %}
+                                <div class="d-flex justify-content-center">
+                                    <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=estandar" class="btn btn-custom-secondary">
+                                        <i class="fas fa-paper-plane"></i> Esta es tu obra
                                     </a>
                                 </div>
                                 {% endif %}
@@ -301,10 +301,10 @@
                                         <li class="py-2 border-bottom">{{ caracteristica }}</li>
                                     {% endfor %}
                                 </ul>
-                                {% if user.is_authenticated and obra.estado == 'disponible' %}
-                                <div class="text-center">
-                                    <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=basico" class="btn btn-custom-secondary">
-                                        <i class="fas fa-paper-plane"></i> Encargar
+                                {% if user.is_authenticated and user != obra.vendedor and obra.estado == 'disponible' %}
+                                <div class="d-flex justify-content-center">
+                                    <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=premium" class="btn btn-custom-secondary">
+                                        <i class="fas fa-paper-plane"></i> Esta es tu obra
                                     </a>
                                 </div>
                                 {% endif %}

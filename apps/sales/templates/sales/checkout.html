@@ -21,7 +21,6 @@
                         <p><strong>Comisión de la plataforma:</strong> ${{ fee }}</p>
                         <p class="text-yellow"><strong>Total a pagar:</strong> ${{ total }}</p>
                         <p><strong>Plan:</strong> {{ plan|title }}</p>
-                        <p><strong>Descripción del encargo:</strong> {{ descripcion }}</p>
                     </div>
                     <form method="POST" action="{% url 'sales:checkout' %}" class="needs-validation" novalidate>
                         {% csrf_token %}

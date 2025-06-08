@@ -294,7 +294,7 @@
                                     {% endfor %}
                                 </ul>
                                 {% if user.is_authenticated and obra.estado == 'disponible' %}
-                                <div class="text-center">
+                                <div class="d-flex justify-content-center">
                                     <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=basico" class="btn btn-custom-secondary">
                                         <i class="fas fa-paper-plane"></i> Encargar
                                     </a>
@@ -312,9 +312,11 @@
                                     {% endfor %}
                                 </ul>
                                 {% if user.is_authenticated and user != obra.vendedor and obra.estado == 'disponible' %}
-                                <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=estandar" class="btn btn-custom-secondary">
-                                    <i class="fas fa-paper-plane"></i> Encargar
-                                </a>
+                                <div class="d-flex justify-content-center">
+                                    <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=estandar" class="btn btn-custom-secondary">
+                                        <i class="fas fa-paper-plane"></i> Encargar
+                                    </a>
+                                </div>
                                 {% endif %}
                             </div>
                             
@@ -328,9 +330,11 @@
                                     {% endfor %}
                                 </ul>
                                 {% if user.is_authenticated and user != obra.vendedor and obra.estado == 'disponible' %}
-                                <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=premium" class="btn btn-custom-secondary">
-                                    <i class="fas fa-paper-plane"></i> Encargar
-                                </a>
+                                <div class="d-flex justify-content-center">
+                                    <a href="{% url 'mensajes:enviar_mensaje_encargo' obra.id %}?plan=premium" class="btn btn-custom-secondary">
+                                        <i class="fas fa-paper-plane"></i> Encargar
+                                    </a>
+                                </div>
                                 {% endif %}
                             </div>
                         </div>

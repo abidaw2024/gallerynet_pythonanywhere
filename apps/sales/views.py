@@ -86,16 +86,16 @@ def checkout(request):
     obra = Comision.objects.get(id=obra_id) if obra_id else None
     if obra:
         if plan == 'basico':
-            precio = obra.precio_basico
+            precio = obra.get_precio_basico()
             descripcion_plan = obra.descripcion_basico
         elif plan == 'estandar':
-            precio = obra.precio_estandar
+            precio = obra.get_precio_estandar()
             descripcion_plan = obra.descripcion_estandar
         elif plan == 'premium':
-            precio = obra.precio_premium
+            precio = obra.get_precio_premium()
             descripcion_plan = obra.descripcion_premium
         else:
-            precio = obra.precio_basico
+            precio = obra.get_precio_basico()
             descripcion_plan = obra.descripcion_basico
     else:
         precio = 0
@@ -341,3 +341,29 @@ class AdminOrderUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         messages.success(self.request, "Pedido actualizado correctamente.")
         return super().form_valid(form)
+
+@login_required
+def aceptar_encargo(request, encargo_id):
+    """
+    Vista para aceptar un encargo.
+    Solo el artista puede aceptar sus propios encargos.
+    """
+    encargo = get_object_or_404(Encargo, id=encargo_id, artista=request.user)
+    if encargo.estado == 'Pendiente':
+        encargo.estado = 'Aceptado'
+        encargo.save()
+        messages.success(request, 'Has aceptado el encargo exitosamente.')
+    return redirect('sales:encargos_recibidos')
+
+@login_required
+def rechazar_encargo(request, encargo_id):
+    """
+    Vista para rechazar un encargo.
+    Solo el artista puede rechazar sus propios encargos.
+    """
+    encargo = get_object_or_404(Encargo, id=encargo_id, artista=request.user)
+    if encargo.estado == 'Pendiente':
+        encargo.estado = 'Rechazado'
+        encargo.save()
+        messages.warning(request, 'Has rechazado el encargo.')
+    return redirect('sales:encargos_recibidos')
