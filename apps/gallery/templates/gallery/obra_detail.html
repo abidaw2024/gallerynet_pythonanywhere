@@ -149,9 +149,9 @@
                             </div>
                         {% endif %}
                         <div>
-                            <h5 class="mb-0">{{ obra.vendedor.get_full_name }}</h5>
-                            <small class="text-white texto-secundario">@{{ obra.vendedor.username }}</small>
-                            <p>{{ usuario.descripcion|default:"Ninguna descripción" }}</p>
+                            <h5 class="mb-0"><a href="{% url 'usuarios:perfil' obra.vendedor.username %}" class="text-decoration-none text-white">{{ obra.vendedor.get_full_name }}</a></h5>
+                            <small class="text-yellow texto-secundario">@{{ obra.vendedor.username }}</small>
+                            <p>{{ usuario.biografia|default:"Ninguna descripción" }}</p>
                         </div>
                     </div>
                     <hr>
@@ -163,18 +163,18 @@
                     <div class="row mt-3">
                         <div class="col-md-4">
                             <hr>
-                            <h6 class="text-purple">Estilo</h6>
+                            <h5 class="text-purple">Estilo</h5>
                             <p class="texto-secundario">{{ obra.estilo }}</p>
                         </div>
                         <div class="col-md-4">
                             <hr>
-                            <h6>Técnica</h6>
-                            <p class="texto-secundario">{{ obra.tecnica }}</p>
+                            <h5>Técnica</h5>
+                            <p class="texto-purple">{{ obra.tecnica }}</p>
                         </div>
                         <div class="col-md-4">
                             <hr>
-                            <h6>Tema</h6>
-                            <p class="texto-secundario">{{ obra.tema }}</p>
+                            <h5>Tema</h5>
+                            <p class="texto-purple">{{ obra.tema }}</p>
                         </div>
                     </div>
                 </div>
@@ -193,15 +193,15 @@
                         <div class="card-body w-100">
                             <div class="d-flex justify-content-between mb-2">
                                 <div>
-                                    <strong>Usuario_ejemplo1</strong>
+                                    <strong>Evaa</strong>
                                  
                                 </div>
                                 <div class="text-yellow">5 ★</div>
                             </div>
                 
-                            <p>Seller was really patient and I got exactly what I wanted, 5 stars</p>
+                            <p>Vendedor paciente y me entregó exactamente lo que quería, 5 estrellas</p>
                             <div class="d-flex justify-content-between">
-                                <span class="text-success">€50-€100</span>
+                                <span class="text-yellow">€50-€100</span>
                                 <span class="texto-secundario">1 day</span>
                             </div>
                         </div>
@@ -211,21 +211,21 @@
                         <div class="card-body w-100">
                             <div class="d-flex justify-content-between mb-2">
                                 <div>
-                                    <strong>appcultvityforh</strong>
+                                    <strong>Chetlov</strong>
                                  
                                 </div>
                                 <div class="text-yellow">5 ★</div>
                             </div>
                      
-                            <p>Seller was really patient and I got exactly what I wanted, 5 stars</p>
+                            <p>Muy buena comunicación, entregó la obra en el plazo acordado, amable y profesional.</p>
                             <div class="d-flex justify-content-between">
-                                <span class="text-success">€50-€100</span>
+                                <span class="text-yellow">€50-€100</span>
                                 <span class="texto-secundario">1 day</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Comentarios reales de tu sistema -->
+                    <!-- Comentarios reales de tu sistema 
                     {% if comentarios %}
                         {% for comentario in comentarios %}
                             <div class="card card-list mb-3">
@@ -243,8 +243,8 @@
                             </div>
                         {% endfor %}
                     {% else %}
-                        <p class="text-muted texto-secundario">No hay comentarios aún.</p>
-                    {% endif %}
+                        <p class="text-white-50 texto-secundario">No hay comentarios aún.</p>
+                    {% endif %}-->
 
                     <!-- Formulario para nuevos comentarios -->
                     {% if user.is_authenticated %}
