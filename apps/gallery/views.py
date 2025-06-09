@@ -53,7 +53,7 @@ def detalle_obra_view(request, obra_id):
     Incluye información detallada y opciones de compra.
     """
     obra = get_object_or_404(Comision, id=obra_id)
-    return render(request, 'gallery/detalle_obra.html', {
+    return render(request, 'gallery/obra_detail.html', {
         'obra': obra,
     })
 
