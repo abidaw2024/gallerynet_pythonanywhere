@@ -105,9 +105,9 @@
         <div class="profile-info">
           <h2 class="mb-1">{{ usuario.first_name }} {{ usuario.last_name }}</h2>
           <div class="profile-username mb-2">@{{ usuario.username }}</div>
-          <div class="d-flex align-items-center gap-2 mb-2 pe-0">
-            <a href="{% url 'users:seguidos' usuario.username %}" class="btn btn-custom-secondary btn-sm">{{ usuario.get_siguiendo_count }} Seguidos</a>
-            <a href="{% url 'users:seguidores' usuario.username %}" class="btn btn-custom-secondary btn-sm">{{ usuario.get_seguidores_count }} Seguidores</a>
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <a href="{% url 'users:seguidos' usuario.username %}" class="btn btn-custom-secondary btn-sm p-0">{{ usuario.get_siguiendo_count }} Seguidos</a>
+            <a href="{% url 'users:seguidores' usuario.username %}" class="btn btn-custom-secondary btn-sm ps-2">{{ usuario.get_seguidores_count }} Seguidores</a>
           </div>
           <div class="profile-actions">
             {% if request.user == usuario %}
