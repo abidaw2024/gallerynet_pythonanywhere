@@ -16,11 +16,8 @@ class EmailService:
             contenido: Contenido del mensaje
             encargo: Encargo relacionado (opcional)
         """
-        # Generar ID único para seguimiento
         referencia = str(uuid.uuid4())
-        
-        # Crear el mensaje en la base de datos
-        mensaje = Mensaje.objects.create(
+        mensaje = Mensaje(
             remitente=remitente,
             destinatario=destinatario,
             asunto=asunto,
@@ -28,11 +25,10 @@ class EmailService:
             referencia=referencia,
             encargo=encargo
         )
+        mensaje.full_clean()
+        mensaje.save()
         
-        # Preparar el asunto con la referencia
         asunto_email = f"[GalleryNet #{referencia}] {asunto}"
-        
-        # Enviar el correo
         send_mail(
             subject=asunto_email,
             message=contenido,
@@ -40,7 +36,6 @@ class EmailService:
             recipient_list=[destinatario.email],
             fail_silently=False,
         )
-        
         return mensaje
 
     @staticmethod
@@ -52,10 +47,8 @@ class EmailService:
         Args:
             email_data: Diccionario con los datos del correo recibido
         """
-        # Extraer la referencia del asunto
         asunto = email_data.get('subject', '')
         referencia = None
-        # Buscar la referencia en el asunto
         if '[GalleryNet #' in asunto:
             try:
                 referencia = asunto.split('[GalleryNet #')[1].split(']')[0]
@@ -63,21 +56,20 @@ class EmailService:
                 return None
         if not referencia:
             return None
-        # Buscar el mensaje original
         try:
             mensaje_original = Mensaje.objects.get(referencia=referencia)
         except Mensaje.DoesNotExist:
             return None
-        # Crear el nuevo mensaje en la base de datos (respuesta)
-        nuevo_mensaje = Mensaje.objects.create(
-            remitente=mensaje_original.destinatario,  # El artista que responde
-            destinatario=mensaje_original.remitente,  # El cliente original
+        nuevo_mensaje = Mensaje(
+            remitente=mensaje_original.destinatario,
+            destinatario=mensaje_original.remitente,
             asunto=f"Re: {mensaje_original.asunto}",
             contenido=email_data.get('body', ''),
             referencia=str(uuid.uuid4()),
             encargo=mensaje_original.encargo
         )
-        # Reenviar el mensaje al cliente (comprador)
+        nuevo_mensaje.full_clean()
+        nuevo_mensaje.save()
         send_mail(
             subject=f"[GalleryNet #{nuevo_mensaje.referencia}] Re: {mensaje_original.asunto}",
             message=email_data.get('body', ''),
