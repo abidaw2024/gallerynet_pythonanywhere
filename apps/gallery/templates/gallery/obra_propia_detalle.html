@@ -166,64 +166,46 @@
                         <div class="card-body w-100">
                             <div class="d-flex justify-content-between mb-2">
                                 <div>
-                                    <strong>Usuario_ejemplo1</strong>
-                
+                                    <strong>Evaa</strong>
+                                 
                                 </div>
                                 <div class="text-yellow">5 ★</div>
                             </div>
-                       
-                            <p>Seller was really patient and I got exactly what I wanted, 5 stars</p>
+                
+                            <p>Vendedor paciente y me entregó exactamente lo que quería, 5 estrellas</p>
                             <div class="d-flex justify-content-between">
-                                <span class="text-success">€50-€100</span>
+                                <span class="text-yellow">€50-€100</span>
                                 <span class="texto-secundario">1 day</span>
                             </div>
                         </div>
                     </div>
+
                     <div class="card card-list bg-purple mb-3">
                         <div class="card-body w-100">
                             <div class="d-flex justify-content-between mb-2">
                                 <div>
-                                    <strong>appcultvityforh</strong>
-                
+                                    <strong>Chetlov</strong>
+                                 
                                 </div>
                                 <div class="text-yellow">5 ★</div>
                             </div>
-                  
-                            <p>Seller was really patient and I got exactly what I wanted, 5 stars</p>
+                     
+                            <p>Muy buena comunicación, entregó la obra en el plazo acordado, amable y profesional.</p>
                             <div class="d-flex justify-content-between">
-                                <span class="text-success">€50-€100</span>
+                                <span class="text-yellow">€50-€100</span>
                                 <span class="texto-secundario">1 day</span>
                             </div>
                         </div>
                     </div>
-                    <!-- Comentarios reales de tu sistema -->
-                    {% if comentarios %}
-                        {% for comentario in comentarios %}
-                            <div class="card card-list mb-3">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <div>
-                                            <strong>{{ comentario.usuario.get_full_name }}</strong>
-                                            <span class="text-muted texto-secundario">@{{ comentario.usuario.username }}</span>
-                                        </div>
-                                        <div class="text-yellow">5 ★</div>
-                                    </div>
-                                    <div class="mb-2 texto-secundario">{{ comentario.fecha_creacion|date:"d/m/Y H:i" }}</div>
-                                    <p>{{ comentario.contenido }}</p>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <p class="text-white-50 texto-secundario">No hay comentarios aún.</p>
-                    {% endif %}
+                   
                     <!-- Formulario para nuevos comentarios -->
                     {% if user.is_authenticated %}
-                        <form method="post" action="{% url 'gallery:agregar_comentario' obra.id %}" class="mt-4">
+                        <form method="post" class="mt-4">
                             {% csrf_token %}
                             <div class="mb-2">
                                 <textarea name="contenido" class="form-control form-control-sm rounded-3 border-0 shadow-sm" rows="2" style="resize: none; min-height: 38px; max-height: 80px; font-size: 0.95rem; background-color: #ffffff; color: #000000;" placeholder="Escribe un comentario..."></textarea>
                             </div>
-                            <button type="submit" class="btn btn-custom-secondary btn-sm px-3 py-1">Comentar</button>
+                            <button type="button" class="btn btn-custom-secondary btn-sm px-3 py-1">Comentar</button>
                         </form>
                     {% else %}
                         <p class="text-muted texto-secundario mt-3">Inicia sesión para dejar un comentario.</p>
