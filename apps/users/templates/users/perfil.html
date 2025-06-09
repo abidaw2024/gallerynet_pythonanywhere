@@ -105,12 +105,15 @@
         <div class="profile-info">
           <h2 class="mb-1">{{ usuario.first_name }} {{ usuario.last_name }}</h2>
           <div class="profile-username mb-2">@{{ usuario.username }}</div>
-          <a href="{% url 'users:seguidos' usuario.username %}" class="btn btn-custom-secondary btn-sm me-2">{{ usuario.get_siguiendo_count }} Seguidos</a>
-          <a href="{% url 'users:seguidores' usuario.username %}" class="btn btn-custom-secondary btn-sm">{{ usuario.get_seguidores_count }} Seguidores</a>
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <a href="{% url 'users:seguidos' usuario.username %}" class="btn btn-custom-secondary btn-sm">{{ usuario.get_siguiendo_count }} Seguidos</a>
+            <span style="color:#bdbdbd;">&middot;</span>
+            <a href="{% url 'users:seguidores' usuario.username %}" class="btn btn-custom-secondary btn-sm">{{ usuario.get_seguidores_count }} Seguidores</a>
+          </div>
           <div class="profile-actions">
             {% if request.user == usuario %}
             <a href="{% url 'users:editar_perfil' %}" class="btn btn-light btn-sm">Editar perfil</a>
-            <a href="{% url 'gallery:crear_comision' %}" class="btn btn-purple btn-sm">Crear servicio</a>
+            <a href="{% url 'gallery:crear_comision' %}" class="btn btn-purple btn-sm pe-2">Crear servicio</a>
 
             {% else %}
             <button id="seguir-btn"

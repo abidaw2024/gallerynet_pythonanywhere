@@ -67,12 +67,10 @@ def detalle_conversacion(request, encargo_id):
     if request.method == 'POST':
         contenido = request.POST.get('contenido')
         if contenido:
-            # Determinar el destinatario basado en el rol del usuario
             destinatario = encargo.artista if request.user == encargo.cliente else encargo.cliente
-            
-            # Enviar mensaje usando el servicio
             email_service = EmailService()
             try:
+                # Intenta enviar el mensaje, puede lanzar ValidationError si hay datos personales
                 email_service.enviar_mensaje(
                     remitente=request.user,
                     destinatario=destinatario,
@@ -80,9 +78,11 @@ def detalle_conversacion(request, encargo_id):
                     contenido=contenido,
                     encargo=encargo
                 )
+                # Mensaje enviado correctamente
                 messages.success(request, 'Mensaje enviado correctamente')
                 return redirect('mensajes:detalle_conversacion', encargo_id=encargo.id)
             except ValidationError:
+                # Error: contiene datos personales
                 messages.error(request, 'No puedes enviar información personal en los mensajes')
                 return render(request, 'mensajes/detalle_conversacion.html', {
                     'encargo': encargo,
@@ -109,23 +109,23 @@ def conversacion_general(request):
     if request.method == 'POST':
         contenido = request.POST.get('contenido')
         if contenido:
-            #Obtener el último destinatario de la conversación
             ultimo_mensaje = mensajes.first()
             if ultimo_mensaje:
                 destinatario = ultimo_mensaje.remitente if ultimo_mensaje.destinatario == request.user else ultimo_mensaje.destinatario
-                
-                # Enviar mensaje usando el servicio
                 email_service = EmailService()
                 try:
+                    # Intenta enviar el mensaje, puede lanzar ValidationError
                     email_service.enviar_mensaje(
                         remitente=request.user,
                         destinatario=destinatario,
                         asunto=f"Re: Mensaje General",
                         contenido=contenido
                     )
+                    # Mensaje enviado correctamente
                     messages.success(request, 'Mensaje enviado correctamente')
                     return redirect('mensajes:conversacion_general')
                 except ValidationError:
+                    # Error: contiene datos personales
                     messages.error(request, 'No puedes enviar información personal en los mensajes')
                     return render(request, 'mensajes/detalle_conversacion.html', {
                         'mensajes': mensajes,
@@ -161,6 +161,7 @@ def enviar_mensaje(request, encargo_id=None):
         # Enviar mensaje usando el servicio
         email_service = EmailService()
         try:
+            # Intenta enviar el mensaje, puede lanzar ValidationError
             email_service.enviar_mensaje(
                 remitente=request.user,
                 destinatario=destinatario,
@@ -168,11 +169,13 @@ def enviar_mensaje(request, encargo_id=None):
                 contenido=contenido,
                 encargo=encargo
             )
+            # Mensaje enviado correctamente
             messages.success(request, 'Mensaje enviado correctamente')
             if encargo:
                 return redirect('mensajes:detalle_conversacion', encargo_id=encargo.id)
             return redirect('mensajes:conversacion_general')
         except ValidationError:
+            # Error: contiene datos personales
             messages.error(request, 'No puedes enviar información personal en los mensajes')
             destinatarios = []
             if not encargo:
@@ -221,9 +224,9 @@ def enviar_mensaje_encargo(request, obra_id):
                 'plan': plan  # Usar el plan seleccionado
             }
         )
-        # Enviar mensaje usando el servicio
         email_service = EmailService()
         try:
+            # Intenta enviar el mensaje, puede lanzar ValidationError
             email_service.enviar_mensaje(
                 remitente=request.user,
                 destinatario=obra.vendedor,
@@ -235,9 +238,11 @@ def enviar_mensaje_encargo(request, obra_id):
                 ),
                 encargo=encargo
             )
+            # Mensaje enviado correctamente
             messages.success(request, 'Mensaje enviado correctamente')
             return redirect('mensajes:detalle_conversacion', encargo_id=encargo.id)
         except ValidationError:
+            # Error: contiene datos personales
             messages.error(request, 'No puedes enviar información personal en los mensajes')
             return render(request, 'mensajes/enviar_mensaje_encargo.html', {
                 'obra': obra,
