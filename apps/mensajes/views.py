@@ -14,6 +14,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from apps.users.decorators import admin_required
 from django.utils.decorators import method_decorator
+from django.core.exceptions import ValidationError
 
 @login_required
 def lista_mensajes(request):
@@ -71,16 +72,23 @@ def detalle_conversacion(request, encargo_id):
             
             # Enviar mensaje usando el servicio
             email_service = EmailService()
-            email_service.enviar_mensaje(
-                remitente=request.user,
-                destinatario=destinatario,
-                asunto=f"Re: Encargo #{encargo.id} - {encargo.obra.titulo}",
-                contenido=contenido,
-                encargo=encargo
-            )
-            
-            messages.success(request, 'Mensaje enviado correctamente')
-            return redirect('mensajes:detalle_conversacion', encargo_id=encargo.id)
+            try:
+                email_service.enviar_mensaje(
+                    remitente=request.user,
+                    destinatario=destinatario,
+                    asunto=f"Re: Encargo #{encargo.id} - {encargo.obra.titulo}",
+                    contenido=contenido,
+                    encargo=encargo
+                )
+                messages.success(request, 'Mensaje enviado correctamente')
+                return redirect('mensajes:detalle_conversacion', encargo_id=encargo.id)
+            except ValidationError:
+                messages.error(request, 'No puedes enviar información personal en los mensajes')
+                return render(request, 'mensajes/detalle_conversacion.html', {
+                    'encargo': encargo,
+                    'mensajes': mensajes,
+                    'contenido': contenido
+                })
 
     return render(request, 'mensajes/detalle_conversacion.html', {
         'encargo': encargo,
@@ -108,15 +116,21 @@ def conversacion_general(request):
                 
                 # Enviar mensaje usando el servicio
                 email_service = EmailService()
-                email_service.enviar_mensaje(
-                    remitente=request.user,
-                    destinatario=destinatario,
-                    asunto=f"Re: Mensaje General",
-                    contenido=contenido
-                )
-                
-                messages.success(request, 'Mensaje enviado correctamente')
-                return redirect('mensajes:conversacion_general')
+                try:
+                    email_service.enviar_mensaje(
+                        remitente=request.user,
+                        destinatario=destinatario,
+                        asunto=f"Re: Mensaje General",
+                        contenido=contenido
+                    )
+                    messages.success(request, 'Mensaje enviado correctamente')
+                    return redirect('mensajes:conversacion_general')
+                except ValidationError:
+                    messages.error(request, 'No puedes enviar información personal en los mensajes')
+                    return render(request, 'mensajes/detalle_conversacion.html', {
+                        'mensajes': mensajes,
+                        'contenido': contenido
+                    })
 
     return render(request, 'mensajes/detalle_conversacion.html', {
         'mensajes': mensajes
@@ -146,18 +160,30 @@ def enviar_mensaje(request, encargo_id=None):
 
         # Enviar mensaje usando el servicio
         email_service = EmailService()
-        email_service.enviar_mensaje(
-            remitente=request.user,
-            destinatario=destinatario,
-            asunto=asunto,
-            contenido=contenido,
-            encargo=encargo
-        )
-
-        messages.success(request, 'Mensaje enviado correctamente')
-        if encargo:
-            return redirect('mensajes:detalle_conversacion', encargo_id=encargo.id)
-        return redirect('mensajes:conversacion_general')
+        try:
+            email_service.enviar_mensaje(
+                remitente=request.user,
+                destinatario=destinatario,
+                asunto=asunto,
+                contenido=contenido,
+                encargo=encargo
+            )
+            messages.success(request, 'Mensaje enviado correctamente')
+            if encargo:
+                return redirect('mensajes:detalle_conversacion', encargo_id=encargo.id)
+            return redirect('mensajes:conversacion_general')
+        except ValidationError:
+            messages.error(request, 'No puedes enviar información personal en los mensajes')
+            destinatarios = []
+            if not encargo:
+                destinatarios = Usuario.objects.exclude(id=request.user.id)
+            return render(request, 'mensajes/enviar_mensaje.html', {
+                'encargo': encargo,
+                'destinatario': destinatario,
+                'destinatarios': destinatarios,
+                'asunto': asunto,
+                'contenido': contenido
+            })
 
     # Obtener posibles destinatarios si no hay encargo
     destinatarios = []
@@ -197,19 +223,27 @@ def enviar_mensaje_encargo(request, obra_id):
         )
         # Enviar mensaje usando el servicio
         email_service = EmailService()
-        email_service.enviar_mensaje(
-            remitente=request.user,
-            destinatario=obra.vendedor,
-            asunto=f'Nuevo encargo - {obra.titulo}',
-            contenido = (
-                f"{request.user.username} ha enviado un nuevo encargo de la obra: {obra.titulo}\n"
-                f"Tipo de encargo: {plan.capitalize()}\n\n"
-                f"{contenido}"
-            ),
-            encargo=encargo
-        )
-        messages.success(request, 'Mensaje enviado correctamente')
-        return redirect('mensajes:detalle_conversacion', encargo_id=encargo.id)
+        try:
+            email_service.enviar_mensaje(
+                remitente=request.user,
+                destinatario=obra.vendedor,
+                asunto=f'Nuevo encargo - {obra.titulo}',
+                contenido = (
+                    f"{request.user.username} ha enviado un nuevo encargo de la obra: {obra.titulo}\n"
+                    f"Tipo de encargo: {plan.capitalize()}\n\n"
+                    f"{contenido}"
+                ),
+                encargo=encargo
+            )
+            messages.success(request, 'Mensaje enviado correctamente')
+            return redirect('mensajes:detalle_conversacion', encargo_id=encargo.id)
+        except ValidationError:
+            messages.error(request, 'No puedes enviar información personal en los mensajes')
+            return render(request, 'mensajes/enviar_mensaje_encargo.html', {
+                'obra': obra,
+                'plan': plan,
+                'contenido': contenido
+            })
     
     return render(request, 'mensajes/enviar_mensaje_encargo.html', {
         'obra': obra,

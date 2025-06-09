@@ -71,7 +71,7 @@
                 <!-- Formulario de envío -->
                 <form method="post" class="card-footer d-flex align-items-center gap-2 border-0 bg-transparent mt-4 pe-4 ps-4" autocomplete="off">
                     {% csrf_token %}
-                    <input name="contenido" type="text" class="form-control bg-white text-dark rounded-pill border-0 flex-grow-1 px-4 py-2 mb-0" placeholder="Enviar nuevo correo..." style="font-size:1.1rem;" autocomplete="off">
+                    <input name="contenido" type="text" class="form-control bg-white text-dark rounded-pill border-0 flex-grow-1 px-4 py-2 mb-0" placeholder="Enviar nuevo correo..." style="font-size:1.1rem;" autocomplete="off" value="{{ contenido|default:'' }}">
                     <button type="submit" class="btn btn-dark d-flex align-items-center justify-content-center rounded-3 ms-2" style="width:44px; height:44px;">
                         <i class="bi bi-envelope fs-4 text-white"></i>
                     </button>

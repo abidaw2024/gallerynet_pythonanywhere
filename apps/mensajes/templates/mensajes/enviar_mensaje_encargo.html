@@ -43,7 +43,7 @@
                         <div class="mb-3">
                             <label for="contenido" class="form-label">Mensaje para el artista (introducción de lo que quieres encargar): </label>
                             <textarea class="form-control" id="contenido" name="contenido" rows="3" required 
-                                    placeholder="Describe lo que te gustaría encargar..." style="resize:none;"></textarea>
+                                    placeholder="Describe lo que te gustaría encargar..." style="resize:none;">{{ contenido|default:'' }}</textarea>
                         </div>
                         
                         <div class="d-flex justify-content-between">
