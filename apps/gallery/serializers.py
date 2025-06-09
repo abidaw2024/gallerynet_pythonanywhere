@@ -6,7 +6,7 @@ Este archivo contiene los serializadores que convierten los modelos a JSON y vic
 from rest_framework import serializers
 from .models import Comision
 
-# NO INCLUIDO !!!
+
 # Serializador para la API REST
 class ComisionSerializer(serializers.ModelSerializer):
     """
@@ -25,5 +25,5 @@ class ComisionSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('vendedor', 'fecha_creacion')
 
-    # Convierte el vendedor a su representación en string (username)
+    #representacion en string
     vendedor = serializers.StringRelatedField()

@@ -22,7 +22,7 @@ def lista_mensajes(request):
         Q(remitente=request.user) | Q(destinatario=request.user)
     ).order_by('-fecha_envio')
 
-    # Agrupar mensajes por encargo
+    #Agrupar mensajes por encargo
     conversaciones = {}
     for mensaje in mensajes:
         if mensaje.encargo:
@@ -52,7 +52,7 @@ def lista_mensajes(request):
 def detalle_conversacion(request, encargo_id):
     encargo = get_object_or_404(Encargo, id=encargo_id)
     
-    # Verificar que el usuario es parte del encargo
+    #Verificar que el usuario es parte del encargo
     if request.user not in [encargo.cliente, encargo.artista]:
         messages.error(request, 'No tienes permiso para ver esta conversación')
         return redirect('mensajes:lista_mensajes')
@@ -101,7 +101,7 @@ def conversacion_general(request):
     if request.method == 'POST':
         contenido = request.POST.get('contenido')
         if contenido:
-            # Obtener el último destinatario de la conversación
+            #Obtener el último destinatario de la conversación
             ultimo_mensaje = mensajes.first()
             if ultimo_mensaje:
                 destinatario = ultimo_mensaje.remitente if ultimo_mensaje.destinatario == request.user else ultimo_mensaje.destinatario

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Comision, Comentario
+from .models import Comision
 from apps.mensajes.models import Mensaje
 from .serializers import ComisionSerializer
 from django.contrib.auth.decorators import login_required
@@ -29,7 +29,7 @@ class ComisionViewSet(viewsets.ModelViewSet):
     queryset = Comision.objects.all()
     serializer_class = ComisionSerializer
 
-# ====================== VISTAS PARA USUARIOS ======================
+# ====================== VISTAS PARA obras ======================
 @login_required
 def lista_obras_view(request):
     """
@@ -50,29 +50,11 @@ def lista_obras_view(request):
 def detalle_obra_view(request, obra_id):
     """
     Vista para mostrar los detalles de una obra específica.
-    Muestra una vista diferente si el usuario es el vendedor.
+    Incluye información detallada y opciones de compra.
     """
     obra = get_object_or_404(Comision, id=obra_id)
-    comentarios = obra.comentarios.all()
-    
-    # Obtener mensajes relacionados con esta obra
-    mensajes = []
-    if request.user.is_authenticated:
-        mensajes = Mensaje.objects.filter(
-            Q(encargo__obra=obra) & 
-            (Q(remitente=request.user) | Q(destinatario=request.user))
-        ).order_by('fecha_envio')
-    
-    if request.user.is_authenticated and obra.vendedor == request.user:
-        return render(request, 'gallery/obra_propia_detalle.html', {
-            'obra': obra, 
-            'comentarios': comentarios,
-            'mensajes': mensajes
-        })
-    return render(request, 'gallery/obra_detail.html', {
-        'obra': obra, 
-        'comentarios': comentarios,
-        'mensajes': mensajes
+    return render(request, 'gallery/detalle_obra.html', {
+        'obra': obra,
     })
 
 @login_required
@@ -211,21 +193,3 @@ class EliminarObraView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, f"La obra '{self.get_object().titulo}' ha sido eliminada correctamente.")
         return super().delete(request, *args, **kwargs)
-
-# ====================== FUNCIONALIDAD DE COMENTARIOS ======================
-@login_required
-def agregar_comentario(request, obra_id):
-    """
-    Vista para agregar comentarios a una obra.
-    Requiere que el usuario esté autenticado.
-    """
-    obra = get_object_or_404(Comision, id=obra_id)
-    if request.method == 'POST':
-        texto = request.POST.get('texto')
-        if texto:
-            Comentario.objects.create(
-                obra=obra,
-                usuario=request.user,
-                texto=texto
-            )
-    return redirect('gallery:detalle_obra', obra_id=obra_id)
