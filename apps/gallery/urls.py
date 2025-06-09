@@ -14,8 +14,7 @@ from .views import (
     ObraUpdateView, ObraDeleteView,
     ComisionViewSet,
     CrearComisionView,
-    EliminarObraView,
-    agregar_comentario
+    EliminarObraView
 )
 
 # router
@@ -32,7 +31,6 @@ urlpatterns = [
     # obras
     path('obras/', lista_obras_view, name='lista_obras'),
     path('obras/<int:obra_id>/', detalle_obra_view, name='detalle_obra'),
-    path('obras/<int:obra_id>/comentar/', agregar_comentario, name='agregar_comentario'),
     path('buscar/', buscar_obras_view, name='buscar_obras'),
     
     #Gestión de comisiones
